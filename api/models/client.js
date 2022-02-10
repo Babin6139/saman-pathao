@@ -26,7 +26,6 @@ const clientSchema = new mongoose.Schema({
   },
   userName: {
     type: String,
-    unique: true,
   },
   idCard: {
     type: String,
@@ -52,15 +51,15 @@ const clientSchema = new mongoose.Schema({
   },
 });
 
-const client = mongoose.model("client", clientSchema);
-
-clientSchema.pre("save", function (next) {
-  var Date = new Date();
-  this.userName = this.email.split("@")[0];
-  this.dateCreated = `${Date.getFullYear()}-${
-    Date.getMonth() + 1
-  }-${Date.getDate()}`;
+clientSchema.pre("validate", async function (next) {
+  console.log(`1hello from pre validate ${this.firstName}`);
+  var date = new Date();
+  if (!this.userName) this.userName = this.email.split("@")[0];
+  this.dateCreated = `${date.getFullYear()}-${
+    date.getMonth() + 1
+  }-${date.getDate()}`;
   next();
 });
 
+const client = mongoose.model("client", clientSchema);
 module.exports = client;

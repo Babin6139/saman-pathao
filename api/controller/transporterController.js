@@ -1,14 +1,14 @@
 const bcrypt = require("bcrypt");
-const Client = require("../models/client");
+const Transporter = require("../models/transporter");
 
-exports.addClient = async (req, res, next) => {
-  console.log("hello from addClient 1");
+exports.addTransporter = async (req, res, next) => {
+  console.log("hello from addtransporter 1");
   console.log(req.body);
   const hash = await bcrypt.hash(req.body.password, 10);
   req.body.password = hash;
   const userObj = req.body;
   try {
-    await Client.create(userObj);
+    await Transporter.create(userObj);
     res.send({ message: "SignUp sucessfull" });
   } catch (err) {
     next(err);
@@ -18,7 +18,7 @@ exports.addClient = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   //   console.log("hello from login");
   try {
-    const user = await Client.findOne({
+    const user = await Transporter.findOne({
       $or: [{ userName: req.body.userName }, { email: req.body.email }],
     });
     // console.log(user);
@@ -37,13 +37,10 @@ exports.login = async (req, res, next) => {
   }
 };
 
-exports.updateClient = async (req, res, next) => {
+exports.updateTransporter = async (req, res, next) => {
   var update = req.body;
-  if (update.password) {
-    update.password = await bcrypt.hash(update.password, 10);
-  }
   try {
-    const user = await Client.findOneAndUpdate(
+    const user = await Transporter.findOneAndUpdate(
       { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
       update
     );
@@ -57,10 +54,10 @@ exports.updateClient = async (req, res, next) => {
   }
 };
 
-exports.deleteClient = async (req, res, next) => {
+exports.deleteTransporter = async (req, res, next) => {
   try {
-    const user = await Client.findOneAndDelete({
-      $or: [{ userName: req.query.userName }, { email: req.query.email }],
+    const user = await Transporter.findOneAndDelete({
+      $or: [{ email: req.query.email }, { userName: req.query.userName }],
     });
     if (!user) {
       res.send({ message: "User not found" });

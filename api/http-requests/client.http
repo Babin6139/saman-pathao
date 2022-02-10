@@ -1,0 +1,35 @@
+
+POST http://localhost:7000/users/client/signup
+content-Type: application/json
+
+{
+    "firstName": "Monkey",
+    "lastName": "Luffy",
+    "middleName": "D.",
+    "email": "pirateking@gmail.com",
+    "contactNo": [9856213471, 9856523471],
+    "address": "Windmill Village",
+    "password": "user123",
+    "photo": "East Blue"
+}
+
+###
+POST http://localhost:7000/users/client
+content-Type: application/json
+
+{
+   "email":"pirateking@gmail.com",
+   "password":"user123"
+}
+
+### 
+PATCH http://localhost:7000/users/client
+content-Type: application/json
+
+{
+    "email":"pirateking@gmail.com",
+    "password":"user123"
+}
+
+###
+DELETE http://localhost:7000/users/client?email=pirateking@gmail.com
