@@ -3,10 +3,10 @@ POST http://localhost:7000/users/client/signup
 content-Type: application/json
 
 {
-    "firstName": "Monkey",
-    "lastName": "Luffy",
+    "firstName": "Tralflager",
+    "lastName": "Water Law",
     "middleName": "D.",
-    "email": "pirateking@gmail.com",
+    "email": "docotor@gmail.com",
     "contactNo": [9856213471, 9856523471],
     "address": "Windmill Village",
     "password": "user123",

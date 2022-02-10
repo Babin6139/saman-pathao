@@ -12,7 +12,7 @@ router.route("/dashboard/users")
 
 router.route("/dashboard/transporters")
     .get(adminController.allTransporters)
-    .patch(adminController.verifyTransporter)
+    .patch(adminController.registerTransporter)
     .delete(adminController.deleteTransporter);
 
 module.exports = router;

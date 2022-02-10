@@ -32,7 +32,7 @@ const transporterSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  verifiefied: {
+  verified: {
     type: Boolean,
     default: false,
   },

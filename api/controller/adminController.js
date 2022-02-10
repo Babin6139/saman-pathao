@@ -37,8 +37,8 @@ exports.allTransporters = async (req, res, next) => {
 
 exports.deleteTransporter = async (req, res, next) => {
     try {
-        await Transporter.deleteOne({ $or: [{ userName: req.params.userName }, { email: req.params.email }] });
-        res.send({ message: `${req.params.email} Transporter deleted` });
+        await Transporter.deleteOne({ $or: [{ userName: req.query.userName }, { email: req.query.email }] });
+        res.send({ message: `${req.query.email ? req.query.email : req.query.userName} Transporter deleted` });
     } catch (err) {
         next(err);
     }
@@ -46,8 +46,8 @@ exports.deleteTransporter = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
     try {
-        await User.deleteOne({ $or: [{ userName: req.params.userName }, { email: req.params.email }] });
-        res.send({ message: `${req.params.email} User deleted` });
+        await User.deleteOne({ $or: [{ userName: req.query.userName }, { email: req.query.email }] });
+        res.send({ message: `${req.query.email ? req.query.email : req.query.userName} User deleted` });
     } catch (err) {
         next(err);
     }
