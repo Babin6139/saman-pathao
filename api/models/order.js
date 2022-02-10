@@ -2,35 +2,35 @@ const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema({
   orderNo: {
     type: String,
-    required: True,
+    required: true,
   },
   timeFrame: {
     type: Array,
-    required: True,
+    required: true,
   },
   transporter: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.ObjectId,
     ref: "transporter",
   },
   startPoint: {
     type: String,
-    required: True,
+    required: true,
   },
   destination: {
     type: String,
-    required: True,
+    required: true,
   },
   biddingTime: {
     type: Array,
-    required: True,
+    required: true,
   },
   maxBudget: {
     type: Number,
-    required: True,
+    required: true,
   },
   distance: {
     type: Number,
-    required: True,
+    required: true,
   },
   bidConfirmed: {
     type: String,
@@ -43,18 +43,18 @@ const orderSchema = new mongoose.Schema({
   },
   shipments: {
     type: Array,
-    required: True,
+    required: true,
   },
   shipmentWeight: {
     type: String,
   },
   shipmentDimension: {
     type: Array,
-    required: True,
+    required: true,
   },
   fragile: {
     type: Boolean,
-    required: True,
+    required: true,
   },
   minRated: {
     type: String,

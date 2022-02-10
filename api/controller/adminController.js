@@ -24,8 +24,6 @@ exports.allUsers = async (req, res, next) => {
     }
 }
 
-
-
 exports.allTransporters = async (req, res, next) => {
     try {
         const transporters = await Transporter.find({}, '-password');
