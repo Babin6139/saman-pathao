@@ -86,19 +86,17 @@ const transporterSchema = new mongoose.Schema({
   },
 });
 
-const transporter = mongoose.model("transporter", transporterSchema);
-
 transporterSchema.pre("save", function (err, next) {
   try {
-    var Date = new Date();
+    var date = new Date();
     this.userName = this.email.split("@")[0];
-    this.dateCreated = `${Date.getFullYear()}-${
-      Date.getMonth() + 1
-    }-${Date.getDate()}`;
+    this.dateCreated = `${Date.getFullYear()}-${Date.getMonth() + 1
+      }-${Date.getDate()}`;
     next();
   } catch {
     return next(err);
   }
 });
 
+const transporter = mongoose.model("transporter", transporterSchema);
 module.exports = transporter;
