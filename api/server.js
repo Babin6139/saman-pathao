@@ -1,8 +1,7 @@
-const express = require("express");
 const app = require("./app.js");
-
+const database = require("./mongodb.js");
 PORT = process.env.PORT || 7000;
 
-const server = app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`server started at localhost:${PORT}`);
 });

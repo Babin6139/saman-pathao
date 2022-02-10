@@ -1,0 +1,16 @@
+POST http://localhost:7000/users
+content-Type: application/json
+
+{
+    "firstName": "Luffy",
+    "lastName": "Monkey",
+    "middleName": "D.",
+    "email": "pirateking@gmail.com",
+    "contactNo": [9856213470, 9856523478],
+    "address": "Windmill Village",
+    "password": "user123",
+    "photo": "East Blue"
+}
+
+###
+GET http://localhost:7000/users?email=pirateking@gmail.com&&password=user123

@@ -9,7 +9,8 @@ const orderSchema = new mongoose.Schema({
     required: True,
   },
   transporter: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "transporter",
   },
   startPoint: {
     type: String,

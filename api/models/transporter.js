@@ -4,6 +4,9 @@ const transporterSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  middleName: {
+    type: String,
+  },
   lastName: {
     type: String,
     required: true,
@@ -23,12 +26,15 @@ const transporterSchema = new mongoose.Schema({
   },
   userName: {
     type: String,
-    required: true,
     unique: true,
   },
   password: {
     type: String,
     required: true,
+  },
+  verifiefied: {
+    type: Boolean,
+    default: false,
   },
   idCard: {
     type: String,
@@ -54,25 +60,45 @@ const transporterSchema = new mongoose.Schema({
     type: String,
   },
   rating: {
+    default: -1,
     type: Number,
   },
   securityDeposit: {
-    type: String,
+    type: Number,
   },
   vechileDimesion: {
-    type: String,
+    type: Array,
   },
   vechileCapacity: {
-    type: String,
+    type: Number,
   },
   availableSpace: {
-    type: String,
+    type: Array,
   },
   availableWeight: {
+    type: Number,
+  },
+  dateCreated: {
+    type: String,
+  },
+  dateRegistered: {
     type: String,
   },
 });
 
 const transporter = mongoose.model("transporter", transporterSchema);
+
+transporterSchema.pre("save", function (err, next) {
+  try {
+    var Date = new Date();
+    this.userName = this.email.split("@")[0];
+    this.dateCreated = `${Date.getFullYear()}-${
+      Date.getMonth() + 1
+    }-${Date.getDate()}`;
+    next();
+  } catch {
+    return next(err);
+  }
+});
 
 module.exports = transporter;
