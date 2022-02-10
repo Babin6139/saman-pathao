@@ -44,9 +44,8 @@ const transporterSchema = new mongoose.Schema({
   },
   licenseNo: {
     type: String,
-    unique: True,
   },
-  userPhoto: {
+  photo: {
     type: String,
     required: true,
   },
@@ -86,19 +85,17 @@ const transporterSchema = new mongoose.Schema({
   },
 });
 
-const transporter = mongoose.model("transporter", transporterSchema);
-
-transporterSchema.pre("save", function (err, next) {
+transporterSchema.pre("save", function (next) {
   try {
-    var Date = new Date();
-    this.userName = this.email.split("@")[0];
-    this.dateCreated = `${Date.getFullYear()}-${
-      Date.getMonth() + 1
-    }-${Date.getDate()}`;
+    var date = new Date();
+    if (!this.userName) this.userName = this.email.split("@")[0];
+    this.dateCreated = `${date.getFullYear()}-${
+      date.getMonth() + 1
+    }-${date.getDate()}`;
     next();
   } catch {
     return next(err);
   }
 });
-
+const transporter = mongoose.model("transporter", transporterSchema);
 module.exports = transporter;
