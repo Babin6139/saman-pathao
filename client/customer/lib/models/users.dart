@@ -2,69 +2,69 @@ import 'dart:convert';
 import 'dart:io';
 
 class Users {
-  String? imageFile;
+  String? photo;
   String? firstName;
   String? middleName;
   String? lastName;
   String? email;
   String? address;
-  String? contactNumber;
+  String? contactNo;
   String? password;
   Users({
-    this.imageFile,
+    this.photo,
     this.firstName,
     this.middleName,
     this.lastName,
     this.email,
     this.address,
-    this.contactNumber,
+    this.contactNo,
     this.password,
   });
 
   Users copyWith({
-    String? imageFile,
+    String? photo,
     String? firstName,
     String? middleName,
     String? lastName,
     String? email,
     String? address,
-    String? contactNumber,
+    String? contactNo,
     String? password,
   }) {
     return Users(
-      imageFile: imageFile ?? this.imageFile,
+      photo: photo ?? this.photo,
       firstName: firstName ?? this.firstName,
       middleName: middleName ?? this.middleName,
       lastName: lastName ?? this.lastName,
       email: email ?? this.email,
       address: address ?? this.address,
-      contactNumber: contactNumber ?? this.contactNumber,
+      contactNo: contactNo ?? this.contactNo,
       password: password ?? this.password,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'imageFile': imageFile,
+      'photo': photo,
       'firstName': firstName,
       'middleName': middleName,
       'lastName': lastName,
       'email': email,
       'address': address,
-      'contactNumber': contactNumber,
+      'contactNo': contactNo,
       'password': password,
     };
   }
 
   factory Users.fromMap(Map<String, dynamic> map) {
     return Users(
-      imageFile: map['imageFile'],
+      photo: map['photo'],
       firstName: map['firstName'],
       middleName: map['middleName'],
       lastName: map['lastName'],
       email: map['email'],
       address: map['address'],
-      contactNumber: map['contactNumber'],
+      contactNo: map['contactNo'],
       password: map['password'],
     );
   }
@@ -75,7 +75,7 @@ class Users {
 
   @override
   String toString() {
-    return 'Users(imageFile: $imageFile, firstName: $firstName, middleName: $middleName, lastName: $lastName, email: $email, address: $address, contactNumber: $contactNumber, password: $password)';
+    return 'Users(photo: $photo, firstName: $firstName, middleName: $middleName, lastName: $lastName, email: $email, address: $address, contactNo: $contactNo, password: $password)';
   }
 
   @override
@@ -83,25 +83,25 @@ class Users {
     if (identical(this, other)) return true;
 
     return other is Users &&
-        other.imageFile == imageFile &&
+        other.photo == photo &&
         other.firstName == firstName &&
         other.middleName == middleName &&
         other.lastName == lastName &&
         other.email == email &&
         other.address == address &&
-        other.contactNumber == contactNumber &&
+        other.contactNo == contactNo &&
         other.password == password;
   }
 
   @override
   int get hashCode {
-    return imageFile.hashCode ^
+    return photo.hashCode ^
         firstName.hashCode ^
         middleName.hashCode ^
         lastName.hashCode ^
         email.hashCode ^
         address.hashCode ^
-        contactNumber.hashCode ^
+        contactNo.hashCode ^
         password.hashCode;
   }
 }

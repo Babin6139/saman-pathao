@@ -14,19 +14,22 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   Users user = Users();
+  String tempImage = "";
+  bool checkPhoto = false;
   @override
   Widget build(BuildContext context) {
-    print(user.imageFile);
     Future pickImage() async {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemporary = File(image.path);
+      tempImage = image.path;
       setState(() {
-        user.imageFile = imageTemporary.toString();
+        checkPhoto = true;
+        user.photo = image.path;
       });
     }
 
-    logIn() async {
+    signUp() async {
       print(user.toMap());
       var data = jsonEncode(user.toMap());
       print(data);
@@ -38,7 +41,7 @@ class _SignUpState extends State<SignUp> {
         child: Stack(clipBehavior: Clip.none, children: [
           Center(
             child: Container(
-              margin: EdgeInsets.only(top: 140),
+              margin: EdgeInsets.only(top: 140, bottom: 40.0),
               width: 200.0,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -108,7 +111,7 @@ class _SignUpState extends State<SignUp> {
                     TextFormField(
                       onChanged: (value) {
                         setState(() {
-                          user.contactNumber = value;
+                          user.contactNo = value;
                         });
                       },
                       keyboardType: TextInputType.phone,
@@ -127,14 +130,25 @@ class _SignUpState extends State<SignUp> {
                           label: Text("Address"),
                           hintText: "Enter your address"),
                     ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
                     GestureDetector(
                       onTap: pickImage,
-                      child: Container(
-                        color: Colors.amber,
-                        width: 200.0,
-                        height: 30.0,
+                      child: AnimatedContainer(
+                        clipBehavior: Clip.antiAlias,
+                        duration: Duration(seconds: 1),
+                        decoration: BoxDecoration(
+                            color: Colors.amber,
+                            borderRadius: checkPhoto
+                                ? BorderRadius.circular(100)
+                                : BorderRadius.circular(0)),
+                        width: checkPhoto ? 60 : 200.0,
+                        height: checkPhoto ? 60 : 30.0,
                         alignment: Alignment.center,
-                        child: Text("Pick Image"),
+                        child: user.photo != null
+                            ? Image.file(File(tempImage))
+                            : Text("Pick Image"),
                       ),
                     ),
                     TextFormField(
@@ -154,13 +168,13 @@ class _SignUpState extends State<SignUp> {
                     Material(
                       color: Colors.purpleAccent,
                       child: InkWell(
-                        onTap: logIn,
+                        onTap: signUp,
                         splashColor: Colors.purple,
                         child: Container(
                           width: 50,
                           height: 40,
                           alignment: Alignment.center,
-                          child: Text("Log In"),
+                          child: Text("Sign Up"),
                         ),
                       ),
                     ),
