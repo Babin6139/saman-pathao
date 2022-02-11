@@ -1,11 +1,37 @@
+import 'dart:io';
+import 'dart:convert';
+import 'package:customer/models/users.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
   @override
+  State<SignUp> createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  Users user = Users();
+  @override
   Widget build(BuildContext context) {
+    print(user.imageFile);
+    Future pickImage() async {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() {
+        user.imageFile = imageTemporary.toString();
+      });
+    }
+
+    logIn() async {
+      print(user.toMap());
+      var data = jsonEncode(user.toMap());
+      print(data);
+    }
+
     Size size = MediaQuery.of(context).size;
     return Material(
       child: SingleChildScrollView(
@@ -37,29 +63,86 @@ class SignUp extends StatelessWidget {
                       ),
                     ),
                     TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          user.firstName = value;
+                        });
+                      },
+                      keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                           label: Text("First name"),
                           hintText: "Enter your first name"),
                     ),
                     TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          user.middleName = value;
+                        });
+                      },
+                      keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                           label: Text("Middle name"),
                           hintText: "Enter you middle name"),
                     ),
                     TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          user.lastName = value;
+                        });
+                      },
+                      keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                           label: Text("Last name"),
                           hintText: "Enter your last name"),
                     ),
                     TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          user.email = value;
+                        });
+                      },
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                           label: Text("Email"), hintText: "Enter your email"),
                     ),
                     TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          user.contactNumber = value;
+                        });
+                      },
+                      keyboardType: TextInputType.phone,
+                      maxLength: 10,
                       decoration: InputDecoration(
-                          label: Text("Email"), hintText: "Enter your email"),
+                          label: Text("Contact no"),
+                          hintText: "Enter your contact no"),
                     ),
                     TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          user.address = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                          label: Text("Address"),
+                          hintText: "Enter your address"),
+                    ),
+                    GestureDetector(
+                      onTap: pickImage,
+                      child: Container(
+                        color: Colors.amber,
+                        width: 200.0,
+                        height: 30.0,
+                        alignment: Alignment.center,
+                        child: Text("Pick Image"),
+                      ),
+                    ),
+                    TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          user.password = value;
+                        });
+                      },
                       obscureText: true,
                       decoration: InputDecoration(
                           label: Text("Password"),
@@ -71,7 +154,7 @@ class SignUp extends StatelessWidget {
                     Material(
                       color: Colors.purpleAccent,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: logIn,
                         splashColor: Colors.purple,
                         child: Container(
                           width: 50,
