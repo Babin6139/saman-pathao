@@ -1,3 +1,4 @@
+import 'package:customer/pages/home_page.dart';
 import 'package:customer/pages/login_page.dart';
 import 'package:customer/pages/signup_page.dart';
 import 'package:customer/utils/routes.dart';
@@ -15,9 +16,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: MyRoutes.landingPage,
       routes: {
-        MyRoutes.landingPage: (context) => LoginPage(),
+        MyRoutes.landingPage: (context) => HomePage(),
         MyRoutes.login: (context) => LoginPage(),
-        MyRoutes.signup: (context) => SignUp()
+        MyRoutes.signup: (context) => SignUp(),
+        MyRoutes.homepage: (context) => HomePage()
       },
     );
   }
