@@ -1,0 +1,28 @@
+GET http://localhost:7000/order/history?userName=pirateking
+
+###
+POST http://localhost:7000/order/create
+content-type : application/json
+
+{
+    "email": "pirateking@gmail.com",
+    "orderNo":"123456789",
+    "timeFrame":[2.6,3.0],
+    "startPoint":"startPoint",
+    "destination":"destination",
+    "biddingTime":[2.6,3.0],
+    "maxBudget":3000,
+    "distance":2.6,
+    "shipments":["shipments1","shipments2"],
+    "shipmentWeight":50.5,
+    "shipmentDimension":{
+        "length":[10,20],
+        "width":[10,20],
+        "height":[10,20]
+    },
+    "fragile":false,
+    "minRated":2
+}
+
+###
+GET http://localhost:7000/order?userName=pirateking&&id=6205fa08c0ccddff16cffadd

@@ -3,10 +3,10 @@ POST http://localhost:7000/users/client/signup
 content-Type: application/json
 
 {
-    "firstName": "Tralflager",
-    "lastName": "Water Law",
+    "firstName": "Monkey",
+    "lastName": "Luffy",
     "middleName": "D.",
-    "email": "docotor@gmail.com",
+    "email": "pirateking@gmail.com",
     "contactNo": [9856213471, 9856523471],
     "address": "Windmill Village",
     "password": "user123",
@@ -32,4 +32,4 @@ content-Type: application/json
 }
 
 ###
-DELETE http://localhost:7000/users/client?email=pirateking@gmail.com
+DELETE http://localhost:7000/users/client?email=doctor@gmail.com
