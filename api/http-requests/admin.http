@@ -1,0 +1,40 @@
+
+POST http://localhost:7000/admin/login
+content-Type: application/json
+
+{
+    "userName": "admin",
+    "password": "admin"
+}
+
+###
+GET http://localhost:7000/admin/dashboard/users
+content-Type: application/json
+
+###
+GET http://localhost:7000/admin/dashboard/transporters
+content-Type: application/json
+
+###
+PATCH http://localhost:7000/admin/dashboard/users
+content-type: application/json
+
+{
+    "email": "doctor@gmail.com"
+}
+
+###
+PATCH http://localhost:7000/admin/dashboard/transporters
+content-type: application/json
+
+{
+    "email": "pirateking22@gmail.com"
+}
+
+###
+DELETE http://localhost:7000/admin/dashboard/users?userName=doctor
+content-Type: application/json
+
+###
+DELETE http://localhost:7000/admin/dashboard/transporters?userName=pirateking
+content-Type: application/json

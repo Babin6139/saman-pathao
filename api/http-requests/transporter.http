@@ -1,0 +1,39 @@
+
+POST http://localhost:7000/users/transporter/signup
+content-Type: application/json
+
+{
+    "firstName": "Monkey",
+    "lastName": "Luffy",
+    "middleName": "D.",
+    "email": "pirateking@gmail.com",
+    "contactNo": [9856213471, 9856523471],
+    "address": "Windmill Village",
+    "password": "user123",
+    "photo": "East Blue",
+    "licenseNo": "ABC123"
+}
+
+###
+POST http://localhost:7000/users/transporter
+content-Type: application/json
+
+{
+   "email":"pirateking22@gmail.com",
+   "password":"user123"
+}
+
+### 
+PATCH http://localhost:7000/users/transporter
+content-Type: application/json
+
+{
+    "email":"pirateking@gmail.com",
+    "userName":"pirateking",
+    "firstName": "Monkey",
+    "lastName": "lucy",
+    "middleName": "D."
+}
+
+###
+DELETE http://localhost:7000/users/transporter?email=pirateking@gmail.com
