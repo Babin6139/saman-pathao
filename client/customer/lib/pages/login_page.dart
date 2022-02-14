@@ -78,7 +78,10 @@ class LoginPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                         color: MyColor.color1,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () async {
+                            await Navigator.pushNamed(
+                                context, MyRoutes.homepage);
+                          },
                           splashColor: Colors.purple,
                           child: Container(
                             width: 100,
