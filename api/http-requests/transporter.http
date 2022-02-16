@@ -3,10 +3,10 @@ POST http://localhost:7000/users/transporter/signup
 content-Type: application/json
 
 {
-    "firstName": "Monkey",
-    "lastName": "Luffy",
-    "middleName": "D.",
-    "email": "pirateking@gmail.com",
+    "firstName": "jankey",
+    "lastName": "Doffy",
+    "middleName": "L.",
+    "email": "pirateking2@gmail.com",
     "contactNo": [9856213471, 9856523471],
     "address": "Windmill Village",
     "password": "user123",

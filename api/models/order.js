@@ -28,15 +28,25 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  bids: {
+    transporter: {
+      type: [mongoose.ObjectId],
+      ref: "transporter",
+    },
+    bidAmount: {
+      type: Array,
+    },
+  },
   distance: {
     type: Number,
     required: true,
   },
   bidConfirmed: {
-    type: String,
+    type: Boolean,
+    default: false,
   },
   bidCost: {
-    type: String,
+    type: Number,
   },
   currentLocation: {
     type: String,
@@ -46,18 +56,31 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   shipmentWeight: {
-    type: String,
+    type: Number,
   },
   shipmentDimension: {
-    type: Array,
-    required: true,
+    length: {
+      type: Array,
+      required: true,
+    },
+    width: {
+      type: Array,
+      required: true,
+    },
+    height: {
+      type: Array,
+      required: true,
+    },
   },
   fragile: {
     type: Boolean,
     required: true,
   },
   minRated: {
-    type: String,
+    type: Number,
+  },
+  orderStatus: {
+    type: String, //prebid onbid postbid finalized completed cancelled
   },
 });
 

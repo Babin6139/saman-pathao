@@ -49,6 +49,10 @@ const clientSchema = new mongoose.Schema({
   dateCreated: {
     type: String,
   },
+  orders: {
+    type: [mongoose.ObjectId],
+    ref: "order",
+  },
 });
 
 clientSchema.pre("validate", async function (next) {

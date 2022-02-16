@@ -83,14 +83,28 @@ const transporterSchema = new mongoose.Schema({
   dateRegistered: {
     type: String,
   },
+  ratedBy: {
+    type: Number,
+  },
+  sucessfulDeliveries: {
+    type: Number,
+  },
+  biddedOrders: {
+    type: [mongoose.ObjectId],
+    ref: "order",
+  },
+  review: {
+    type: [String],
+  },
 });
 
-transporterSchema.pre("save", function (next) {
+transporterSchema.pre("validate", function (next) {
   try {
     var date = new Date();
     if (!this.userName) this.userName = this.email.split("@")[0];
-    this.dateCreated = `${date.getFullYear()}-${date.getMonth() + 1
-      }-${date.getDate()}`;
+    this.dateCreated = `${date.getFullYear()}-${
+      date.getMonth() + 1
+    }-${date.getDate()}`;
     next();
   } catch {
     return next(err);
