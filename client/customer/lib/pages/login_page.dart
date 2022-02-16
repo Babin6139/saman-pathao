@@ -16,16 +16,18 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? email;
   String? password;
+  final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     login() async {
-      var data = jsonEncode({'email': email, 'password': password});
-      var url = "http://10.0.2.2:7000/users/client";
-      var response = await http.post(Uri.parse(url),
-          headers: {'Content-Type': 'application/json'}, body: data);
-      print(await jsonDecode(response.body)["message"]);
-      if (await jsonDecode(response.body)["message"] == "Login sucessfull") {
-        Navigator.pushNamed(context, MyRoutes.homepage);
+      if (_formkey.currentState!.validate()) {
+        var data = jsonEncode({'email': email, 'password': password});
+        var url = "http://10.0.2.2:7000/users/client";
+        var response = await http.post(Uri.parse(url),
+            headers: {'Content-Type': 'application/json'}, body: data);
+        if (await jsonDecode(response.body)["message"] == "Login sucessfull") {
+          Navigator.pushReplacementNamed(context, MyRoutes.homepage);
+        } else {}
       }
     }
 
@@ -70,74 +72,89 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        "Log In",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextFormField(
-                        onChanged: (value) {
-                          setState(() {
-                            email = value;
-                          });
-                        },
-                        decoration: InputDecoration(
-                            label: Text("Email / Username",
-                                style: TextStyle(color: MyColor.color1)),
-                            hintText: "Enter your email"),
-                      ),
-                      TextFormField(
-                        onChanged: (value) {
-                          password = value;
-                        },
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            label: Text("Password",
-                                style: TextStyle(color: MyColor.color1)),
-                            hintText: "Enter your password"),
-                      ),
-                      SizedBox(
-                        height: 6.0,
-                      ),
-                      Material(
-                        borderRadius: BorderRadius.circular(100),
-                        color: MyColor.color1,
-                        child: InkWell(
-                          onTap: () async {
-                            login();
-                          },
-                          splashColor: Colors.purple,
-                          child: Container(
-                            width: 100,
-                            height: 40,
-                            alignment: Alignment.center,
-                            child: Text("Log In"),
+                  child: Form(
+                    key: _formkey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          "Log In",
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 6.0,
-                      ),
-                      RichText(
-                          text: TextSpan(
-                              style: TextStyle(color: Colors.black),
-                              children: [
-                            TextSpan(text: "Not registered yet? "),
-                            TextSpan(
-                                text: "Sign Up",
-                                style: TextStyle(color: Colors.blue),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.pushNamed(
-                                        context, MyRoutes.signup);
-                                  })
-                          ]))
-                    ],
+                        TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Email/Username cannot be empty";
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              email = value;
+                            });
+                          },
+                          decoration: InputDecoration(
+                              label: Text("Email / Username",
+                                  style: TextStyle(color: MyColor.color1)),
+                              hintText: "Enter your email"),
+                        ),
+                        TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Password cannot be empty";
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            password = value;
+                          },
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              label: Text("Password",
+                                  style: TextStyle(color: MyColor.color1)),
+                              hintText: "Enter your password"),
+                        ),
+                        SizedBox(
+                          height: 6.0,
+                        ),
+                        Material(
+                          borderRadius: BorderRadius.circular(100),
+                          color: MyColor.color1,
+                          child: InkWell(
+                            onTap: () async {
+                              login();
+                            },
+                            splashColor: Colors.purple,
+                            child: Container(
+                              width: 100,
+                              height: 40,
+                              alignment: Alignment.center,
+                              child: Text("Log In"),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 6.0,
+                        ),
+                        RichText(
+                            text: TextSpan(
+                                style: TextStyle(color: Colors.black),
+                                children: [
+                              TextSpan(text: "Not registered yet? "),
+                              TextSpan(
+                                  text: "Sign Up",
+                                  style: TextStyle(color: Colors.blue),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushNamed(
+                                          context, MyRoutes.signup);
+                                    })
+                            ]))
+                      ],
+                    ),
                   ),
                 ),
               ),

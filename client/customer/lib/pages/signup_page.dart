@@ -39,7 +39,7 @@ class _SignUpState extends State<SignUp> {
       var response = await http.post(Uri.parse(url),
           headers: {'Content-Type': 'application/json'}, body: data);
       if (await jsonDecode(response.body)["message"] == "SignUp sucessfull") {
-        Navigator.pushNamed(context, MyRoutes.login);
+        Navigator.pushReplacementNamed(context, MyRoutes.login);
       }
     }
 
@@ -231,7 +231,8 @@ class _SignUpState extends State<SignUp> {
                                   style: TextStyle(color: Colors.blue),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      print("Hello");
+                                      Navigator.pushNamed(
+                                          context, MyRoutes.login);
                                     })
                             ]))
                       ],

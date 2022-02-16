@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: MyRoutes.landingPage,
       theme: MyThemes.lightTheme(context),
+      debugShowCheckedModeBanner: false,
       routes: {
         MyRoutes.landingPage: (context) => LoginPage(),
         MyRoutes.login: (context) => LoginPage(),
