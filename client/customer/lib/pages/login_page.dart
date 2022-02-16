@@ -1,13 +1,34 @@
+import 'dart:convert';
+
 import 'package:customer/utils/mycolor.dart';
 import 'package:customer/utils/routes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String? email;
+  String? password;
+  @override
   Widget build(BuildContext context) {
+    login() async {
+      var data = jsonEncode({'email': email, 'password': password});
+      var url = "http://10.0.2.2:7000/users/client";
+      var response = await http.post(Uri.parse(url),
+          headers: {'Content-Type': 'application/json'}, body: data);
+      print(await jsonDecode(response.body)["message"]);
+      if (await jsonDecode(response.body)["message"] == "Login sucessfull") {
+        Navigator.pushNamed(context, MyRoutes.homepage);
+      }
+    }
+
     Size size = MediaQuery.of(context).size;
     return Material(
       color: MyColor.backColor,
@@ -60,12 +81,20 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       TextFormField(
+                        onChanged: (value) {
+                          setState(() {
+                            email = value;
+                          });
+                        },
                         decoration: InputDecoration(
                             label: Text("Email / Username",
                                 style: TextStyle(color: MyColor.color1)),
                             hintText: "Enter your email"),
                       ),
                       TextFormField(
+                        onChanged: (value) {
+                          password = value;
+                        },
                         obscureText: true,
                         decoration: InputDecoration(
                             label: Text("Password",
@@ -80,8 +109,7 @@ class LoginPage extends StatelessWidget {
                         color: MyColor.color1,
                         child: InkWell(
                           onTap: () async {
-                            await Navigator.pushNamed(
-                                context, MyRoutes.homepage);
+                            login();
                           },
                           splashColor: Colors.purple,
                           child: Container(

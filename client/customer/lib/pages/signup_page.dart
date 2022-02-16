@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:customer/models/users.dart';
 import 'package:customer/utils/mycolor.dart';
+import 'package:customer/utils/routes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,11 +35,12 @@ class _SignUpState extends State<SignUp> {
     signUp() async {
       print(user.toMap());
       var data = jsonEncode(user.toMap());
-      var response = await http.post(
-          Uri.parse('http://localhost:7000/users/client/signup'),
-          headers: {'Content-Type': 'application/json'},
-          body: data);
-      print(response);
+      var url = "http://10.0.2.2:7000/users/client/signup";
+      var response = await http.post(Uri.parse(url),
+          headers: {'Content-Type': 'application/json'}, body: data);
+      if (await jsonDecode(response.body)["message"] == "SignUp sucessfull") {
+        Navigator.pushNamed(context, MyRoutes.login);
+      }
     }
 
     Size size = MediaQuery.of(context).size;
