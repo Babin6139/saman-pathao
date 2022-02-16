@@ -10,6 +10,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Material(
+      color: MyColor.backColor,
       child: Container(
         decoration: BoxDecoration(
             //     gradient: LinearGradient(
@@ -37,15 +38,15 @@ class LoginPage extends StatelessWidget {
                 height: 300.0,
                 width: 200.0,
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: MyColor.color1,
-                      offset: Offset(5.0, 5.0),
-                      blurRadius: 10.0,
+                    color: Colors.white, boxShadow: MyColor.shadow1
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //     color: MyColor.color1,
+                    //     offset: Offset(5.0, 5.0),
+                    //     blurRadius: 10.0,
+                    //   ),
+                    // ],
                     ),
-                  ],
-                ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(

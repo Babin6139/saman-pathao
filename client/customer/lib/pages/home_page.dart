@@ -23,6 +23,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: Center(
+              child: CircleAvatar(
+                backgroundImage: AssetImage("assets/images/login.png"),
+              ),
+            ),
+          )
+        ],
         title: Text(
           "Saman Pathao",
           style: TextStyle(color: Colors.black),
@@ -78,7 +89,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Home(),
           Container(
-            child: Text("Hello"),
+            child: Text("Hello Babin"),
           ),
           Container(
             child: Text("Hello"),

@@ -5,6 +5,7 @@ import 'package:customer/utils/mycolor.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -33,11 +34,16 @@ class _SignUpState extends State<SignUp> {
     signUp() async {
       print(user.toMap());
       var data = jsonEncode(user.toMap());
-      print(data);
+      var response = await http.post(
+          Uri.parse('http://localhost:7000/users/client/signup'),
+          headers: {'Content-Type': 'application/json'},
+          body: data);
+      print(response);
     }
 
     Size size = MediaQuery.of(context).size;
     return Material(
+      color: MyColor.backColor,
       child: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
@@ -67,13 +73,14 @@ class _SignUpState extends State<SignUp> {
                   width: 200.0,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: MyColor.color1,
-                        offset: Offset(5.0, 5.0),
-                        blurRadius: 10.0,
-                      ),
-                    ],
+                    boxShadow: MyColor.shadow1,
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //     color: MyColor.color1,
+                    //     offset: Offset(5.0, 5.0),
+                    //     blurRadius: 10.0,
+                    //   ),
+                    // ],
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
