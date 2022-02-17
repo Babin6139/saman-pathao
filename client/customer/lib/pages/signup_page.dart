@@ -7,6 +7,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -34,6 +36,16 @@ class _SignUpState extends State<SignUp> {
 
     signUp() async {
       print(user.toMap());
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference ref = storage
+          .ref()
+          .child(File(user.photo.toString()).path.split('/').last.toString());
+      UploadTask upload = ref.putFile(File(user.photo.toString()));
+      await upload.then((res) async {
+        await res.ref.getDownloadURL().then((value) => user.photo = value);
+        setState(() {});
+      });
+      print(user.photo);
       var data = jsonEncode(user.toMap());
       var url = "http://10.0.2.2:7000/users/client/signup";
       var response = await http.post(Uri.parse(url),
