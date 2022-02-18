@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:customer/utils/mycolor.dart';
+import 'package:customer/utils/mydecoration.dart';
 import 'package:customer/utils/routes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -97,9 +99,12 @@ class _LoginPageState extends State<LoginPage> {
                             });
                           },
                           decoration: InputDecoration(
-                              label: Text("Email / Username",
-                                  style: TextStyle(color: MyColor.color1)),
-                              hintText: "Enter your email"),
+                              border: MyDecoration.inputBorder,
+                              prefixIcon: Icon(Icons.person),
+                              // label: Text("Email / Username",
+                              //     style: TextStyle(color: MyColor.color1)),
+                              hintText: "Email",
+                              hintStyle: TextStyle(color: MyColor.color1)),
                         ),
                         TextFormField(
                           validator: (value) {
@@ -113,9 +118,12 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           obscureText: true,
                           decoration: InputDecoration(
-                              label: Text("Password",
-                                  style: TextStyle(color: MyColor.color1)),
-                              hintText: "Enter your password"),
+                              border: MyDecoration.inputBorder,
+                              prefixIcon: Icon(Icons.password),
+                              // label: Text("Password",
+                              //     style: TextStyle(color: MyColor.color1)),
+                              hintText: "Password",
+                              hintStyle: TextStyle(color: MyColor.color1)),
                         ),
                         SizedBox(
                           height: 6.0,

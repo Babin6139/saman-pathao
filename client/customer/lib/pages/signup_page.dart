@@ -2,7 +2,9 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:customer/models/users.dart';
 import 'package:customer/utils/mycolor.dart';
+import 'package:customer/utils/mydecoration.dart';
 import 'package:customer/utils/routes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -108,6 +110,9 @@ class _SignUpState extends State<SignUp> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         TextFormField(
                           onChanged: (value) {
                             setState(() {
@@ -116,9 +121,13 @@ class _SignUpState extends State<SignUp> {
                           },
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
-                              label: Text("First name",
-                                  style: TextStyle(color: MyColor.color1)),
-                              hintText: "Enter your first name"),
+                              prefixIcon: Icon(Icons.person),
+                              border: MyDecoration.inputBorder,
+                              hintText: "First name",
+                              hintStyle: TextStyle(color: MyColor.color1)),
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         TextFormField(
                           onChanged: (value) {
@@ -128,9 +137,13 @@ class _SignUpState extends State<SignUp> {
                           },
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
-                              label: Text("Middle name",
-                                  style: TextStyle(color: MyColor.color1)),
-                              hintText: "Enter you middle name"),
+                              prefixIcon: Icon(Icons.person),
+                              border: MyDecoration.inputBorder,
+                              hintText: "Middle name",
+                              hintStyle: TextStyle(color: MyColor.color1)),
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         TextFormField(
                           onChanged: (value) {
@@ -140,9 +153,13 @@ class _SignUpState extends State<SignUp> {
                           },
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
-                              label: Text("Last name",
-                                  style: TextStyle(color: MyColor.color1)),
-                              hintText: "Enter your last name"),
+                              prefixIcon: Icon(Icons.person),
+                              border: MyDecoration.inputBorder,
+                              hintText: "Last name",
+                              hintStyle: TextStyle(color: MyColor.color1)),
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         TextFormField(
                           onChanged: (value) {
@@ -152,9 +169,13 @@ class _SignUpState extends State<SignUp> {
                           },
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                              label: Text("Email",
-                                  style: TextStyle(color: MyColor.color1)),
-                              hintText: "Enter your email"),
+                              prefixIcon: Icon(CupertinoIcons.at),
+                              border: MyDecoration.inputBorder,
+                              hintText: "Email",
+                              hintStyle: TextStyle(color: MyColor.color1)),
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         TextFormField(
                           onChanged: (value) {
@@ -165,9 +186,13 @@ class _SignUpState extends State<SignUp> {
                           keyboardType: TextInputType.phone,
                           maxLength: 10,
                           decoration: InputDecoration(
-                              label: Text("Contact no",
-                                  style: TextStyle(color: MyColor.color1)),
-                              hintText: "Enter your contact no"),
+                              prefixIcon: Icon(CupertinoIcons.phone),
+                              border: MyDecoration.inputBorder,
+                              hintText: "Contact no",
+                              hintStyle: TextStyle(color: MyColor.color1)),
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         TextFormField(
                           onChanged: (value) {
@@ -176,9 +201,10 @@ class _SignUpState extends State<SignUp> {
                             });
                           },
                           decoration: InputDecoration(
-                              label: Text("Address",
-                                  style: TextStyle(color: MyColor.color1)),
-                              hintText: "Enter your address"),
+                              prefixIcon: Icon(CupertinoIcons.home),
+                              border: MyDecoration.inputBorder,
+                              hintText: "Address",
+                              hintStyle: TextStyle(color: MyColor.color1)),
                         ),
                         SizedBox(
                           height: 10.0,
@@ -198,8 +224,20 @@ class _SignUpState extends State<SignUp> {
                             alignment: Alignment.center,
                             child: user.photo != null
                                 ? Image.file(File(tempImage))
-                                : Text("Pick Image"),
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                        Icon(
+                                          CupertinoIcons.photo,
+                                          color: Colors.black45,
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text("Pick Image")
+                                      ]),
                           ),
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         TextFormField(
                           onChanged: (value) {
@@ -209,12 +247,13 @@ class _SignUpState extends State<SignUp> {
                           },
                           obscureText: true,
                           decoration: InputDecoration(
-                              label: Text("Password",
-                                  style: TextStyle(color: MyColor.color1)),
-                              hintText: "Enter your password"),
+                              prefixIcon: Icon(Icons.password),
+                              border: MyDecoration.inputBorder,
+                              hintText: "Password",
+                              hintStyle: TextStyle(color: MyColor.color1)),
                         ),
                         SizedBox(
-                          height: 6.0,
+                          height: 10.0,
                         ),
                         Material(
                           color: MyColor.color1,
