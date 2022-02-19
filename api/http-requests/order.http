@@ -1,18 +1,25 @@
 GET http://localhost:7000/order/history?userName=pirateking
 
 ###
-POST http://localhost:7000/order/create
+POST http://localhost:7000/order/
 content-type : application/json
 
 {
-    "email": "pirateking@gmail.com",
-    "orderNo":"123456789",
-    "timeFrame":[2.6,3.0],
-    "startPoint":"startPoint",
-    "destination":"destination",
-    "biddingTime":[2.6,3.0],
-    "maxBudget":3000,
-    "distance":2.6,
+    "userName": "pirateking",
+    "orderNo":"111337",
+    "orderStatus":"postbid",
+    "timeFrame":{
+        "start":"2020-10-10 10:10",
+        "end":"2020-10-10 10:20"
+    },
+    "startPoint":["kathmanud",10,10],
+    "destination":["kathmanud",10,10],
+    "distance":10,
+    "biddingTime":{
+        "start":"2020-10-10 09:10",
+        "end":"2020-10-10 09:15"
+    },
+    "maxBudget":200,
     "shipments":["shipments1","shipments2"],
     "shipmentWeight":50.5,
     "shipmentDimension":{
@@ -21,8 +28,40 @@ content-type : application/json
         "height":[10,20]
     },
     "fragile":false,
-    "minRated":2
+    "minRated":3
 }
 
 ###
-GET http://localhost:7000/order?userName=pirateking&&id=6205fa08c0ccddff16cffadd
+GET http://localhost:7000/order?userName=pirateking&&id=620cacbe9ad985d1b9902c93
+
+###
+PATCH  http://localhost:7000/order
+content-type : application/json
+
+{
+    "id":"620cacbe9ad985d1b9902c93",
+    "userName": "pirateking",
+    "orderNo":"123456",
+    "orderStatus":"postbid",
+    "timeFrame":{
+        "start":"2020-10-10 10:10",
+        "end":"2020-10-10 10:20"
+    },
+    "startPoint":["Bhaktapur",10,10],
+    "destination":["Bhaktapur",10,10],
+    "distance":10,
+    "biddingTime":{
+        "start":"2020-10-10 09:10",
+        "end":"2020-10-10 09:15"
+    },
+    "maxBudget":200,
+    "shipments":["shipments1","shipments2"],
+    "shipmentWeight":50.5,
+    "shipmentDimension":{
+        "length":[10,20],
+        "width":[10,20],
+        "height":[10,20]
+    },
+    "fragile":false,
+    "minRated":3
+}

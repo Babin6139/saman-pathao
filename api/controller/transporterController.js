@@ -45,9 +45,9 @@ exports.updateTransporter = async (req, res, next) => {
       update
     );
     if (!user) {
-      res.send({ message: "User not found" });
+      res.send({ message: "Transporter not found" });
     } else {
-      res.send({ message: "User updated" });
+      res.send({ message: "Transporter updated" });
     }
   } catch (err) {
     next(err);
