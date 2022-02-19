@@ -13,7 +13,7 @@ class Users {
   Users({
     this.photo,
     this.firstName,
-    this.middleName,
+    this.middleName = "",
     this.lastName,
     this.email,
     this.address,

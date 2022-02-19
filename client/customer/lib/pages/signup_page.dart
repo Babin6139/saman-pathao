@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:email_validator/email_validator.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -22,6 +23,9 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   Users user = Users();
   String tempImage = "";
+  final _formkey = GlobalKey<FormState>();
+  bool showLabel = false;
+
   bool checkPhoto = false;
   @override
   Widget build(BuildContext context) {
@@ -37,23 +41,27 @@ class _SignUpState extends State<SignUp> {
     }
 
     signUp() async {
-      print(user.toMap());
-      FirebaseStorage storage = FirebaseStorage.instance;
-      Reference ref = storage
-          .ref()
-          .child(File(user.photo.toString()).path.split('/').last.toString());
-      UploadTask upload = ref.putFile(File(user.photo.toString()));
-      await upload.then((res) async {
-        await res.ref.getDownloadURL().then((value) => user.photo = value);
-        setState(() {});
+      setState(() {
+        showLabel = true;
       });
-      print(user.photo);
-      var data = jsonEncode(user.toMap());
-      var url = "http://10.0.2.2:7000/users/client/signup";
-      var response = await http.post(Uri.parse(url),
-          headers: {'Content-Type': 'application/json'}, body: data);
-      if (await jsonDecode(response.body)["message"] == "SignUp sucessfull") {
-        Navigator.pushReplacementNamed(context, MyRoutes.login);
+      if (_formkey.currentState!.validate() && user.photo != null) {
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference ref = storage
+            .ref()
+            .child(File(user.photo.toString()).path.split('/').last.toString());
+        UploadTask upload = ref.putFile(File(user.photo.toString()));
+        await upload.then((res) async {
+          await res.ref.getDownloadURL().then((value) => user.photo = value);
+          setState(() {});
+        });
+        print(user.photo);
+        var data = jsonEncode(user.toMap());
+        var url = "http://10.0.2.2:7000/users/client/signup";
+        var response = await http.post(Uri.parse(url),
+            headers: {'Content-Type': 'application/json'}, body: data);
+        if (await jsonDecode(response.body)["message"] == "SignUp sucessfull") {
+          Navigator.pushReplacementNamed(context, MyRoutes.login);
+        }
       }
     }
 
@@ -100,193 +108,243 @@ class _SignUpState extends State<SignUp> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "Sign Up",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              user.firstName = value;
-                            });
-                          },
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.person),
-                              border: MyDecoration.inputBorder,
-                              hintText: "First name",
-                              hintStyle: TextStyle(color: MyColor.color1)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              user.middleName = value;
-                            });
-                          },
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.person),
-                              border: MyDecoration.inputBorder,
-                              hintText: "Middle name",
-                              hintStyle: TextStyle(color: MyColor.color1)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              user.lastName = value;
-                            });
-                          },
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.person),
-                              border: MyDecoration.inputBorder,
-                              hintText: "Last name",
-                              hintStyle: TextStyle(color: MyColor.color1)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              user.email = value;
-                            });
-                          },
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(CupertinoIcons.at),
-                              border: MyDecoration.inputBorder,
-                              hintText: "Email",
-                              hintStyle: TextStyle(color: MyColor.color1)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              user.contactNo = value;
-                            });
-                          },
-                          keyboardType: TextInputType.phone,
-                          maxLength: 10,
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(CupertinoIcons.phone),
-                              border: MyDecoration.inputBorder,
-                              hintText: "Contact no",
-                              hintStyle: TextStyle(color: MyColor.color1)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              user.address = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(CupertinoIcons.home),
-                              border: MyDecoration.inputBorder,
-                              hintText: "Address",
-                              hintStyle: TextStyle(color: MyColor.color1)),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        GestureDetector(
-                          onTap: pickImage,
-                          child: AnimatedContainer(
-                            clipBehavior: Clip.antiAlias,
-                            duration: Duration(seconds: 1),
-                            decoration: BoxDecoration(
-                                color: MyColor.color1,
-                                borderRadius: checkPhoto
-                                    ? BorderRadius.circular(100)
-                                    : BorderRadius.circular(0)),
-                            width: checkPhoto ? 60 : 200.0,
-                            height: checkPhoto ? 60 : 30.0,
-                            alignment: Alignment.center,
-                            child: user.photo != null
-                                ? Image.file(File(tempImage))
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                        Icon(
-                                          CupertinoIcons.photo,
-                                          color: Colors.black45,
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text("Pick Image")
-                                      ]),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              user.password = value;
-                            });
-                          },
-                          obscureText: true,
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.password),
-                              border: MyDecoration.inputBorder,
-                              hintText: "Password",
-                              hintStyle: TextStyle(color: MyColor.color1)),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Material(
-                          color: MyColor.color1,
-                          borderRadius: BorderRadius.circular(100),
-                          child: InkWell(
-                            onTap: signUp,
-                            splashColor: Colors.purple,
-                            child: Container(
-                              width: 100,
-                              height: 40,
-                              alignment: Alignment.center,
-                              child: Text("Sign Up"),
+                    child: Form(
+                      key: _formkey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "Sign Up",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 6.0,
-                        ),
-                        RichText(
-                            text: TextSpan(
-                                style: TextStyle(color: Colors.black),
-                                children: [
-                              TextSpan(text: "Not registered yet? "),
-                              TextSpan(
-                                  text: "Log In",
-                                  style: TextStyle(color: Colors.blue),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.pushNamed(
-                                          context, MyRoutes.login);
-                                    })
-                            ]))
-                      ],
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter your first name";
+                              }
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                user.firstName = value;
+                              });
+                            },
+                            keyboardType: TextInputType.name,
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.person),
+                                border: MyDecoration.inputBorder,
+                                hintText: "First name",
+                                hintStyle: TextStyle(color: MyColor.color1)),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                user.middleName = value;
+                              });
+                            },
+                            keyboardType: TextInputType.name,
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.person),
+                                border: MyDecoration.inputBorder,
+                                hintText: "Middle name",
+                                hintStyle: TextStyle(color: MyColor.color1)),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter your last name";
+                              }
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                user.lastName = value;
+                              });
+                            },
+                            keyboardType: TextInputType.name,
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.person),
+                                border: MyDecoration.inputBorder,
+                                hintText: "Last name",
+                                hintStyle: TextStyle(color: MyColor.color1)),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Email cannot be empty";
+                              } else if (!EmailValidator.validate(value)) {
+                                return "Invalid Email";
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                user.email = value;
+                              });
+                            },
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(CupertinoIcons.at),
+                                border: MyDecoration.inputBorder,
+                                hintText: "Email",
+                                hintStyle: TextStyle(color: MyColor.color1)),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Contact no required";
+                              } else if (value.length < 10) {
+                                return "10 digits required";
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                user.contactNo = value;
+                              });
+                            },
+                            keyboardType: TextInputType.phone,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(CupertinoIcons.phone),
+                                border: MyDecoration.inputBorder,
+                                hintText: "Contact no",
+                                hintStyle: TextStyle(color: MyColor.color1)),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Address required";
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                user.address = value;
+                              });
+                            },
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(CupertinoIcons.home),
+                                border: MyDecoration.inputBorder,
+                                hintText: "Address",
+                                hintStyle: TextStyle(color: MyColor.color1)),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          GestureDetector(
+                            onTap: pickImage,
+                            child: AnimatedContainer(
+                              clipBehavior: Clip.antiAlias,
+                              duration: Duration(seconds: 1),
+                              decoration: BoxDecoration(
+                                  color: MyColor.color1,
+                                  borderRadius: checkPhoto
+                                      ? BorderRadius.circular(100)
+                                      : BorderRadius.circular(0)),
+                              width: checkPhoto ? 60 : 200.0,
+                              height: checkPhoto ? 60 : 30.0,
+                              alignment: Alignment.center,
+                              child: user.photo != null
+                                  ? Image.file(File(tempImage))
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                          Icon(
+                                            CupertinoIcons.photo,
+                                            color: Colors.black45,
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text("Pick Image")
+                                        ]),
+                            ),
+                          ),
+                          user.photo == null && showLabel
+                              ? Text(
+                                  "Image is required",
+                                  style: TextStyle(color: MyColor.color1),
+                                )
+                              : Text(""),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Password required";
+                              } else if (value.length < 6) {
+                                return "Password length > 6";
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                user.password = value;
+                              });
+                            },
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.lock),
+                                border: MyDecoration.inputBorder,
+                                hintText: "Password",
+                                hintStyle: TextStyle(color: MyColor.color1)),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Material(
+                            color: MyColor.color1,
+                            borderRadius: BorderRadius.circular(100),
+                            child: InkWell(
+                              onTap: signUp,
+                              splashColor: Colors.purple,
+                              child: Container(
+                                width: 100,
+                                height: 40,
+                                alignment: Alignment.center,
+                                child: Text("Sign Up"),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 6.0,
+                          ),
+                          RichText(
+                              text: TextSpan(
+                                  style: TextStyle(color: Colors.black),
+                                  children: [
+                                TextSpan(text: "Not registered yet? "),
+                                TextSpan(
+                                    text: "Log In",
+                                    style: TextStyle(color: Colors.blue),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pushNamed(
+                                            context, MyRoutes.login);
+                                      })
+                              ]))
+                        ],
+                      ),
                     ),
                   ),
                 ),

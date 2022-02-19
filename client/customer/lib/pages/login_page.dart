@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:customer/utils/mycolor.dart';
 import 'package:customer/utils/mydecoration.dart';
 import 'package:customer/utils/routes.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -89,7 +90,9 @@ class _LoginPageState extends State<LoginPage> {
                         TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Email/Username cannot be empty";
+                              return "Email cannot be empty";
+                            } else if (!EmailValidator.validate(value)) {
+                              return "Invalid Email";
                             }
                             return null;
                           },
@@ -109,7 +112,9 @@ class _LoginPageState extends State<LoginPage> {
                         TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Password cannot be empty";
+                              return "Password required";
+                            } else if (value.length < 6) {
+                              return "Password length > 6";
                             }
                             return null;
                           },
@@ -119,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                           obscureText: true,
                           decoration: InputDecoration(
                               border: MyDecoration.inputBorder,
-                              prefixIcon: Icon(Icons.password),
+                              prefixIcon: Icon(Icons.lock),
                               // label: Text("Password",
                               //     style: TextStyle(color: MyColor.color1)),
                               hintText: "Password",
@@ -168,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Positioned(
-              top: size.height / 2 - 220,
+              top: size.height / 2 - 230,
               left: size.width / 2 - 40.0,
               child: CircleAvatar(
                 maxRadius: 40,
