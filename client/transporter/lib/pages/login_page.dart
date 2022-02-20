@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:transporter/utils/mycolors.dart';
 import 'package:transporter/utils/route.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,10 +24,8 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.only(top: 18),
           child: Column(
             children: <Widget>[
-              Positioned(
-                width: size.width,
-                top: 50.0,
-                child: Center(
+              Container(
+                child: const Center(
                   child: CircleAvatar(
                     maxRadius: 40,
                     backgroundImage: AssetImage('assets/images/logo.png'),
@@ -42,21 +41,21 @@ class _LoginPageState extends State<LoginPage> {
                       TextFormField(
                         textAlign: TextAlign.left,
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40)),
-                            prefixIcon: Icon(Icons.person),
-                            hintText: "E-mail or username",
-                            hintStyle: TextStyle()),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40)),
+                          prefixIcon: Icon(Icons.person),
+                          hintText: "E-mail or username",
+                        ),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
                         textAlign: TextAlign.left,
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40)),
-                            prefixIcon: Icon(Icons.lock),
-                            hintText: "Password",
-                            hintStyle: TextStyle()),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40)),
+                          prefixIcon: Icon(Icons.lock),
+                          hintText: "Password",
+                        ),
                       ),
                     ],
                   ),
@@ -65,7 +64,9 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 20),
               Center(
                   child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, MyRoutes.landingPage);
+                },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith(
                         (states) => Colors.blue.shade400)),
@@ -85,7 +86,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 10),
-              SignInButton(Buttons.Google, onPressed: () {}),
+              SignInButton(
+                Buttons.Google,
+                onPressed: () {},
+                elevation: 5,
+              ),
               SizedBox(height: 20),
               RichText(
                 text: TextSpan(
@@ -97,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.pushNamed(context, MyRoutes.signup);
+                            Navigator.pushNamed(context, MyRoutes.signupPhone);
                           }),
                   ],
                 ),

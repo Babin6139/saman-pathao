@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:transporter/pages/login_page.dart';
 import 'package:transporter/pages/signup_page.dart';
+import 'package:transporter/pages/signup_phone.dart';
 import 'package:transporter/utils/route.dart';
 
 void main() async {
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       routes: {
         MyRoutes.landingPage: (context) => LoginPage(),
         MyRoutes.login: (context) => LoginPage(),
+        MyRoutes.signupPhone: (context) => SignUpPhone(),
         MyRoutes.signup: (context) => SignUp(),
       },
     );
