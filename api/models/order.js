@@ -4,56 +4,40 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  timeFrame: {
-    type: Array,
-    required: true,
+  orderStatus: {
+    default: "prebid",
+    type: String, //prebid onbid postbid finalized onDelivery completed cancelled
   },
-  transporter: {
-    type: mongoose.ObjectId,
-    ref: "transporter",
+  timeFrame: {
+    start: { type: Date, required: true },
+    end: { type: Date, required: true },
   },
   startPoint: {
-    type: String,
+    type: [String, Number, Number],
     required: true,
   },
   destination: {
-    type: String,
+    type: [String, Number, Number],
     required: true,
-  },
-  biddingTime: {
-    type: Array,
-    required: true,
-  },
-  maxBudget: {
-    type: Number,
-    required: true,
-  },
-  bids: {
-    transporter: {
-      type: [mongoose.ObjectId],
-      ref: "transporter",
-    },
-    bidAmount: {
-      type: Array,
-    },
   },
   distance: {
     type: Number,
     required: true,
   },
-  bidConfirmed: {
-    type: Boolean,
-    default: false,
+  biddingTime: {
+    start: { type: Date, required: true },
+    end: { type: Date, required: true },
   },
-  bidCost: {
+  maxBudget: {
     type: Number,
-  },
-  currentLocation: {
-    type: String,
+    required: true,
   },
   shipments: {
     type: Array,
     required: true,
+  },
+  shipmentPhoto: {
+    type: String,
   },
   shipmentWeight: {
     type: Number,
@@ -79,8 +63,31 @@ const orderSchema = new mongoose.Schema({
   minRated: {
     type: Number,
   },
-  orderStatus: {
-    type: String, //prebid onbid postbid finalized completed cancelled
+
+  //data added after order is available in database
+
+  bids: {
+    transporter: {
+      type: [mongoose.ObjectId],
+      ref: "transporter",
+    },
+    bidAmount: {
+      type: [Number],
+    },
+  },
+  bidConfirmed: {
+    type: Boolean,
+    default: false,
+  },
+  transporter: {
+    type: mongoose.ObjectId,
+    ref: "transporter",
+  },
+  bidCost: {
+    type: Number,
+  },
+  timeLocation: {
+    type: [[Number, Number, Date]],
   },
 });
 

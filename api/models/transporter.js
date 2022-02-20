@@ -86,10 +86,14 @@ const transporterSchema = new mongoose.Schema({
   ratedBy: {
     type: Number,
   },
-  sucessfulDeliveries: {
+  successfullDeliveries: {
     type: Number,
   },
   biddedOrders: {
+    type: [mongoose.ObjectId],
+    ref: "order",
+  },
+  pickUpOrders: {
     type: [mongoose.ObjectId],
     ref: "order",
   },

@@ -1,54 +1,60 @@
 const mongoose = require("mongoose");
 const clientSchema = new mongoose.Schema({
-  firstName: {
+  address: {
     type: String,
     required: true,
   },
-  middleName: {
-    type: String,
-  },
-  lastName: {
-    type: String,
+  contactNo: {
+    type: Array,
     required: true,
+  },
+  dateCreated: {
+    type: String,
   },
   email: {
     type: String,
     required: true,
     unique: true,
   },
-  contactNo: {
-    type: Array,
+  firstName: {
+    type: String,
     required: true,
   },
-  address: {
+  lastName: {
+    type: String,
+    required: true,
+  },
+  middleName: {
+    type: String,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  photo: {
     type: String,
     required: true,
   },
   userName: {
     type: String,
   },
+  //data that will be added after signup
   idCard: {
     type: String,
   },
-  photo: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
+  verified: {
+    type: Boolean,
+    default: false,
   },
   rating: {
     default: -1,
     type: Number,
   },
-  inAppCuurency: {
+  inAppCurrency: {
     default: 0,
     type: Number,
   },
-  dateCreated: {
-    type: String,
-  },
+
   orders: {
     type: [mongoose.ObjectId],
     ref: "order",

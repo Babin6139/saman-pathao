@@ -2,10 +2,29 @@ POST http://localhost:7000/bid
 content-type:application/json
 
 {
-    "orderNo":"123456789",
+    "orderNo":"123456",
     "transporterId": "620a435e9961e847c6ee96c9",
     "bidAmount": 700
 }
 
 ###
-GET http://localhost:7000/bid?orderNo=6205fa08c0ccddff16cffadd
+GET http://localhost:7000/bid/specific?email=pirateking2@gmail.com
+
+###
+GET http://localhost:7000/bid?orderId=12345&email=pirateking2@gmail.com&userName=pirateking2
+###
+PATCH http://localhost:7000/bid/
+content-type: application/json
+
+{
+    "orderNo":"123456",
+    "transporterId": "620a435e9961e847c6ee96c9",
+    "bidAmount": 1000
+}
+
+###
+DELETE http://localhost:7000/bid?orderNo=123456&transporterId=620a435e9961e847c6ee96c2
+
+###
+
+GET http://localhost:7000/bid/history?orderNo=123456&transporterId=620a435e9961e847c6ee96c9
