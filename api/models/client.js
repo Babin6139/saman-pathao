@@ -42,6 +42,10 @@ const clientSchema = new mongoose.Schema({
   idCard: {
     type: String,
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
   rating: {
     default: -1,
     type: Number,
