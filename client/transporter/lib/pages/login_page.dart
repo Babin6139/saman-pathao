@@ -41,19 +41,21 @@ class _LoginPageState extends State<LoginPage> {
                       TextFormField(
                         textAlign: TextAlign.left,
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.zero,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(40)),
-                          prefixIcon: Icon(Icons.person),
-                          hintText: "E-mail or username",
+                          prefixIcon: Icon(Icons.alternate_email_outlined),
+                          hintText: "E-mail",
                         ),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
                         textAlign: TextAlign.left,
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.zero,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(40)),
-                          prefixIcon: Icon(Icons.lock),
+                          prefixIcon: Icon(Icons.lock_outline),
                           hintText: "Password",
                         ),
                       ),
@@ -65,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
               Center(
                   child: TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, MyRoutes.landingPage);
+                  Navigator.pushNamed(context, MyRoutes.homepage);
                 },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith(

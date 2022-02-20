@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:transporter/models/transporters.dart';
 import 'package:transporter/utils/mycolors.dart';
+import 'package:transporter/utils/route.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _SignUpState extends State<SignUp> {
   bool photo = false;
   @override
   Widget build(BuildContext context) {
+    final phoneNumber = ModalRoute.of(context)!.settings.arguments as String;
     Future pickImage() async {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
@@ -91,7 +93,7 @@ class _SignUpState extends State<SignUp> {
                       contentPadding: EdgeInsets.zero,
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(40)),
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: Icon(Icons.person_outline),
                       hintText: "Full Name",
                     ),
                   ),
@@ -144,6 +146,28 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                    width: size.width / 2,
+                    decoration: BoxDecoration(
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.black,
+                        //     offset: Offset(5.0, 5.0),
+                        //     blurRadius: 10.0,
+                        //   ),
+                        // ],
+                        color: Colors.teal.shade100,
+                        borderRadius: BorderRadius.circular(40)),
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, MyRoutes.login);
+                        },
+                        child: Text(
+                          "Sign Up",
+                        )))
               ])
             ],
           ),

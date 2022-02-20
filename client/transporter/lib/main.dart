@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transporter/pages/home_page.dart';
 import 'package:transporter/pages/login_page.dart';
 import 'package:transporter/pages/signup_page.dart';
 import 'package:transporter/pages/signup_phone.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         MyRoutes.landingPage: (context) => LoginPage(),
         MyRoutes.login: (context) => LoginPage(),
+        MyRoutes.homepage: ((context) => Homepage()),
         MyRoutes.signupPhone: (context) => SignUpPhone(),
         MyRoutes.signup: (context) => SignUp(),
       },
