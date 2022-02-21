@@ -81,6 +81,10 @@ const orderSchema = new mongoose.Schema({
   deliveredTime: {
     type: Date,
   },
+  verifiedByClient: {
+    type: Boolean,
+    default: false,
+  },
   bidConfirmed: {
     type: Boolean,
     default: false,
