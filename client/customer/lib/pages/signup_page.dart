@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:customer/models/users.dart';
 import 'package:customer/utils/mycolor.dart';
 import 'package:customer/utils/mydecoration.dart';
@@ -82,13 +83,21 @@ class _SignUpState extends State<SignUp> {
               Positioned(
                 width: size.width,
                 top: 10.0,
-                child: Text(
-                  "Saman Pathao",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: MyColor.color1),
+                child: Column(
+                  children: [
+                    Text(
+                      "Saman Pathao",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: MyColor.color1),
+                    ),
+                    AnimatedTextKit(repeatForever: true, animatedTexts: [
+                      TypewriterAnimatedText("WE DELIVER",
+                          speed: Duration(milliseconds: 400))
+                    ])
+                  ],
                 ),
               ),
               Center(
