@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:customer/utils/mycolor.dart';
+import 'package:customer/utils/mydecoration.dart';
 import 'package:customer/utils/routes.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -87,7 +90,9 @@ class _LoginPageState extends State<LoginPage> {
                         TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Email/Username cannot be empty";
+                              return "Email cannot be empty";
+                            } else if (!EmailValidator.validate(value)) {
+                              return "Invalid Email";
                             }
                             return null;
                           },
@@ -97,14 +102,19 @@ class _LoginPageState extends State<LoginPage> {
                             });
                           },
                           decoration: InputDecoration(
-                              label: Text("Email / Username",
-                                  style: TextStyle(color: MyColor.color1)),
-                              hintText: "Enter your email"),
+                              border: MyDecoration.inputBorder,
+                              prefixIcon: Icon(Icons.person),
+                              // label: Text("Email / Username",
+                              //     style: TextStyle(color: MyColor.color1)),
+                              hintText: "Email",
+                              hintStyle: TextStyle(color: MyColor.color1)),
                         ),
                         TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Password cannot be empty";
+                              return "Password required";
+                            } else if (value.length < 6) {
+                              return "Password length > 6";
                             }
                             return null;
                           },
@@ -113,9 +123,12 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           obscureText: true,
                           decoration: InputDecoration(
-                              label: Text("Password",
-                                  style: TextStyle(color: MyColor.color1)),
-                              hintText: "Enter your password"),
+                              border: MyDecoration.inputBorder,
+                              prefixIcon: Icon(Icons.lock),
+                              // label: Text("Password",
+                              //     style: TextStyle(color: MyColor.color1)),
+                              hintText: "Password",
+                              hintStyle: TextStyle(color: MyColor.color1)),
                         ),
                         SizedBox(
                           height: 6.0,
@@ -160,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Positioned(
-              top: size.height / 2 - 220,
+              top: size.height / 2 - 230,
               left: size.width / 2 - 40.0,
               child: CircleAvatar(
                 maxRadius: 40,
