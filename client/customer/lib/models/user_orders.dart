@@ -1,58 +1,84 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
+
 class UserOrders {
-  final String? orderNo;
-  final String? biddingStartTime;
-  final String? biddingEndTime;
-  final String? biddingRemainingTime;
-  final int? maxBudget;
-  final int? lowestbid;
+  final String orderNo;
+  final String status;
+  final String orderStartTime;
+  final String orderEndTime;
+  final int maxBudget;
+  final int lowestbid;
+  final int distance;
+  final List<String> shipments;
+  final int shipmentWeight;
+  final String photo;
   UserOrders({
-    this.orderNo,
-    this.biddingStartTime,
-    this.biddingEndTime,
-    this.biddingRemainingTime,
-    this.maxBudget,
-    this.lowestbid = -1,
+    required this.orderNo,
+    required this.status,
+    required this.orderStartTime,
+    required this.orderEndTime,
+    required this.maxBudget,
+    required this.lowestbid,
+    required this.distance,
+    required this.shipments,
+    required this.shipmentWeight,
+    required this.photo,
   });
 
   UserOrders copyWith({
     String? orderNo,
-    String? biddingStartTime,
-    String? biddingEndTime,
-    String? biddingRemainingTime,
+    String? status,
+    String? orderStartTime,
+    String? orderEndTime,
     int? maxBudget,
     int? lowestbid,
+    int? distance,
+    List<String>? shipments,
+    int? shipmentWeight,
+    String? photo,
   }) {
     return UserOrders(
       orderNo: orderNo ?? this.orderNo,
-      biddingStartTime: biddingStartTime ?? this.biddingStartTime,
-      biddingEndTime: biddingEndTime ?? this.biddingEndTime,
-      biddingRemainingTime: biddingRemainingTime ?? this.biddingRemainingTime,
+      status: status ?? this.status,
+      orderStartTime: orderStartTime ?? this.orderStartTime,
+      orderEndTime: orderEndTime ?? this.orderEndTime,
       maxBudget: maxBudget ?? this.maxBudget,
       lowestbid: lowestbid ?? this.lowestbid,
+      distance: distance ?? this.distance,
+      shipments: shipments ?? this.shipments,
+      shipmentWeight: shipmentWeight ?? this.shipmentWeight,
+      photo: photo ?? this.photo,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'orderNo': orderNo,
-      'biddingStartTime': biddingStartTime,
-      'biddingEndTime': biddingEndTime,
-      'biddingRemainingTime': biddingRemainingTime,
+      'status': status,
+      'orderStartTime': orderStartTime,
+      'orderEndTime': orderEndTime,
       'maxBudget': maxBudget,
       'lowestbid': lowestbid,
+      'distance': distance,
+      'shipments': shipments,
+      'shipmentWeight': shipmentWeight,
+      'photo': photo,
     };
   }
 
-  factory UserOrders.fromMap(dynamic map) {
+  factory UserOrders.fromMap(Map<String, dynamic> map) {
     return UserOrders(
-      orderNo: map['orderNo'],
-      biddingStartTime: map['biddingStartTime'],
-      biddingEndTime: map['biddingEndTime'],
-      biddingRemainingTime: map['biddingRemainingTime'],
-      maxBudget: map['maxBudget']?.toInt(),
-      lowestbid: map['lowestbid']?.toInt(),
+      orderNo: map['orderNo'] ?? '',
+      status: map['status'] ?? '',
+      orderStartTime: map['orderStartTime'] ?? '',
+      orderEndTime: map['orderEndTime'] ?? '',
+      maxBudget: map['maxBudget']?.toInt() ?? 0,
+      lowestbid: map['lowestbid']?.toInt() ?? -1,
+      distance: map['distance']?.toInt() ?? 0,
+      shipments: List<String>.from(map['shipments']),
+      shipmentWeight: map['shipmentWeight']?.toInt() ?? 0,
+      photo: map['photo'] ?? "https://picsum.photos/200/300",
     );
   }
 
@@ -63,29 +89,38 @@ class UserOrders {
 
   @override
   String toString() {
-    return 'UserOrders(orderNo: $orderNo, biddingStartTime: $biddingStartTime, biddingEndTime: $biddingEndTime, biddingRemainingTime: $biddingRemainingTime, maxBudget: $maxBudget, lowestbid: $lowestbid)';
+    return 'UserOrders(orderNo: $orderNo, status: $status, orderStartTime: $orderStartTime, orderEndTime: $orderEndTime, maxBudget: $maxBudget, lowestbid: $lowestbid, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, photo: $photo)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
 
     return other is UserOrders &&
         other.orderNo == orderNo &&
-        other.biddingStartTime == biddingStartTime &&
-        other.biddingEndTime == biddingEndTime &&
-        other.biddingRemainingTime == biddingRemainingTime &&
+        other.status == status &&
+        other.orderStartTime == orderStartTime &&
+        other.orderEndTime == orderEndTime &&
         other.maxBudget == maxBudget &&
-        other.lowestbid == lowestbid;
+        other.lowestbid == lowestbid &&
+        other.distance == distance &&
+        listEquals(other.shipments, shipments) &&
+        other.shipmentWeight == shipmentWeight &&
+        other.photo == photo;
   }
 
   @override
   int get hashCode {
     return orderNo.hashCode ^
-        biddingStartTime.hashCode ^
-        biddingEndTime.hashCode ^
-        biddingRemainingTime.hashCode ^
+        status.hashCode ^
+        orderStartTime.hashCode ^
+        orderEndTime.hashCode ^
         maxBudget.hashCode ^
-        lowestbid.hashCode;
+        lowestbid.hashCode ^
+        distance.hashCode ^
+        shipments.hashCode ^
+        shipmentWeight.hashCode ^
+        photo.hashCode;
   }
 }
