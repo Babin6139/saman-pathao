@@ -26,26 +26,27 @@ exports.getAllOrders = async (req, res, next) => {
     let selectOrder, populateTransporter;
     if (req.query.orderStatus === "prebid") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance timeFrame biddingTime  maxBudget minRated fragile photo";
+        "orderNo orderStatus startPoint destination distance timeFrame biddingTime  maxBudget minRated fragile shipmentPhoto";
     } else if (req.query.orderStatus === "onbid") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget photo bids";
+        "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget shipmentPhoto bids";
     } else if (req.query.orderStatus === "postbid") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance timeFrame maxBudget photo bids";
+        "orderNo orderStatus startPoint destination distance timeFrame maxBudget shipmentPhoto bids";
     } else if (req.query.orderStatus === "finalized") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance timeFrame photo transporter bidCost";
+        "orderNo orderStatus startPoint destination distance timeFrame shipmentPhoto transporter bidCost";
     } else if (req.query.orderStatus === "onDelivery") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance timeFrame photo timeLocation transporter bidCost pickedUpTime";
+        "orderNo orderStatus startPoint destination distance timeFrame shipmentPhoto timeLocation transporter bidCost pickedUpTime";
       populateTransporter = { path: "transporter", select: "userName" };
     } else if (req.query.orderStatus === "completed") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance photo transporter bidCost deliveredTime";
+        "orderNo orderStatus startPoint destination distance shipmentPhoto transporter bidCost deliveredTime";
       populateTransporter = { path: "transporter", select: "userName" };
     } else {
-      selectOrder = "orderNo orderStatus startPoint destination distance photo";
+      selectOrder =
+        "orderNo orderStatus startPoint destination distance shipmentPhoto";
     }
     const user = await Client.findOne({
       userName: req.query.userName,
@@ -153,10 +154,12 @@ exports.deleteOrder = async (req, res, next) => {
   }
 };
 
-exports.updatebidDetails = async (req, res, next) => {
+//client selects a suitable bid from transporter
+
+exports.finializeOrder = async (req, res, next) => {
   try {
     const update = {
-      bidConfirmed: req.body.bidConfirmed,
+      bidConfirmed: true,
       transporter: req.body.transporter,
       bidCost: req.body.bidCost,
     };
@@ -178,52 +181,5 @@ exports.updatebidDetails = async (req, res, next) => {
     }
   } catch (err) {
     next(err);
-  }
-};
-
-exports.liveUpdate = async (req, res, next) => {
-  try {
-    const update = {
-      timeLocation: req.body.timeLocation,
-    };
-    const order = await Order.findOneAndUpdate(
-      {
-        _id: req.body.id,
-        orderStatus: "onDelivery",
-        transporter: req.body.transporterId,
-      },
-      update,
-      { new: true }
-    );
-    res.send({ message: "live location updated", order });
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.deliveryStatus = async (req, res, next) => {
-  try {
-    const user = await Client.findOne({
-      userName: req.body.userName,
-    });
-    if (user.orders.includes(req.body.id)) {
-      const order = await Order.findOneAndUpdate(
-        {
-          _id: req.body.id,
-          orderStatus: "finalized",
-          bidConfirmed: false,
-        },
-        { orderStatus: req.body.orderStatus },
-        { new: true }
-      );
-      res.send({
-        message: `Order status changed to ${req.body.orderStatus}`,
-        order,
-      });
-    } else {
-      res.send({ message: "Order not found" });
-    }
-  } catch (error) {
-    next(error);
   }
 };

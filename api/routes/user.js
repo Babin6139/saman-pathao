@@ -2,8 +2,10 @@ var express = require("express");
 var router = express.Router();
 var clientController = require("../controller/clientController");
 var transporterController = require("../controller/transporterController");
+var deliveryController = require("../controller/deliveryController");
 
 router.route("/client/signup").post(clientController.addClient);
+
 router
   .route("/client")
   .post(clientController.login)
@@ -11,10 +13,17 @@ router
   .delete(clientController.deleteClient);
 
 router.route("/transporter/signup").post(transporterController.addTransporter);
+
 router
   .route("/transporter")
   .post(transporterController.login)
   .patch(transporterController.updateTransporter)
   .delete(transporterController.deleteTransporter);
+
+router.route("/transporter/liveupdate").patch(deliveryController.liveUpdate);
+
+router
+  .route("/transporter/deliveryStatus")
+  .patch(deliveryController.deliveryStatus);
 
 module.exports = router;

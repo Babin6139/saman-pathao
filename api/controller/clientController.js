@@ -27,7 +27,7 @@ exports.login = async (req, res, next) => {
     ).populate({
       path: "orders",
       select:
-        "orderNo biddingTime photo maxBudget orderStatus bids.bidAmount timeFrame startPoint destination timeLocation ",
+        "orderNo biddingTime shipmentPhoto maxBudget orderStatus bids.bidAmount timeFrame startPoint destination timeLocation distance shipments shipmentWeight",
       match: {
         $or: [{ orderStatus: "postbid" }, { orderStatus: "onDelivery" }],
       },
@@ -48,47 +48,62 @@ exports.login = async (req, res, next) => {
           inAppCurrency: user.inAppCurrency,
           rating: user.rating,
           verified: user.verified,
-          onDeliveryOrders: user.orders.map((order, index) => {
-            if (order.orderStatus === "onbid") {
-              return {
-                orderNo: order.orderNo,
-                status: order.orderStatus,
-                biddingStartTime: order.biddingTime.start,
-                biddingEndTime: order.biddingTime.end,
-                biddingRemainingTime: order.biddingTime.end - Date.now(),
-                photo: order.photo,
-                maxBudget: order.maxBudget,
-                lowestbids: Math.min(...order.bids.bidAmount),
-              };
-            }
-          }),
-          onBidOrders: user.orders.map((order, index) => {
-            if (order.orderStatus === "onDelivery") {
-              return {
-                orderNo: order.orderNo,
-                status: order.orderStatus,
-                orderStartTime: order.timeFrame.start,
-                orderEndTime: order.timeFrame.end,
-                expectedRemainingTime: order.timeFrame.end - Date.now(),
-                photo: order.photo,
-                cost: order.bidCost,
-                liveLocation: order.timeLocation.pop(),
-              };
-            }
-          }),
-          postBidOrders: user.orders.map((order, index) => {
-            if (order.orderStatus === "postbid") {
-              return {
-                orderNo: order.orderNo,
-                status: order.orderStatus,
-                photo: order.photo,
-                maxBudget: order.maxBudget,
-                orderStartTime: order.timeFrame.start,
-                orderEndTime: order.timeFrame.end,
-                lowestbids: Math.min(...order.bids.bidAmount),
-              };
-            }
-          }),
+          onDeliveryOrders: user.orders
+            .map((order, index) => {
+              if (order.orderStatus === "onbid") {
+                return {
+                  orderNo: order.orderNo,
+                  status: order.orderStatus,
+                  biddingStartTime: order.biddingTime.start,
+                  biddingEndTime: order.biddingTime.end,
+                  biddingRemainingTime: order.biddingTime.end - Date.now(),
+                  photo: order.shipmentPhoto,
+                  maxBudget: order.maxBudget,
+                  lowestbids: Math.min(...order.bids.bidAmount),
+                  distance: order.distance,
+                  shipments: order.shipments,
+                  shipmentWeight: order.shipmentWeight,
+                };
+              }
+            })
+            .filter((el) => el != null),
+          onBidOrders: user.orders
+            .map((order, index) => {
+              if (order.orderStatus === "onDelivery") {
+                return {
+                  orderNo: order.orderNo,
+                  status: order.orderStatus,
+                  orderStartTime: order.timeFrame.start,
+                  orderEndTime: order.timeFrame.end,
+                  expectedRemainingTime: order.timeFrame.end - Date.now(),
+                  photo: order.shipmentPhoto,
+                  cost: order.bidCost,
+                  liveLocation: order.timeLocation.pop(),
+                  distance: order.distance,
+                  shipments: order.shipments,
+                  shipmentWeight: order.shipmentWeight,
+                };
+              }
+            })
+            .filter((el) => el != null),
+          postBidOrders: user.orders
+            .map((order, index) => {
+              if (order.orderStatus === "postbid") {
+                return {
+                  orderNo: order.orderNo,
+                  status: order.orderStatus,
+                  photo: order.shipmentPhoto,
+                  maxBudget: order.maxBudget,
+                  orderStartTime: order.timeFrame.start,
+                  orderEndTime: order.timeFrame.end,
+                  lowestbids: Math.min(...order.bids.bidAmount),
+                  distance: order.distance,
+                  shipments: order.shipments,
+                  shipmentWeight: order.shipmentWeight,
+                };
+              }
+            })
+            .filter((el) => el != null),
         };
 
         res.send({ message: "Login sucessfull", data });

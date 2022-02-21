@@ -26,7 +26,7 @@ exports.login = async (req, res, next) => {
       .populate({
         path: "biddedOrders",
         select:
-          "orderNo biddingTime photo maxBudget orderStatus bids.bidAmount timeFrame startPoint destination fragile ",
+          "orderNo biddingTime shipmentPhoto maxBudget orderStatus bids.bidAmount timeFrame startPoint destination fragile distance shipments shipmentWeight",
         match: {
           $or: [{ orderStatus: "postbid" }, { orderStatus: "onbid" }],
         },
@@ -34,7 +34,7 @@ exports.login = async (req, res, next) => {
       .populate({
         path: "pickUpOrders",
         select:
-          "orderNo photo orderStatus bidCost timeFrame startPoint destination fragile",
+          "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination fragile distance shipments shipmentWeight",
         match: {
           orderStatus: "finialized",
         },
@@ -44,13 +44,13 @@ exports.login = async (req, res, next) => {
         transporter: user._id,
         orderStatus: "onDelivery",
       },
-      "orderNo photo orderStatus bidCost timeFrame startPoint destination "
+      "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination distance shipments shipmentWeight"
     );
     const availabelOrders = await Order.find(
       {
-        orderStatus: "onbid",
+        orderStatus: "prebid",
       },
-      "orderNo photo orderStatus bidCost timeFrame startPoint destination "
+      "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination fragile distance shipments shipmentWeight"
     );
     // console.log(user);
     if (!user) {

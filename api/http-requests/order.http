@@ -1,13 +1,9 @@
 ///get all orders of different status
-
 ###
-
-GET http://localhost:7000/order/history?userName=pujamatta&orderStatus=prebid
+GET http://localhost:7000/order/history?userName=pujamatta&orderStatus=postbid
 
 //create new order
-
 ###
-
 POST http://localhost:7000/order/
 content-type : application/json
 
@@ -39,10 +35,11 @@ content-type : application/json
 }
 
 //////get any specific order by their orderNo
-
 ###
 GET http://localhost:7000/order?userName=pujamatta&orderNo=1
 
+
+//update order
 ###
 PATCH  http://localhost:7000/order
 content-type : application/json
