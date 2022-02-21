@@ -1,3 +1,4 @@
+import 'package:customer/models/user_data.dart';
 import 'package:customer/utils/mycolor.dart';
 import 'package:customer/pages/home.dart';
 import 'package:customer/widgets/my_navigationbar.dart';
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final userData = ModalRoute.of(context)!.settings.arguments as UserData;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -28,7 +30,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.only(right: 16.0),
             child: Center(
               child: CircleAvatar(
-                backgroundImage: AssetImage("assets/images/login.png"),
+                child: Image.network(userData.photo.toString()),
               ),
             ),
           )
@@ -88,7 +90,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Home(),
           Container(
-            child: Text("Hello Babin"),
+            child: Text("Hello ${userData.userName}"),
           ),
           Container(
             child: Text("Hello"),

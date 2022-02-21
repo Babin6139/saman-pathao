@@ -1,3 +1,5 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:customer/models/user_data.dart';
 import 'package:customer/utils/mycolor.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +8,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userData = ModalRoute.of(context)!.settings.arguments as UserData;
     Size size = MediaQuery.of(context).size;
     return Container(
       color: MyColor.backColor,
@@ -13,19 +16,76 @@ class Home extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            alignment: Alignment.center,
-            width: size.width - 30,
-            height: 100,
-            decoration: BoxDecoration(
-                boxShadow: MyColor.shadow1,
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10)),
-            child: Text(
-              "Welcome to Saman Pathao",
-              style: TextStyle(fontSize: 18, color: MyColor.color1),
-            ),
-          ),
-        )
+              padding: EdgeInsets.all(8.0),
+              clipBehavior: Clip.hardEdge,
+              alignment: Alignment.center,
+              width: size.width - 30,
+              height: 100,
+              decoration: BoxDecoration(
+                  boxShadow: MyColor.shadow1,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 76,
+                    height: 76,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(38),
+                        color: Colors.amber),
+                    child: CircleAvatar(
+                      maxRadius: 38.0,
+                      child: Image.network(
+                        userData.photo.toString(),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              AnimatedTextKit(
+                                  totalRepeatCount: 1,
+                                  animatedTexts: [
+                                    ColorizeAnimatedText(
+                                        userData.userName.toString(),
+                                        textStyle: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                        colors: [Colors.orange, Colors.yellow])
+                                  ]),
+                              Text("Unrated"),
+                              // Expanded(
+                              //   child: ListView.builder(
+                              //       itemCount: userData.rating == -1
+                              //           ? 0
+                              //           : userData.rating,
+                              //       itemBuilder: (context, index) {
+                              //         return Icon(Icons.star);
+                              //       }),
+                              // )
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(userData.email.toString()),
+                              Text("Rs: ${userData.inAppCurrency}")
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+        ),
       ]),
     );
   }
