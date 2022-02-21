@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const Transporter = require("../models/transporter");
+const Order = require("../models/order");
 
 exports.addTransporter = async (req, res, next) => {
   console.log("hello from addtransporter 1");
@@ -20,7 +21,36 @@ exports.login = async (req, res, next) => {
   try {
     const user = await Transporter.findOne({
       $or: [{ userName: req.body.userName }, { email: req.body.email }],
-    });
+    })
+      .populate({
+        path: "biddedOrders",
+        select:
+          "orderNo biddingTime photo maxBudget orderStatus bids.bidAmount timeFrame startPoint destination fragile ",
+        match: {
+          $or: [{ orderStatus: "postbid" }, { orderStatus: "onbid" }],
+        },
+      })
+      .populate({
+        path: "pickUpOrders",
+        select:
+          "orderNo photo orderStatus bidCost timeFrame startPoint destination fragile",
+        match: {
+          orderStatus: "finialized",
+        },
+      });
+    const deliveryOrders = await Order.find(
+      {
+        transporter: user._id,
+        orderStatus: "onDelivery",
+      },
+      "orderNo photo orderStatus bidCost timeFrame startPoint destination "
+    );
+    const availabelOrders = await Order.find(
+      {
+        orderStatus: "onbid",
+      },
+      "orderNo photo orderStatus bidCost timeFrame startPoint destination "
+    );
     // console.log(user);
     if (!user) {
       res.send({ message: "Email not found" });
@@ -29,7 +59,20 @@ exports.login = async (req, res, next) => {
       if (!isMatch) {
         res.send({ message: "Password not match" });
       } else {
-        res.send({ message: "Login sucessfull" });
+        let data = {
+          userName: user.userName,
+          email: user.email,
+          photo: user.photo,
+          inAppCurrency: user.inAppCurrency,
+          rating: user.rating,
+          verified: user.verified,
+          transporterId: user._id,
+          pickUpOrders: user.pickUpOrders,
+          biddedOrders: user.biddedOrders,
+          onBidOrders: availabelOrders,
+          onDeliveryOrders: deliveryOrders,
+        };
+        res.send({ message: "Login sucessfull", data });
       }
     }
   } catch (err) {
