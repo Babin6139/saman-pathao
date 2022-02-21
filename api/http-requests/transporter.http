@@ -2,25 +2,15 @@
 POST http://localhost:7000/users/transporter/signup
 content-Type: application/json
 
-{
-    "firstName": "jankey",
-    "lastName": "Doffy",
-    "middleName": "L.",
-    "email": "pirateking2@gmail.com",
-    "contactNo": [9856213471, 9856523471],
-    "address": "Windmill Village",
-    "password": "user123",
-    "photo": "East Blue",
-    "licenseNo": "ABC123"
-}
+{"firstName":"Junu","lastName":"Himanshu","email":"junushu@gmail.com","password":"IlIoWc","contactNo":"041-66772","address":"Ghorahi","photo":"https://picsum.photos/200/300"}
 
 ###
 POST http://localhost:7000/users/transporter
 content-Type: application/json
 
 {
-   "email":"pirateking2@gmail.com",
-   "password":"user123"
+   "email": "shreali@gmail.com",
+    "password": "uCSUPEVatmkA"
 }
 
 ### 
