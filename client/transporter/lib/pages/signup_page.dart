@@ -7,19 +7,24 @@ import 'package:transporter/utils/mycolors.dart';
 import 'package:transporter/utils/route.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
-
+  final args;
+  SignUp(this.args);
   @override
-  _SignUpState createState() => _SignUpState();
+  _SignUpState createState() => _SignUpState(args);
 }
 
 class _SignUpState extends State<SignUp> {
+  final arguments;
+
+  _SignUpState(this.arguments);
+
   Transporters tranporter = Transporters();
   String tempImage = "";
   bool photo = false;
+  bool passwordVisible = false;
+
   @override
   Widget build(BuildContext context) {
-    final phoneNumber = ModalRoute.of(context)!.settings.arguments as String;
     Future pickImage() async {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
@@ -109,7 +114,7 @@ class _SignUpState extends State<SignUp> {
                       contentPadding: EdgeInsets.zero,
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(40)),
-                      prefixIcon: Icon(Icons.alternate_email),
+                      prefixIcon: Icon(Icons.mail_outline),
                       hintText: "E-mail",
                     ),
                   ),
@@ -120,14 +125,26 @@ class _SignUpState extends State<SignUp> {
                 Container(
                   width: size.width / 2 + 70,
                   child: TextFormField(
+                    obscureText: !passwordVisible,
                     textAlign: TextAlign.left,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.zero,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40)),
-                      prefixIcon: Icon(Icons.lock_outline),
-                      hintText: "Password",
-                    ),
+                        contentPadding: EdgeInsets.zero,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(40)),
+                        prefixIcon: Icon(Icons.lock_outline),
+                        hintText: "Password",
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            passwordVisible
+                                ? (Icons.visibility_off_outlined)
+                                : (Icons.visibility_outlined),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              passwordVisible = !passwordVisible;
+                            });
+                          },
+                        )),
                   ),
                 ),
                 SizedBox(

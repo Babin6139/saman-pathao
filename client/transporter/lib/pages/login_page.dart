@@ -15,6 +15,8 @@ class _LoginPageState extends State<LoginPage> {
   String? email;
   String? password;
 
+  bool passwordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -44,12 +46,13 @@ class _LoginPageState extends State<LoginPage> {
                           contentPadding: EdgeInsets.zero,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(40)),
-                          prefixIcon: Icon(Icons.alternate_email_outlined),
+                          prefixIcon: Icon(Icons.mail_outline),
                           hintText: "E-mail",
                         ),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        obscureText: !passwordVisible,
                         textAlign: TextAlign.left,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.zero,
@@ -57,6 +60,18 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(40)),
                           prefixIcon: Icon(Icons.lock_outline),
                           hintText: "Password",
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              passwordVisible
+                                  ? (Icons.visibility_off_outlined)
+                                  : (Icons.visibility_outlined),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                passwordVisible = !passwordVisible;
+                              });
+                            },
+                          ),
                         ),
                       ),
                     ],
