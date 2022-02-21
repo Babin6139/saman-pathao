@@ -22,7 +22,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? email;
   String? password;
-  UserData userData = UserData();
   final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {

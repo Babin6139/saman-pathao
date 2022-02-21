@@ -1,4 +1,7 @@
 
+///client signup
+
+###
 POST http://localhost:7000/users/client/signup
 content-Type: application/json
 
@@ -7,21 +10,26 @@ content-Type: application/json
     "lastName": "Luffy",
     "middleName": "D.",
     "userName": "pirateking",
+    "password": "user123",
     "email": "pirateking@gmail.com",
     "contactNo": [9856213471, 9856523471],
     "address": "Windmill Village",
-    "password": "user123",
     "photo": "East Blue"
 }
+
+
+///client login
 
 ###
 POST http://localhost:7000/users/client
 content-Type: application/json
 
 {
-   "email":"pirateking@gmail.com",
-   "password":"user123"
+   "email": "pujamatta@gmail.com",
+   "password": "JqhVDruJo6b"
 }
+
+///client update
 
 ### 
 PATCH http://localhost:7000/users/client
@@ -31,6 +39,8 @@ content-Type: application/json
     "email":"pirateking@gmail.com",
     "password":"user123"
 }
+
+///client delete
 
 ###
 DELETE http://localhost:7000/users/client?email=pirateking@gmail.com

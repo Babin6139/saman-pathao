@@ -1,67 +1,56 @@
-GET http://localhost:7000/order/history?userName=pirateking
+///get all orders of different status
+###
+GET http://localhost:7000/order/history?userName=pujamatta&orderStatus=postbid
 
+//create new order
 ###
 POST http://localhost:7000/order/
 content-type : application/json
 
 {
-    "userName": "pirateking",
-    "orderNo":"111337",
+    "userName": "pujamatta",
+    "orderNo":"2",
     "orderStatus":"postbid",
     "timeFrame":{
-        "start":"2020-10-10 10:10",
-        "end":"2020-10-10 10:20"
+        "start":"2022-02-22 10:30",
+        "end":"2022-02-22 11:30"
     },
-    "startPoint":["kathmanud",10,10],
-    "destination":["kathmanud",10,10],
-    "distance":10,
+    "startPoint":["Singha Durbar",27.697877, 85.319283],
+    "destination":["Madyapur Thimi",27.676146, 85.377219],
+    "distance":7.7,
     "biddingTime":{
-        "start":"2020-10-10 09:10",
-        "end":"2020-10-10 09:15"
+        "start":"2022-02-20 09:10",
+        "end":"2020-02-20 10:40"
     },
-    "maxBudget":200,
-    "shipments":["shipments1","shipments2"],
+    "maxBudget":2500,
+    "shipments":["Bed","Sofa"],
     "shipmentWeight":50.5,
     "shipmentDimension":{
-        "length":[10,20],
-        "width":[10,20],
-        "height":[10,20]
+        "length":[1.91,1.75],
+        "width":[1.37,0.75],
+        "height":[0.6,0.6]
     },
     "fragile":false,
     "minRated":3
 }
 
+//////get any specific order by their orderNo
 ###
-GET http://localhost:7000/order?userName=pirateking&&id=620cacbe9ad985d1b9902c93
+GET http://localhost:7000/order?userName=pujamatta&orderNo=1
 
+
+//update order
 ###
 PATCH  http://localhost:7000/order
 content-type : application/json
 
 {
-    "id":"620cacbe9ad985d1b9902c93",
-    "userName": "pirateking",
-    "orderNo":"123456",
-    "orderStatus":"postbid",
-    "timeFrame":{
-        "start":"2020-10-10 10:10",
-        "end":"2020-10-10 10:20"
-    },
-    "startPoint":["Bhaktapur",10,10],
-    "destination":["Bhaktapur",10,10],
-    "distance":10,
+    "userName": "pujamatta",
+    "orderNo":"1",
     "biddingTime":{
-        "start":"2020-10-10 09:10",
-        "end":"2020-10-10 09:15"
+        "start":"2022-02-21 15:10",
+        "end":"2020-02-21 16:40"
     },
-    "maxBudget":200,
-    "shipments":["shipments1","shipments2"],
-    "shipmentWeight":50.5,
-    "shipmentDimension":{
-        "length":[10,20],
-        "width":[10,20],
-        "height":[10,20]
-    },
-    "fragile":false,
-    "minRated":3
+    "maxBudget":3000,
+    "fragile":false
 }

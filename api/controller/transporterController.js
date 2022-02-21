@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+
 const Transporter = require("../models/transporter");
 const Order = require("../models/order");
 
@@ -25,7 +26,7 @@ exports.login = async (req, res, next) => {
       .populate({
         path: "biddedOrders",
         select:
-          "orderNo biddingTime photo maxBudget orderStatus bids.bidAmount timeFrame startPoint destination fragile ",
+          "orderNo biddingTime shipmentPhoto maxBudget orderStatus bids.bidAmount timeFrame startPoint destination fragile distance shipments shipmentWeight",
         match: {
           $or: [{ orderStatus: "postbid" }, { orderStatus: "onbid" }],
         },
@@ -33,7 +34,7 @@ exports.login = async (req, res, next) => {
       .populate({
         path: "pickUpOrders",
         select:
-          "orderNo photo orderStatus bidCost timeFrame startPoint destination fragile",
+          "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination fragile distance shipments shipmentWeight",
         match: {
           orderStatus: "finialized",
         },
@@ -43,13 +44,13 @@ exports.login = async (req, res, next) => {
         transporter: user._id,
         orderStatus: "onDelivery",
       },
-      "orderNo photo orderStatus bidCost timeFrame startPoint destination "
+      "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination distance shipments shipmentWeight"
     );
     const availabelOrders = await Order.find(
       {
-        orderStatus: "onbid",
+        orderStatus: "prebid",
       },
-      "orderNo photo orderStatus bidCost timeFrame startPoint destination "
+      "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination fragile distance shipments shipmentWeight"
     );
     // console.log(user);
     if (!user) {
@@ -83,14 +84,41 @@ exports.login = async (req, res, next) => {
 exports.updateTransporter = async (req, res, next) => {
   var update = req.body;
   try {
-    const user = await Transporter.findOneAndUpdate(
-      { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
-      update
-    );
-    if (!user) {
-      res.send({ message: "Transporter not found" });
+    if (update.newPassword) {
+      const user = await Transporter.findOne(
+        { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
+        "password"
+      );
+      if (!user) {
+        res.send({ message: "User not found" });
+      } else {
+        const isMatch = await bcrypt.compare(
+          req.body.oldPassword,
+          user.password
+        );
+        if (!isMatch) {
+          res.send({ message: "old Password did not match" });
+        } else {
+          update.password = await bcrypt.hash(update.newPassword, 10);
+          await Transporter.findOneAndUpdate(
+            {
+              $or: [{ email: req.body.email }, { userName: req.body.userName }],
+            },
+            update
+          );
+          res.send({ message: "Password updated" });
+        }
+      }
     } else {
-      res.send({ message: "Transporter updated" });
+      const user = await Transporter.findOneAndUpdate(
+        { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
+        update
+      );
+      if (!user) {
+        res.send({ message: "User not found" });
+      } else {
+        res.send({ message: "User updated" });
+      }
     }
   } catch (err) {
     next(err);
