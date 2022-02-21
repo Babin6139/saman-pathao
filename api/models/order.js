@@ -75,6 +75,12 @@ const orderSchema = new mongoose.Schema({
       type: [Number],
     },
   },
+  pickedUpTime: {
+    type: Date,
+  },
+  deliveredTime: {
+    type: Date,
+  },
   bidConfirmed: {
     type: Boolean,
     default: false,

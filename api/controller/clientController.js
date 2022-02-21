@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const res = require("express/lib/response");
+
 const Client = require("../models/client");
 
 exports.addClient = async (req, res, next) => {
@@ -101,18 +101,42 @@ exports.login = async (req, res, next) => {
 
 exports.updateClient = async (req, res, next) => {
   var update = req.body;
-  if (update.password) {
-    update.password = await bcrypt.hash(update.password, 10);
-  }
   try {
-    const user = await Client.findOneAndUpdate(
-      { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
-      update
-    );
-    if (!user) {
-      res.send({ message: "User not found" });
+    if (update.newPassword) {
+      const user = await Client.findOne(
+        { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
+        "password"
+      );
+      if (!user) {
+        res.send({ message: "User not found" });
+      } else {
+        const isMatch = await bcrypt.compare(
+          req.body.oldPassword,
+          user.password
+        );
+        if (!isMatch) {
+          res.send({ message: "old Password did not match" });
+        } else {
+          update.password = await bcrypt.hash(update.newPassword, 10);
+          await Client.findOneAndUpdate(
+            {
+              $or: [{ email: req.body.email }, { userName: req.body.userName }],
+            },
+            update
+          );
+          res.send({ message: "Password updated" });
+        }
+      }
     } else {
-      res.send({ message: "User updated" });
+      const user = await Client.findOneAndUpdate(
+        { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
+        update
+      );
+      if (!user) {
+        res.send({ message: "User not found" });
+      } else {
+        res.send({ message: "User updated" });
+      }
     }
   } catch (err) {
     next(err);
