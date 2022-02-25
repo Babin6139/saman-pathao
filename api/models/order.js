@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema({
   orderNo: {
     type: String,
+    unique: true,
     required: true,
   },
   orderStatus: {

@@ -8,9 +8,9 @@ POST http://localhost:7000/order/
 content-type : application/json
 
 {
-    "userName": "pujamatta",
-    "orderNo":"2",
-    "orderStatus":"postbid",
+    "userName": "missula",
+    "orderNo":"99",
+    "orderStatus":"onbid",
     "timeFrame":{
         "start":"2022-02-22 10:30",
         "end":"2022-02-22 11:30"

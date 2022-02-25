@@ -37,7 +37,7 @@ exports.addBids = async (req, res, next) => {
       );
       await transporter.findOneAndUpdate(
         { email: req.body.email },
-        { $push: { biddedOders: order.orderNo.toString() } }
+        { $push: { biddedOders: order._id.toString() } }
       );
       console.log(order);
       res.send({ message: "bid added sucessfully" });
