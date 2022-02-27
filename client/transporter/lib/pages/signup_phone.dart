@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:transporter/utils/route.dart';
 
-class SignUpPhone extends StatelessWidget {
-  String? phoneNumber;
+class SignUpPhone extends StatefulWidget {
+  @override
+  State<SignUpPhone> createState() => _SignUpPhoneState();
+}
+
+class _SignUpPhoneState extends State<SignUpPhone> {
+  String phoneNumber = "";
+
   final numberController = TextEditingController();
+
   var countryCode;
+
   void setPhoneNumber() {
     phoneNumber = '${countryCode.dialCode}-${numberController.text}';
   }
@@ -60,6 +68,9 @@ class SignUpPhone extends StatelessWidget {
                 Container(
                     width: size.width / 2,
                     child: TextFormField(
+                      onChanged: (value) => setState(() {
+                        phoneNumber = value;
+                      }),
                       decoration:
                           InputDecoration(contentPadding: EdgeInsets.zero),
                       controller: numberController,
@@ -74,10 +85,15 @@ class SignUpPhone extends StatelessWidget {
             Container(
               width: size.width / 2,
               decoration: BoxDecoration(
-                  color: Colors.teal.shade100,
+                  color: phoneNumber.length < 10
+                      ? Colors.grey
+                      : Colors.teal.shade100,
                   borderRadius: BorderRadius.circular(40)),
               child: TextButton(
                 onPressed: () {
+                  if (phoneNumber.length < 10) {
+                    return null;
+                  }
                   setPhoneNumber();
                   Navigator.pushNamed(context, MyRoutes.signup,
                       arguments: phoneNumber);

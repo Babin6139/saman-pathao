@@ -1,34 +1,34 @@
 import 'dart:convert';
 
 class Time {
-  String startTime;
-  String endTime;
+  String start;
+  String end;
   Time({
-    required this.startTime,
-    required this.endTime,
+    required this.start,
+    required this.end,
   });
 
   Time copyWith({
-    String? startTime,
-    String? endTime,
+    String? start,
+    String? end,
   }) {
     return Time(
-      startTime: startTime ?? this.startTime,
-      endTime: endTime ?? this.endTime,
+      start: start ?? this.start,
+      end: end ?? this.end,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'startTime': startTime,
-      'endTime': endTime,
+      'start': start,
+      'end': end,
     };
   }
 
   factory Time.fromMap(Map<String, dynamic> map) {
     return Time(
-      startTime: map['startTime'] ?? '',
-      endTime: map['endTime'] ?? '',
+      start: map['start'] ?? '',
+      end: map['end'] ?? '',
     );
   }
 
@@ -37,17 +37,15 @@ class Time {
   factory Time.fromJson(String source) => Time.fromMap(json.decode(source));
 
   @override
-  String toString() => 'Time(startTime: $startTime, endTime: $endTime)';
+  String toString() => 'Time(start: $start, end: $end)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Time &&
-        other.startTime == startTime &&
-        other.endTime == endTime;
+    return other is Time && other.start == start && other.end == end;
   }
 
   @override
-  int get hashCode => startTime.hashCode ^ endTime.hashCode;
+  int get hashCode => start.hashCode ^ end.hashCode;
 }

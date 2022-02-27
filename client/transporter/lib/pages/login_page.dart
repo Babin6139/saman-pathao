@@ -1,5 +1,10 @@
+import 'dart:convert';
+
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:transporter/utils/mycolors.dart';
 import 'package:transporter/utils/route.dart';
@@ -16,9 +21,40 @@ class _LoginPageState extends State<LoginPage> {
   String? password;
 
   bool passwordVisible = false;
+  final _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    login() async {
+      if (_formkey.currentState!.validate()) {
+        var data = jsonEncode({'email': email, 'password': password});
+        var url = "http://10.0.2.2:7000/users/transporter";
+        var response = await http.post(Uri.parse(url),
+            headers: {'Content-Type': 'application/json'}, body: data);
+        var responseBody = await jsonDecode(response.body);
+        if (responseBody["message"] == "Login sucessfull") {
+          var data = responseBody["data"];
+          Navigator.pushNamed(context, "/homepage", arguments: data);
+        } else {
+          return showDialog<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Login Failed'),
+                  content: Text('E-mail or username not valid'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('OK')),
+                  ],
+                );
+              });
+        }
+      }
+    }
+
     Size size = MediaQuery.of(context).size;
     return Material(
       child: SafeArea(
@@ -27,6 +63,10 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: <Widget>[
               Container(
+                width: 85,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(80),
+                    boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 15)]),
                 child: const Center(
                   child: CircleAvatar(
                     maxRadius: 40,
@@ -38,43 +78,68 @@ class _LoginPageState extends State<LoginPage> {
               Center(
                 child: Container(
                   width: size.width / 2 + 60,
-                  child: Column(
-                    children: <Widget>[
-                      TextFormField(
-                        textAlign: TextAlign.left,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.zero,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40)),
-                          prefixIcon: Icon(Icons.mail_outline),
-                          hintText: "E-mail",
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      TextFormField(
-                        obscureText: !passwordVisible,
-                        textAlign: TextAlign.left,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.zero,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40)),
-                          prefixIcon: Icon(Icons.lock_outline),
-                          hintText: "Password",
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              passwordVisible
-                                  ? (Icons.visibility_off_outlined)
-                                  : (Icons.visibility_outlined),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                passwordVisible = !passwordVisible;
-                              });
-                            },
+                  child: Form(
+                    key: _formkey,
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          validator: ((value) {
+                            if (value == null || value.isEmpty) {
+                              return "* E-mail cannot be empty";
+                            } else if (!EmailValidator.validate(value)) {
+                              return "* Invalid Email";
+                            }
+                            return null;
+                          }),
+                          onChanged: (value) {
+                            setState(() {
+                              email = value;
+                            });
+                          },
+                          textAlign: TextAlign.left,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40)),
+                            prefixIcon: Icon(Icons.mail_outline),
+                            hintText: "E-mail",
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "* Password required";
+                            } else if (value.length < 6) {
+                              return "* Password too short. Must be 6-10 characters";
+                            }
+                            return null;
+                          },
+                          onChanged: ((value) => password = value),
+                          obscureText: !passwordVisible,
+                          textAlign: TextAlign.left,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40)),
+                            prefixIcon: Icon(Icons.lock_outline),
+                            hintText: "Password",
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                passwordVisible
+                                    ? (Icons.visibility_off_outlined)
+                                    : (Icons.visibility_outlined),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  passwordVisible = !passwordVisible;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -82,7 +147,8 @@ class _LoginPageState extends State<LoginPage> {
               Center(
                   child: TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, MyRoutes.homepage);
+                  login();
+                  // Navigator.pushNamed(context, MyRoutes.homepage);
                 },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith(

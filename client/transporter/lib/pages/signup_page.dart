@@ -17,8 +17,6 @@ class _SignUpState extends State<SignUp> {
   final arguments;
 
   _SignUpState(this.arguments);
-
-  Transporters tranporter = Transporters();
   String tempImage = "";
   bool photo = false;
   bool passwordVisible = false;

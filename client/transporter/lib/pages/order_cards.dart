@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
-import 'package:transporter/models/biddedOrders.dart';
+import 'package:transporter/models/bidedOrders.dart';
 
 class OrderedCard extends StatefulWidget {
-  final biddedOrders order_1;
+  final order_1;
   OrderedCard({
     Key? key,
     required this.order_1,
@@ -15,137 +14,134 @@ class OrderedCard extends StatefulWidget {
 }
 
 class _OrderedCardState extends State<OrderedCard> {
-  final biddedOrders order;
+  final BiddedOrders order;
   _OrderedCardState(this.order);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(4),
-      width: 290,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade500,
-            spreadRadius: 1,
-            offset: Offset(-4, -4),
-            blurRadius: 15,
-          )
-        ],
-      ),
-      child: Card(
-        child: Padding(
-          padding: EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    decoration: BoxDecoration(
-                        color: Color(0xFFC8E0EA),
-                        borderRadius: BorderRadius.circular(40)),
-                    child: Padding(
-                      padding: EdgeInsets.all(6),
-                      child: Text("Order No: ${order.orderNo}"),
-                    ),
-                  ),
-                  Text(
-                    'Posted at: ${order.biddingTime.startTime}',
-                    style: TextStyle(color: Colors.grey.shade700, fontSize: 10),
-                  )
-                ],
+    final DateTime postedTime =
+        DateTime.parse(order.biddingTime.start).toLocal();
+    Size size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/order?orderId=${order.orderNo}',
+            arguments: order);
+      },
+      child: Container(
+        width: 230,
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20))),
+        child: Card(
+          elevation: 0,
+          child: ListTile(
+            title: Column(mainAxisSize: MainAxisSize.min, children: [
+              Text(
+                "Order: ${order.orderNo}",
+              ),
+              Text(
+                'Posted at: ${postedTime.hour}:${postedTime.minute}',
+                style: TextStyle(color: Colors.grey.shade700, fontSize: 10),
               ),
               SizedBox(
                 height: 5,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(80),
-                        border: Border.all(color: Colors.grey)),
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(order.photo),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(color: Color(0xFFDBE4FF)),
-                    padding: EdgeInsets.all(8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 20,
-                              child: Icon(Icons.card_travel),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text("Materials"),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 20,
-                              child: Icon(Icons.emoji_transportation),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text("Weight: ${order.weight}"),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 20,
-                              child: Icon(
-                                Icons.attach_money_outlined,
-                                color: Colors.green,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text("Budget: ${order.maxBudget}"),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 20,
-                              child: Icon(Icons.location_on_outlined),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text("Distance: ${order.maxBudget}"),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                      "Lowest Bid: ${order.bids.reduce((curr, next) => curr > next ? next : curr)}")
-                ],
               )
-            ],
+            ]),
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(order.shipmentPhoto.toString()),
+            ),
+            subtitle: ListView(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(8),
+                  height: size.height / 6,
+                  decoration: BoxDecoration(
+                      color: Color(0xFFDBE4FF),
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: ListView(
+                    children: [
+                      Row(children: [
+                        Container(
+                          width: 20,
+                          child: Icon(
+                            Icons.shopping_bag_outlined,
+                            size: 15,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Materials: ${order.shipments[0]}...",
+                          style: TextStyle(
+                              fontSize: 10, color: Colors.grey.shade700),
+                        ),
+                      ]),
+                      Row(
+                        children: [
+                          Container(
+                            width: 20,
+                            child: Icon(Icons.emoji_transportation, size: 15),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text("Weight: ${order.shipmentWeight}",
+                              style: TextStyle(
+                                  color: Colors.grey.shade700, fontSize: 10)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 20,
+                            child: Icon(Icons.attach_money_outlined,
+                                color: Colors.green, size: 15),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text("Budget: ${order.maxBudget}",
+                              style: TextStyle(
+                                  color: Colors.grey.shade700, fontSize: 10)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 20,
+                            child: Icon(Icons.location_on_outlined, size: 15),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text("Distance: ${order.maxBudget}",
+                              style: TextStyle(
+                                  color: Colors.grey.shade700, fontSize: 10)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 20,
+                            child: Icon(Icons.low_priority_rounded, size: 15),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Lowest Bid:${order.bids.bidAmount.reduce((curr, next) => curr < next ? curr : next)}",
+                            style: TextStyle(fontSize: 10),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

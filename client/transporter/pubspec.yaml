@@ -29,9 +29,11 @@ environment:
 dependencies:
     country_code_picker: ^2.0.2
     cupertino_icons: ^1.0.2
+    email_validator: ^2.0.1
     flutter:
         sdk: flutter
     flutter_signin_button: ^2.0.0
+    http: ^0.13.4
     image_picker: ^0.8.4+9
 
 dev_dependencies:

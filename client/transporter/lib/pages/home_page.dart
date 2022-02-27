@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:transporter/models/biddedOrders.dart';
+import 'package:transporter/models/bidedOrders.dart';
+import 'package:transporter/models/transporters.dart';
 import 'package:transporter/pages/order_cards.dart';
 import 'package:transporter/widgets/colored_tab_bar.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({Key? key}) : super(key: key);
+  final args;
+  const Homepage({
+    Key? key,
+    required this.args,
+  }) : super(key: key);
 
   @override
-  _HomepageState createState() => _HomepageState();
+  _HomepageState createState() => _HomepageState(args);
 }
 
 class _HomepageState extends State<Homepage> {
+  final transporter;
+  _HomepageState(this.transporter);
   final imageUrl =
       'https://images.unsplash.com/photo-1566275529824-cca6d008f3da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8cGhvdG98ZW58MHx8MHx8&w=1000&q=80';
   final orders = [
@@ -92,6 +99,7 @@ class _HomepageState extends State<Homepage> {
   ];
   @override
   Widget build(BuildContext context) {
+    final Transporters transporterData = Transporters.fromMap(transporter);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xFFDBE4FF),
@@ -142,16 +150,34 @@ class _HomepageState extends State<Homepage> {
               ),
               SizedBox(height: 10),
               Container(
-                padding: EdgeInsets.all(8),
-                height: 220,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: orders.length,
-                  itemBuilder: (context, index) {
-                    return OrderedCard(
-                        order_1: biddedOrders.fromMap(orders[index]));
-                  },
-                ),
+                margin: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.all(Radius.circular(18))),
+                padding: EdgeInsets.all(10),
+                height: 170,
+                child: !transporterData.biddedOrders.isEmpty
+                    ? ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: transporterData.biddedOrders.length,
+                        itemBuilder: (context, index) {
+                          return OrderedCard(
+                              order_1: transporterData.biddedOrders[index]);
+                        },
+                      )
+                    : Center(
+                        child: Text("There are no orders"),
+                      ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                height: 100,
+                decoration: BoxDecoration(color: Colors.white),
+                child: Column(children: [Text("Delivery Orders")]),
               )
             ],
           ),
