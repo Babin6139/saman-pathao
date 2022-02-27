@@ -64,6 +64,7 @@ const transporterSchema = new mongoose.Schema({
   },
   securityDeposit: {
     type: Number,
+    default: 0,
   },
   vechileDimesion: {
     type: Array,

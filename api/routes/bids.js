@@ -12,5 +12,7 @@ router
 
 router.route("/history").get(bidController.getBidHistory);
 
-router.route("/specific").get(bidController.getBid);
+router.route("/suitablebids").get(bidController.getSuitableBids);
+
+router.route("/specific").get(bidController.getBidDetails);
 module.exports = router;

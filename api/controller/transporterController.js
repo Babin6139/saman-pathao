@@ -49,6 +49,7 @@ exports.login = async (req, res, next) => {
     const availabelOrders = await Order.find(
       {
         orderStatus: "onbid",
+        rating: { $lte: user.rating },
       },
       "orderNo shipmentPhoto orderStatus bids.bidAmount timeFrame startPoint destination fragile distance shipments shipmentWeight biddingTime"
     );

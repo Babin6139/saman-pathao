@@ -36,7 +36,7 @@ content-type : application/json
 
 //////get any specific order by their orderNo
 ###
-GET http://localhost:7000/order?userName=pujamatta&orderNo=1
+GET http://localhost:7000/order?userName=pujamatta&orderNo=7
 
 
 //update order
