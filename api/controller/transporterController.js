@@ -44,13 +44,14 @@ exports.login = async (req, res, next) => {
         transporter: user._id,
         orderStatus: "onDelivery",
       },
-      "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination distance shipments shipmentWeight"
+      "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination distance shipments shipmentWeight pickedUpTime"
     );
     const availabelOrders = await Order.find(
       {
-        orderStatus: "prebid",
+        orderStatus: "onbid",
+        rating: { $lte: user.rating },
       },
-      "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination fragile distance shipments shipmentWeight"
+      "orderNo shipmentPhoto orderStatus bids.bidAmount timeFrame startPoint destination fragile distance shipments shipmentWeight biddingTime"
     );
     // console.log(user);
     if (!user) {
@@ -70,7 +71,10 @@ exports.login = async (req, res, next) => {
           transporterId: user._id,
           pickUpOrders: user.pickUpOrders,
           biddedOrders: user.biddedOrders,
-          onBidOrders: availabelOrders,
+          onBidOrders: availabelOrders.filter(
+            ({ orderNo: val1 }) =>
+              !user.biddedOrders.some(({ orderNo: val2 }) => val1 === val2)
+          ),
           onDeliveryOrders: deliveryOrders,
         };
         res.send({ message: "Login sucessfull", data });
