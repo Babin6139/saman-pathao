@@ -212,6 +212,7 @@ exports.getSuitableBids = async (req, res, next) => {
         $ne: transporter._id,
       },
       rating: { $lte: transporter.rating },
+      shipmentWeight: { $lte: transporter.vechileCapacity },
     });
     res.send(order);
   } catch (err) {

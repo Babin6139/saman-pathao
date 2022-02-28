@@ -66,7 +66,7 @@ const transporterSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  vechileDimesion: {
+  vechileDimension: {
     type: Array,
   },
   vechileCapacity: {
@@ -74,9 +74,11 @@ const transporterSchema = new mongoose.Schema({
   },
   availableSpace: {
     type: Array,
+    // default: vechileDimension,
   },
   availableWeight: {
     type: Number,
+    // default: vechileCapacity,
   },
   dateCreated: {
     type: String,
