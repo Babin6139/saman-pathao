@@ -4,13 +4,20 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 class MapDetail extends StatelessWidget {
-  const MapDetail({Key? key}) : super(key: key);
+  final List<String> startPoint;
+  final List<String> endPoint;
+  const MapDetail({
+    Key? key,
+    required this.startPoint,
+    required this.endPoint,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print(LatLng(double.parse(startPoint[1]), double.parse(startPoint[2])));
     return Container(
-      margin: EdgeInsets.all(15),
+      margin: EdgeInsets.symmetric(horizontal: 15),
       decoration: MyDecoration.cardDecoration,
       height: 120,
       child: Column(
@@ -19,12 +26,32 @@ class MapDetail extends StatelessWidget {
           Container(
             height: 100,
             child: FlutterMap(
-              options: MapOptions(minZoom: 10.0),
+              options: MapOptions(
+                  zoom: 10,
+                  minZoom: 10.0,
+                  center: LatLng(double.parse(startPoint[1]),
+                      double.parse(startPoint[2]))),
               layers: [
                 TileLayerOptions(
                     urlTemplate:
                         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    subdomains: ['a', 'b', 'c'])
+                    subdomains: ['a', 'b', 'c']),
+                MarkerLayerOptions(markers: [
+                  Marker(
+                      point: LatLng(double.parse(startPoint[1]),
+                          double.parse(startPoint[2])),
+                      builder: (context) => new Container(
+                            child: Icon(
+                              Icons.location_on,
+                            ),
+                          )),
+                  Marker(
+                      point: LatLng(
+                          double.parse(endPoint[1]), double.parse(endPoint[2])),
+                      builder: (context) => new Container(
+                            child: Icon(Icons.location_on, color: Colors.green),
+                          ))
+                ])
               ],
             ),
           ),

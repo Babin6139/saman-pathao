@@ -1,3 +1,4 @@
+import 'package:customer/models/display_order.dart';
 import 'package:customer/models/user_data.dart';
 import 'package:customer/models/user_orders.dart';
 import 'package:customer/providers/userData.dart';
@@ -18,6 +19,10 @@ class Orders extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final userData = context.watch<UserDataProvide>().userData;
+    List<UserOrders> orders = [
+      ...userData.postBidOrders,
+      ...userData.onBidOrders
+    ];
     return Container(
       alignment: Alignment.centerLeft,
       width: size.width - 30,
@@ -33,14 +38,13 @@ class Orders extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Expanded(
-              child: userData.postBidOrders.length < 1
+              child: orders.length < 1
                   ? Center(child: Text("Currently there is no order"))
                   : ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: userData.postBidOrders.length,
+                      itemCount: orders.length,
                       itemBuilder: (context, index) {
-                        return OrderCard(
-                            userOrder: userData.postBidOrders[index]);
+                        return OrderCard(userOrder: orders[index]);
                       }),
             )
           ],
