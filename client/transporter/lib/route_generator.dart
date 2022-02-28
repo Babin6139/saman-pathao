@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:transporter/pages/home_page.dart';
+import 'package:transporter/pages/Trial.dart';
 
+import 'package:transporter/pages/home_page.dart';
 import 'package:transporter/pages/login_page.dart';
+import 'package:transporter/pages/order_page.dart';
 import 'package:transporter/pages/signup_page.dart';
 import 'package:transporter/pages/signup_phone.dart';
 
@@ -18,6 +20,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SignUp(args));
       case '/homepage':
         return MaterialPageRoute(builder: (_) => Homepage(args: args));
+      case '/biddedOrder':
+        return MaterialPageRoute(builder: (_) => OrderPage(args: args));
+      case '/trial':
+        return MaterialPageRoute(builder: (_) => Trial(args: args));
+
       default:
         return _errorRoute();
     }

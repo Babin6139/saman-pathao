@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:transporter/models/bidedOrders.dart';
 import 'package:transporter/models/transporters.dart';
-import 'package:transporter/pages/order_cards.dart';
-import 'package:transporter/widgets/colored_tab_bar.dart';
+import 'package:transporter/widgets/order_cards.dart';
 
 class Homepage extends StatefulWidget {
   final args;
@@ -18,88 +16,10 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   final transporter;
   _HomepageState(this.transporter);
-  final imageUrl =
-      'https://images.unsplash.com/photo-1566275529824-cca6d008f3da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8cGhvdG98ZW58MHx8MHx8&w=1000&q=80';
-  final orders = [
-    {
-      'orderNo': '1',
-      'photo':
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfpEK6RTTafNTsDEuwIXw-gDI3YbswWfgndcHfbkVTkP8_rzJxsoUBd7FNFjQGhPAKJdo&usqp=CAU',
-      'bids': [10, 20, 2000, 300],
-      'biddingTime': {'startTime': '12:30', 'endTime': '1:30'},
-      'maxBudget': '5000',
-      'orderStatus': 'onbid',
-      'timeFrame': {'startTime': '9:00', 'endTime': '4:30'},
-      'startPoint': 'Gatthaghar',
-      'destination': 'Gokarna',
-      'weight': '',
-      'distance': '20',
-      'fragile': 'true',
-    },
-    {
-      'orderNo': '12',
-      'photo':
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfpEK6RTTafNTsDEuwIXw-gDI3YbswWfgndcHfbkVTkP8_rzJxsoUBd7FNFjQGhPAKJdo&usqp=CAU',
-      'bids': [10, 20, 2000, 300],
-      'biddingTime': {'startTime': '12:30', 'endTime': '1:30'},
-      'maxBudget': '5000',
-      'orderStatus': 'onbid',
-      'timeFrame': {'startTime': '9:00', 'endTime': '4:30'},
-      'startPoint': 'Gatthaghar',
-      'destination': 'Gokarna',
-      'weight': '',
-      'distance': '20',
-      'fragile': 'true',
-    },
-    {
-      'orderNo': '123',
-      'photo':
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfpEK6RTTafNTsDEuwIXw-gDI3YbswWfgndcHfbkVTkP8_rzJxsoUBd7FNFjQGhPAKJdo&usqp=CAU',
-      'bids': [10, 20, 2000, 300],
-      'biddingTime': {'startTime': '12:30', 'endTime': '1:30'},
-      'maxBudget': '5000',
-      'orderStatus': 'onbid',
-      'timeFrame': {'startTime': '9:00', 'endTime': '4:30'},
-      'startPoint': 'Gatthaghar',
-      'destination': 'Gokarna',
-      'weight': '',
-      'distance': '20',
-      'fragile': 'true',
-    },
-    {
-      'orderNo': '1234',
-      'photo':
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfpEK6RTTafNTsDEuwIXw-gDI3YbswWfgndcHfbkVTkP8_rzJxsoUBd7FNFjQGhPAKJdo&usqp=CAU',
-      'bids': [10, 20, 2000, 300],
-      'biddingTime': {'startTime': '12:30', 'endTime': '1:30'},
-      'maxBudget': '5000',
-      'orderStatus': 'onbid',
-      'timeFrame': {'startTime': '9:00', 'endTime': '4:30'},
-      'startPoint': 'Gatthaghar',
-      'destination': 'Gokarna',
-      'weight': '',
-      'distance': '20',
-      'fragile': 'true',
-    },
-    {
-      'orderNo': '12345',
-      'photo':
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfpEK6RTTafNTsDEuwIXw-gDI3YbswWfgndcHfbkVTkP8_rzJxsoUBd7FNFjQGhPAKJdo&usqp=CAU',
-      'bids': [10, 20, 2000, 300],
-      'biddingTime': {'startTime': '12:30', 'endTime': '1:30'},
-      'maxBudget': '5000',
-      'orderStatus': 'onbid',
-      'timeFrame': {'startTime': '9:00', 'endTime': '4:30'},
-      'startPoint': 'Gatthaghar',
-      'destination': 'Gokarna',
-      'weight': '',
-      'distance': '20',
-      'fragile': 'true',
-    },
-  ];
   @override
   Widget build(BuildContext context) {
     final Transporters transporterData = Transporters.fromMap(transporter);
+    final imageUrl = transporterData.photo;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xFFDBE4FF),

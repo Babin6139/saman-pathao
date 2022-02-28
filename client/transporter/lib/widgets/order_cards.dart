@@ -23,8 +23,7 @@ class _OrderedCardState extends State<OrderedCard> {
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/order?orderId=${order.orderNo}',
-            arguments: order);
+        Navigator.pushNamed(context, '/biddedOrder', arguments: order);
       },
       child: Container(
         width: 230,
