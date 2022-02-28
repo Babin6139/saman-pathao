@@ -1,9 +1,11 @@
 import 'package:customer/models/user_data.dart';
+import 'package:customer/providers/userData.dart';
 import 'package:customer/utils/mycolor.dart';
 import 'package:customer/pages/home.dart';
 import 'package:customer/widgets/my_navigationbar.dart';
 import "package:flutter/material.dart";
 import "package:curved_navigation_bar/curved_navigation_bar.dart";
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -22,7 +24,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final userData = ModalRoute.of(context)!.settings.arguments as UserData;
+    final userData = context.watch<UserDataProvide>().userData;
     return Scaffold(
       appBar: AppBar(
         actions: [

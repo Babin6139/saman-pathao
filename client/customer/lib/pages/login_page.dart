@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:customer/models/user_data.dart';
 import 'package:customer/models/users.dart';
+import 'package:customer/providers/userData.dart';
 import 'package:customer/utils/mycolor.dart';
 import 'package:customer/utils/mydecoration.dart';
 import 'package:customer/utils/routes.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -34,8 +36,8 @@ class _LoginPageState extends State<LoginPage> {
         var responseBody = await jsonDecode(response.body);
         if (responseBody["message"] == "Login sucessfull") {
           var data = responseBody["data"];
-          Navigator.pushReplacementNamed(context, MyRoutes.homepage,
-              arguments: UserData.fromMap(data));
+          context.read<UserDataProvide>().changeData(UserData.fromMap(data));
+          Navigator.pushReplacementNamed(context, MyRoutes.homepage);
         } else {}
       }
     }

@@ -55,7 +55,7 @@ class _OrderedCardState extends State<OrderedCard> {
               children: [
                 Container(
                   padding: EdgeInsets.all(8),
-                  height: size.height / 6,
+                  height: 90,
                   decoration: BoxDecoration(
                       color: Color(0xFFDBE4FF),
                       border: Border.all(color: Colors.grey),

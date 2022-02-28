@@ -1,6 +1,9 @@
 import 'package:customer/models/user_data.dart';
+import 'package:customer/providers/userData.dart';
+import 'package:customer/utils/mydecoration.dart';
 import 'package:customer/widgets/order_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
 import '../utils/mycolor.dart';
 
@@ -14,17 +17,14 @@ class Delivery extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    UserData userData = ModalRoute.of(context)!.settings.arguments as UserData;
+    final userData = context.watch<UserDataProvide>().userData;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
         alignment: Alignment.centerLeft,
         width: size.width - 30,
         height: size.height / 5,
-        decoration: BoxDecoration(
-            boxShadow: MyColor.shadow1,
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10)),
+        decoration: MyDecoration.cardDecoration,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

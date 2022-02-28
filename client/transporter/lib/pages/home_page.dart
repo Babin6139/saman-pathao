@@ -174,10 +174,29 @@ class _HomepageState extends State<Homepage> {
                 height: 10,
               ),
               Container(
+                padding: EdgeInsets.all(8),
                 margin: EdgeInsets.symmetric(horizontal: 10),
-                height: 100,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Column(children: [Text("Delivery Orders")]),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Column(children: [
+                  Text(
+                    "Delivery Orders",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    child: Text(
+                      "Currently No Delivery Orders",
+                      style:
+                          TextStyle(color: Colors.grey.shade700, fontSize: 12),
+                    ),
+                  )
+                ]),
               )
             ],
           ),
