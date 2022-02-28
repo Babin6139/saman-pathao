@@ -2,8 +2,8 @@ POST http://localhost:7000/bid
 content-type:application/json
 
 {
-    "orderNo":"123456",
-    "transporterId": "620a435e9961e847c6ee96c9",
+    "orderNo":"10",
+    "transporterId": "62124ade813cdc6a178236ac",
     "bidAmount": 700
 }
 

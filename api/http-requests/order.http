@@ -9,8 +9,8 @@ content-type : application/json
 
 {
     "userName": "pujamatta",
-    "orderNo":"2",
-    "orderStatus":"postbid",
+    "orderNo":"10",
+    "orderStatus":"onbid",
     "timeFrame":{
         "start":"2022-02-22 10:30",
         "end":"2022-02-22 11:30"
@@ -36,7 +36,7 @@ content-type : application/json
 
 //////get any specific order by their orderNo
 ###
-GET http://localhost:7000/order?userName=pujamatta&orderNo=1
+GET http://localhost:7000/order?userName=pujamatta&orderNo=10
 
 
 //update order
