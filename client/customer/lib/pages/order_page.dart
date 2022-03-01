@@ -7,10 +7,12 @@ import 'package:customer/models/user_orders.dart';
 import 'package:customer/providers/orderDataProvide.dart';
 import 'package:customer/providers/userData.dart';
 import 'package:customer/utils/mycolor.dart';
+import 'package:customer/utils/mydecoration.dart';
 import 'package:customer/utils/routes.dart';
 import 'package:customer/widgets/bid_details.dart';
 import 'package:customer/widgets/map_detail.dart';
 import 'package:customer/widgets/order_detail.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -89,15 +91,39 @@ class _DisplayOrderState extends State<DisplayOrder> {
                       ),
                       SliverList(
                           delegate: SliverChildListDelegate([
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 15.0, left: 15, right: 15),
+                          child: Container(
+                            decoration: MyDecoration.cardDecoration,
+                            height: 25,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Icon(
+                                  CupertinoIcons.arrow_2_circlepath_circle,
+                                  color: Colors.orange,
+                                ),
+                                Icon(
+                                  CupertinoIcons.xmark_circle,
+                                  color: Colors.red,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                         OrderDetail(
                           data: data!,
                         ),
                         MapDetail(
-                            startPoint: data!.startPoint,
-                            endPoint: data!.destination),
+                          startPoint: data!.startPoint,
+                          endPoint: data!.destination,
+                          deliveryTime: data!.timeFrame,
+                        ),
                         BidDetails(
                           bidDetail: data!.bids,
                           orderStatus: data!.orderStatus,
+                          biddingTime: data!.biddingTime,
                         ),
                       ]))
                     ])),
