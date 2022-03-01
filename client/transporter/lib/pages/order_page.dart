@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:transporter/models/bidedOrders.dart';
 import 'package:transporter/widgets/map_details.dart';
 import 'package:transporter/widgets/order_details.dart';
+import 'package:transporter/widgets/personal_details.dart';
 
 class OrderPage extends StatefulWidget {
   final args;
@@ -30,9 +31,11 @@ class _OrderPageState extends State<OrderPage> {
                   slivers: [
                     SliverAppBar(
                       leadingWidth: 0,
+                      backgroundColor: Color(0xFF399DBC).withOpacity(0.65),
                       pinned: true,
                       collapsedHeight: 60,
                       expandedHeight: 200,
+                      automaticallyImplyLeading: true,
                       flexibleSpace: FlexibleSpaceBar(
                         centerTitle: true,
                         collapseMode: CollapseMode.parallax,
@@ -65,14 +68,18 @@ class _OrderPageState extends State<OrderPage> {
                       ),
                     ),
                     SliverList(
-                        delegate: SliverChildListDelegate([
-                      OrderDetail(
-                        args: orderData,
+                      delegate: SliverChildListDelegate(
+                        [
+                          OrderDetail(
+                            args: orderData,
+                          ),
+                          MapDetail(
+                              startPoint: orderData.startPoint,
+                              endPoint: orderData.destination),
+                          PersonalDetail(),
+                        ],
                       ),
-                      MapDetail(
-                          startPoint: orderData.startPoint,
-                          endPoint: orderData.destination)
-                    ]))
+                    )
                   ],
                 ),
         ),

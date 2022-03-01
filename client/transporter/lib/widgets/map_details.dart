@@ -16,13 +16,73 @@ class MapDetail extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     print(LatLng(double.parse(startPoint[1]), double.parse(startPoint[2])));
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15),
-      height: 120,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.grey),
+      ),
+      height: 250,
       child: Column(
         children: [
-          Text("Deliver"),
+          Text(
+            "Deliver",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Container(
+                child: Icon(
+                  Icons.directions_car,
+                  size: 12,
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              FittedBox(
+                child: Text(
+                  "${startPoint[0]}",
+                  style: TextStyle(fontSize: 12),
+                ),
+              ),
+              SizedBox(
+                width: 24,
+              ),
+              Icon(
+                Icons.arrow_forward_outlined,
+                size: 15,
+              ),
+              SizedBox(
+                width: 24,
+              ),
+              Container(
+                child: Icon(
+                  Icons.directions_car,
+                  size: 12,
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Container(
+                  width: 90,
+                  child: FittedBox(
+                      child: Text(
+                    "${endPoint[0]}",
+                    style: TextStyle(fontSize: 12),
+                  ))),
+            ],
+          ),
+          SizedBox(
+            height: 15,
+          ),
           Container(
-            height: 100,
+            height: 150,
             child: FlutterMap(
               options: MapOptions(
                   zoom: 10,

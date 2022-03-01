@@ -15,6 +15,7 @@ class PickUpOrders {
   double distance;
   List<String> shipments;
   double shipmentWeight;
+  String userName;
   PickUpOrders({
     required this.orderNo,
     required this.shipmentPhoto,
@@ -27,6 +28,7 @@ class PickUpOrders {
     required this.distance,
     required this.shipments,
     required this.shipmentWeight,
+    required this.userName,
   });
 
   PickUpOrders copyWith({
@@ -41,6 +43,7 @@ class PickUpOrders {
     double? distance,
     List<String>? shipments,
     double? shipmentWeight,
+    String? userName,
   }) {
     return PickUpOrders(
       orderNo: orderNo ?? this.orderNo,
@@ -54,6 +57,7 @@ class PickUpOrders {
       distance: distance ?? this.distance,
       shipments: shipments ?? this.shipments,
       shipmentWeight: shipmentWeight ?? this.shipmentWeight,
+      userName: userName ?? this.userName,
     );
   }
 
@@ -70,6 +74,7 @@ class PickUpOrders {
       'distance': distance,
       'shipments': shipments,
       'shipmentWeight': shipmentWeight,
+      'userName': userName,
     };
   }
 
@@ -86,6 +91,7 @@ class PickUpOrders {
       distance: map['distance']?.toDouble() ?? 0.0,
       shipments: List<String>.from(map['shipments']),
       shipmentWeight: map['shipmentWeight']?.toDouble() ?? 0.0,
+      userName: map['userName'] ?? '',
     );
   }
 
@@ -96,7 +102,7 @@ class PickUpOrders {
 
   @override
   String toString() {
-    return 'PickUpOrders(orderNo: $orderNo, shipmentPhoto: $shipmentPhoto, orderStatus: $orderStatus, bidCost: $bidCost, timeFrame: $timeFrame, startPoint: $startPoint, destination: $destination, fragile: $fragile, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight)';
+    return 'PickUpOrders(orderNo: $orderNo, shipmentPhoto: $shipmentPhoto, orderStatus: $orderStatus, bidCost: $bidCost, timeFrame: $timeFrame, startPoint: $startPoint, destination: $destination, fragile: $fragile, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, userName: $userName)';
   }
 
   @override
@@ -115,7 +121,8 @@ class PickUpOrders {
         other.fragile == fragile &&
         other.distance == distance &&
         listEquals(other.shipments, shipments) &&
-        other.shipmentWeight == shipmentWeight;
+        other.shipmentWeight == shipmentWeight &&
+        other.userName == userName;
   }
 
   @override
@@ -130,6 +137,7 @@ class PickUpOrders {
         fragile.hashCode ^
         distance.hashCode ^
         shipments.hashCode ^
-        shipmentWeight.hashCode;
+        shipmentWeight.hashCode ^
+        userName.hashCode;
   }
 }

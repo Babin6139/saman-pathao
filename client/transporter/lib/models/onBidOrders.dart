@@ -17,6 +17,7 @@ class OnBidOrders {
   List<String> shipments;
   double shipmentWeight;
   Time biddingTime;
+  String userName;
   OnBidOrders({
     required this.orderNo,
     required this.shipmentPhoto,
@@ -30,6 +31,7 @@ class OnBidOrders {
     required this.shipments,
     required this.shipmentWeight,
     required this.biddingTime,
+    required this.userName,
   });
 
   OnBidOrders copyWith({
@@ -45,6 +47,7 @@ class OnBidOrders {
     List<String>? shipments,
     double? shipmentWeight,
     Time? biddingTime,
+    String? userName,
   }) {
     return OnBidOrders(
       orderNo: orderNo ?? this.orderNo,
@@ -59,6 +62,7 @@ class OnBidOrders {
       shipments: shipments ?? this.shipments,
       shipmentWeight: shipmentWeight ?? this.shipmentWeight,
       biddingTime: biddingTime ?? this.biddingTime,
+      userName: userName ?? this.userName,
     );
   }
 
@@ -76,6 +80,7 @@ class OnBidOrders {
       'shipments': shipments,
       'shipmentWeight': shipmentWeight,
       'biddingTime': biddingTime.toMap(),
+      'userName': userName,
     };
   }
 
@@ -93,6 +98,7 @@ class OnBidOrders {
       shipments: List<String>.from(map['shipments']),
       shipmentWeight: map['shipmentWeight']?.toDouble() ?? 0.0,
       biddingTime: Time.fromMap(map['biddingTime']),
+      userName: map['userName'] ?? '',
     );
   }
 
@@ -103,7 +109,7 @@ class OnBidOrders {
 
   @override
   String toString() {
-    return 'OnBidOrders(orderNo: $orderNo, shipmentPhoto: $shipmentPhoto, orderStatus: $orderStatus, bids: $bids, timeFrame: $timeFrame, startPoint: $startPoint, destination: $destination, fragile: $fragile, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, biddingTime: $biddingTime)';
+    return 'OnBidOrders(orderNo: $orderNo, shipmentPhoto: $shipmentPhoto, orderStatus: $orderStatus, bids: $bids, timeFrame: $timeFrame, startPoint: $startPoint, destination: $destination, fragile: $fragile, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, biddingTime: $biddingTime, userName: $userName)';
   }
 
   @override
@@ -123,7 +129,8 @@ class OnBidOrders {
         other.distance == distance &&
         listEquals(other.shipments, shipments) &&
         other.shipmentWeight == shipmentWeight &&
-        other.biddingTime == biddingTime;
+        other.biddingTime == biddingTime &&
+        other.userName == userName;
   }
 
   @override
@@ -139,6 +146,7 @@ class OnBidOrders {
         distance.hashCode ^
         shipments.hashCode ^
         shipmentWeight.hashCode ^
-        biddingTime.hashCode;
+        biddingTime.hashCode ^
+        userName.hashCode;
   }
 }

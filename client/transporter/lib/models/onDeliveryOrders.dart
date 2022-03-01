@@ -15,6 +15,7 @@ class OnDeliveryOrders {
   List<String> shipments;
   double shipmentWeight;
   String pickedUpTime;
+  String userName;
   OnDeliveryOrders({
     required this.orderNo,
     required this.shipmentPhoto,
@@ -27,6 +28,7 @@ class OnDeliveryOrders {
     required this.shipments,
     required this.shipmentWeight,
     required this.pickedUpTime,
+    required this.userName,
   });
 
   OnDeliveryOrders copyWith({
@@ -41,6 +43,7 @@ class OnDeliveryOrders {
     List<String>? shipments,
     double? shipmentWeight,
     String? pickedUpTime,
+    String? userName,
   }) {
     return OnDeliveryOrders(
       orderNo: orderNo ?? this.orderNo,
@@ -54,6 +57,7 @@ class OnDeliveryOrders {
       shipments: shipments ?? this.shipments,
       shipmentWeight: shipmentWeight ?? this.shipmentWeight,
       pickedUpTime: pickedUpTime ?? this.pickedUpTime,
+      userName: userName ?? this.userName,
     );
   }
 
@@ -70,6 +74,7 @@ class OnDeliveryOrders {
       'shipments': shipments,
       'shipmentWeight': shipmentWeight,
       'pickedUpTime': pickedUpTime,
+      'userName': userName,
     };
   }
 
@@ -86,6 +91,7 @@ class OnDeliveryOrders {
       shipments: List<String>.from(map['shipments']),
       shipmentWeight: map['shipmentWeight']?.toDouble() ?? 0.0,
       pickedUpTime: map['pickedUpTime'] ?? '',
+      userName: map['userName'] ?? '',
     );
   }
 
@@ -96,7 +102,7 @@ class OnDeliveryOrders {
 
   @override
   String toString() {
-    return 'OnDeliveryOrders(orderNo: $orderNo, shipmentPhoto: $shipmentPhoto, orderStatus: $orderStatus, bidCost: $bidCost, timeFrame: $timeFrame, startPoint: $startPoint, destination: $destination, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, pickedUpTime: $pickedUpTime)';
+    return 'OnDeliveryOrders(orderNo: $orderNo, shipmentPhoto: $shipmentPhoto, orderStatus: $orderStatus, bidCost: $bidCost, timeFrame: $timeFrame, startPoint: $startPoint, destination: $destination, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, pickedUpTime: $pickedUpTime, userName: $userName)';
   }
 
   @override
@@ -115,7 +121,8 @@ class OnDeliveryOrders {
         other.distance == distance &&
         listEquals(other.shipments, shipments) &&
         other.shipmentWeight == shipmentWeight &&
-        other.pickedUpTime == pickedUpTime;
+        other.pickedUpTime == pickedUpTime &&
+        other.userName == userName;
   }
 
   @override
@@ -130,6 +137,7 @@ class OnDeliveryOrders {
         distance.hashCode ^
         shipments.hashCode ^
         shipmentWeight.hashCode ^
-        pickedUpTime.hashCode;
+        pickedUpTime.hashCode ^
+        userName.hashCode;
   }
 }

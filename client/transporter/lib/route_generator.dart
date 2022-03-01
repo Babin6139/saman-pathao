@@ -19,7 +19,7 @@ class RouteGenerator {
       case '/signup':
         return MaterialPageRoute(builder: (_) => SignUp(args));
       case '/homepage':
-        return MaterialPageRoute(builder: (_) => Homepage(args: args));
+        return MaterialPageRoute(builder: (_) => Homepage());
       case '/biddedOrder':
         return MaterialPageRoute(builder: (_) => OrderPage(args: args));
       case '/trial':

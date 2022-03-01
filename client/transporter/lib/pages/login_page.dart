@@ -4,8 +4,11 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:transporter/models/transporters.dart';
+import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:transporter/utils/mycolors.dart';
 import 'package:transporter/utils/route.dart';
 
@@ -34,6 +37,9 @@ class _LoginPageState extends State<LoginPage> {
         var responseBody = await jsonDecode(response.body);
         if (responseBody["message"] == "Login sucessfull") {
           var data = responseBody["data"];
+          context
+              .read<TransporterDataProvider>()
+              .changeData(Transporters.fromMap(data));
           Navigator.pushNamed(context, "/homepage", arguments: data);
         } else {
           return showDialog<void>(

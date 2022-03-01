@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:transporter/models/transporters.dart';
+import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:transporter/widgets/order_cards.dart';
 
 class Homepage extends StatefulWidget {
-  final args;
-  const Homepage({
-    Key? key,
-    required this.args,
-  }) : super(key: key);
+  const Homepage({Key? key}) : super(key: key);
 
   @override
-  _HomepageState createState() => _HomepageState(args);
+  _HomepageState createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
-  final transporter;
-  _HomepageState(this.transporter);
+  final int? _value = 1;
+  bool bidSelected = true;
+  bool newOrderSelected = false;
   @override
   Widget build(BuildContext context) {
-    final Transporters transporterData = Transporters.fromMap(transporter);
+    final transporterData =
+        context.watch<TransporterDataProvider>().transporterData;
     final imageUrl = transporterData.photo;
     return SafeArea(
       child: Scaffold(
@@ -48,27 +49,43 @@ class _HomepageState extends State<Homepage> {
                 padding: EdgeInsets.only(left: 20),
                 child: Row(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(40)),
-                      child: Padding(
-                          padding: EdgeInsets.all(8), child: Text("My Bids")),
+                    ChoiceChip(
+                      selected: bidSelected,
+                      backgroundColor: Colors.white,
+                      elevation: 1,
+                      autofocus: true,
+                      selectedColor: Colors.teal.shade100,
+                      label: Text("Bids"),
+                      onSelected: (value) {
+                        if (!bidSelected) {
+                          setState(() {
+                            newOrderSelected = !newOrderSelected;
+                            bidSelected = !bidSelected;
+                          });
+                        }
+                      },
                     ),
                     SizedBox(
                       width: 20,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(40)),
-                      child: Padding(
-                          padding: EdgeInsets.all(8), child: Text("New Bids")),
+                    ChoiceChip(
+                      backgroundColor: Colors.white,
+                      selectedColor: Colors.teal.shade100,
+                      selected: newOrderSelected,
+                      elevation: 1,
+                      label: Text("New Bids"),
+                      onSelected: (value) {
+                        if (!newOrderSelected) {
+                          setState(() {
+                            bidSelected = !bidSelected;
+                            newOrderSelected = !newOrderSelected;
+                          });
+                        }
+                      },
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 10),
               Container(
                 margin: EdgeInsets.all(8),
                 decoration: BoxDecoration(

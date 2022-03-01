@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:transporter/providers/transporterDataProvider.dart';
 
 import 'package:transporter/route_generator.dart';
 
 void main() async {
-  return runApp(MyApp());
+  return runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => TransporterDataProvider()),
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
