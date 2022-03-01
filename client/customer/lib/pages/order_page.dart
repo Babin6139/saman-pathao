@@ -40,7 +40,7 @@ class _DisplayOrderState extends State<DisplayOrder> {
             "http://10.0.2.2:7000/order?userName=${userName}&orderNo=${orderNo}"),
         headers: {'Content-Type': 'application/json'});
     var responseData = await jsonDecode(response.body);
-    data = OrderModel.fromMap(responseData[0]);
+    data = OrderModel.fromMap(responseData["orders"][0]);
     setState(() {});
   }
 
