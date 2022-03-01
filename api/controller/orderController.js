@@ -1,5 +1,6 @@
 const Order = require("../models/order");
 const Client = require("../models/client");
+const { allUsers } = require("./adminController");
 
 //sends specific order based on orderNo
 exports.getOrder = async (req, res, next) => {
@@ -8,13 +9,13 @@ exports.getOrder = async (req, res, next) => {
       {
         userName: req.query.userName,
       },
-      "-_id"
+      "-_id rating photo contactNo firstName lastName middleName"
     ).populate({
       path: "orders",
-      populate: { path: "bids.transporter", select: "userName" },
+      populate: { path: "bids.transporter", select: "userName rating" },
       match: { orderNo: req.query.orderNo },
     });
-    res.send(user.orders);
+    res.send({ user, orders: user.orders });
   } catch (error) {
     next(error);
   }
@@ -93,6 +94,8 @@ exports.updateOrder = async (req, res, next) => {
     let update = { ...req.body };
     delete update.userName;
     delete update.orderNo;
+    console.log(req.body.userName);
+    console.log(update.userName);
     const user = await Client.exists({
       userName: req.body.userName,
     }).populate({
@@ -155,13 +158,16 @@ exports.deleteOrder = async (req, res, next) => {
 };
 
 //client selects a suitable bid from transporter
-
 exports.finializeOrder = async (req, res, next) => {
   try {
     const update = {
       bidConfirmed: true,
       transporter: req.body.transporter,
       bidCost: req.body.bidCost,
+      bids: {
+        transporter: [],
+        bidCost: [],
+      },
     };
     const user = await Client.findOne({
       userName: req.body.userName,
@@ -181,5 +187,42 @@ exports.finializeOrder = async (req, res, next) => {
     }
   } catch (err) {
     next(err);
+  }
+};
+
+//changes order status from onbid to postbid and postbid to onbid
+exports.statusChanger = async (oldOrderStatus) => {
+  try {
+    let updateData = {};
+    let selectFilter;
+    switch (oldOrderStatus) {
+      case "prebid":
+        updateData.newOrderStatus = "onbid";
+        selectFilter = {
+          "biddingTime.start": { $lte: new Date() },
+          "biddingTime.end": { $gte: new Date() },
+          orderStatus: "prebid",
+        };
+        break;
+      case "onbid":
+        updateData.newOrderStatus = "postbid";
+        selectFilter = {
+          "biddingTime.start": { $lte: new Date() },
+          "biddingTime.end": { $lte: new Date() },
+          orderStatus: "onbid",
+        };
+        break;
+    }
+
+    const order = await Order.updateMany(
+      selectFilter,
+      {
+        orderStatus: updateData.newOrderStatus,
+      },
+      { new: true }
+    );
+    return order;
+  } catch (err) {
+    return { err };
   }
 };
