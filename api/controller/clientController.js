@@ -29,7 +29,11 @@ exports.login = async (req, res, next) => {
       select:
         "orderNo biddingTime shipmentPhoto maxBudget orderStatus bids.bidAmount timeFrame startPoint destination timeLocation distance shipments shipmentWeight",
       match: {
-        $or: [{ orderStatus: "postbid" }, { orderStatus: "onDelivery" }],
+        $or: [
+          { orderStatus: "postbid" },
+          { orderStatus: "onDelivery" },
+          { orderStatus: "onbid" },
+        ],
       },
     });
 
@@ -48,7 +52,7 @@ exports.login = async (req, res, next) => {
           inAppCurrency: user.inAppCurrency,
           rating: user.rating,
           verified: user.verified,
-          onDeliveryOrders: user.orders
+          onBidOrders: user.orders
             .map((order, index) => {
               if (order.orderStatus === "onbid") {
                 return {
@@ -67,7 +71,7 @@ exports.login = async (req, res, next) => {
               }
             })
             .filter((el) => el != null),
-          onBidOrders: user.orders
+          onDeliveryOrders: user.orders
             .map((order, index) => {
               if (order.orderStatus === "onDelivery") {
                 return {

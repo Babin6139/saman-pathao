@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transporter/models/bidedOrders.dart';
+import 'package:transporter/widgets/map_details.dart';
 import 'package:transporter/widgets/order_details.dart';
 
 class OrderPage extends StatefulWidget {
@@ -67,7 +68,10 @@ class _OrderPageState extends State<OrderPage> {
                         delegate: SliverChildListDelegate([
                       OrderDetail(
                         args: orderData,
-                      )
+                      ),
+                      MapDetail(
+                          startPoint: orderData.startPoint,
+                          endPoint: orderData.destination)
                     ]))
                   ],
                 ),

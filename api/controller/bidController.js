@@ -3,6 +3,7 @@ const Transporter = require("../models/transporter");
 const Client = require("../models/client");
 const mongoose = require("mongoose");
 
+//for transporter to add bids to suitable order
 exports.addBids = async (req, res, next) => {
   try {
     const checker = await Order.aggregate([
@@ -35,7 +36,7 @@ exports.addBids = async (req, res, next) => {
         },
         { new: true }
       );
-      await transporter.findOneAndUpdate(
+      await Transporter.findOneAndUpdate(
         { email: req.body.email },
         { $push: { biddedOders: order._id.toString() } }
       );
@@ -49,28 +50,34 @@ exports.addBids = async (req, res, next) => {
   }
 };
 
+// returns all the bids on particular order of specific client
 exports.getAllBids = async (req, res, next) => {
   try {
     const user = await Client.exists({
       $or: [{ userName: req.query.userName }, { email: req.query.email }],
-    });
+    })
+      .populate({
+        path: "orders",
+        select: "bids orderNo -_id",
+        match: { orderNo: req.query.orderNo },
+        populate: {
+          path: "bids.transporter",
+          select: {
+            firstName: 1,
+            lastName: 1,
+            email: 1,
+            middleName: 1,
+            photo: 1,
+            rating: 1,
+            ratedBy: 1,
+            userName: 1,
+            _id: 0,
+          },
+        },
+      })
+      .sort({ "bids.bidAmount": -1 });
     if (user) {
-      const order = await Order.findOne(
-        { orderNo: req.query.orderNo },
-        "bids.bidAmount"
-      )
-        .populate("bids.transporter", {
-          firstName: 1,
-          lastName: 1,
-          _id: 0,
-          email: 1,
-          middleName: 1,
-          photo: 1,
-          rating: 1,
-          ratedBy: 1,
-        })
-        .sort({ "bids.bidAmount": -1 });
-      res.send(order);
+      res.send(user);
     } else {
       res.send({ message: "you do not have this order" });
     }
@@ -79,24 +86,47 @@ exports.getAllBids = async (req, res, next) => {
   }
 };
 
-exports.getBid = async (req, res, next) => {
+// returns tranporter details for specific
+exports.getBidDetails = async (req, res, next) => {
   try {
-    const transporter = await Transporter.findOne(
-      { email: req.query.email },
-      "firstName middleName lastName email rating ratedBy sucessfulDeliveries dateRegistered review photo vechilePhoto vechileNo "
-    );
-    res.send(transporter);
+    const bidDetails = await Client.exists({
+      userName: req.query.userName,
+    }).populate({
+      path: "orders",
+      select: "orderNo -_id",
+      match: { orderNo: req.query.orderNo },
+      populate: {
+        path: "bids.transporter",
+        match: { userName: req.query.transporterUserName },
+        select: {
+          firstName: 1,
+          lastName: 1,
+          email: 1,
+          middleName: 1,
+          photo: 1,
+          rating: 1,
+          ratedBy: 1,
+          userName: 1,
+        },
+      },
+    });
+
+    res.send(bidDetails);
   } catch (error) {
     next(error);
   }
 };
 
+// updates the bid of specific tranporter based on their userName
 exports.updateBids = async (req, res, next) => {
   try {
     var i;
     const bids = await Order.findOne({ orderNo: req.body.orderNo }, "bids");
+    const transporterId = await Transporter.exists({
+      userName: req.body.userName,
+    });
     bids.bids.transporter.forEach((element, index) => {
-      if (element.toString() === req.body.transporterId) {
+      if (element.toString() === transporterId._id.toString()) {
         i = index;
       }
     });
@@ -114,6 +144,7 @@ exports.updateBids = async (req, res, next) => {
   }
 };
 
+// used by transporter to delete bids
 exports.deleteBids = async (req, res, next) => {
   try {
     var index;
@@ -147,12 +178,41 @@ exports.deleteBids = async (req, res, next) => {
   }
 };
 
+// returns all the orders bidded by specific transporter
 exports.getBidHistory = async (req, res, next) => {
   try {
-    const order = await Order.findOne({
-      orderNo: req.query.orderNo,
-      $in: { orderStatus: ["postbid", "onbid"] },
-      "bids.transporter": mongoose.Types.ObjectId(req.query.transporterId),
+    const transporter = await Transporter.exists({
+      userName: req.query.userName,
+    });
+    // console.log(transporter._id.toString());
+    // mongoose.Types.ObjectId(transporter._id.toString());
+    // console.log(transporter._id);
+
+    const order = await Order.find({
+      $or: [{ orderStatus: "onbid" }, { orderStatus: "postbid" }],
+      "bids.transporter": transporter._id,
+    });
+    res.send(order);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// returns orders that are available to bid for transporter
+exports.getSuitableBids = async (req, res, next) => {
+  try {
+    const transporter = await Transporter.find({
+      userName: req.query.userName,
+    });
+    console.log(transporter._id);
+
+    const order = await Order.find({
+      orderStatus: "onbid",
+      "bids.transporter": {
+        $ne: transporter._id,
+      },
+      rating: { $lte: transporter.rating },
+      shipmentWeight: { $lte: transporter.vechileCapacity },
     });
     res.send(order);
   } catch (err) {

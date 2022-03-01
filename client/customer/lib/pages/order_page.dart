@@ -79,7 +79,7 @@ class _DisplayOrderState extends State<DisplayOrder> {
                                   width: 10,
                                 ),
                                 Text(
-                                  "Ordee:1",
+                                  "Order: ${context.watch<OrderDataProvide>().userOrder.orderNo}",
                                   style: TextStyle(color: MyColor.color1),
                                 )
                               ],
@@ -92,9 +92,12 @@ class _DisplayOrderState extends State<DisplayOrder> {
                         OrderDetail(
                           data: data!,
                         ),
-                        MapDetail(),
+                        MapDetail(
+                            startPoint: data!.startPoint,
+                            endPoint: data!.destination),
                         BidDetails(
                           bidDetail: data!.bids,
+                          orderStatus: data!.orderStatus,
                         ),
                       ]))
                     ])),

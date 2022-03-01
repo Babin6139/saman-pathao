@@ -8,18 +8,18 @@ content-type:application/json
 }
 
 ###
-GET http://localhost:7000/bid/specific?email=pirateking2@gmail.com
+GET http://localhost:7000/bid/specific?transporterUserName=shreali&orderNo=99&userName=missula
 
 ###
-GET http://localhost:7000/bid?orderId=12345&email=pirateking2@gmail.com&userName=pirateking2
+GET http://localhost:7000/bid?userName=pujamatta&orderNo=10
 ###
 PATCH http://localhost:7000/bid/
 content-type: application/json
 
 {
-    "orderNo":"123456",
-    "transporterId": "620a435e9961e847c6ee96c9",
-    "bidAmount": 1000
+    "orderNo":"99",
+    "userName": "shreali",
+    "bidAmount": 1500
 }
 
 ###
@@ -27,4 +27,7 @@ DELETE http://localhost:7000/bid?orderNo=123456&transporterId=620a435e9961e847c6
 
 ###
 
-GET http://localhost:7000/bid/history?orderNo=123456&transporterId=620a435e9961e847c6ee96c9
+GET http://localhost:7000/bid/history?userName=shreali
+
+###
+GET http://localhost:7000/bid/suitablebids?userName=shreali

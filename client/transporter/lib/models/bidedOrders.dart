@@ -13,6 +13,7 @@ class BiddedOrders {
   Bids bids;
   Time timeFrame;
   List<String> destination;
+  List<String> startPoint;
   bool fragile;
   double distance;
   List<String> shipments;
@@ -26,6 +27,7 @@ class BiddedOrders {
     required this.bids,
     required this.timeFrame,
     required this.destination,
+    required this.startPoint,
     required this.fragile,
     required this.distance,
     required this.shipments,
@@ -41,6 +43,7 @@ class BiddedOrders {
     Bids? bids,
     Time? timeFrame,
     List<String>? destination,
+    List<String>? startPoint,
     bool? fragile,
     double? distance,
     List<String>? shipments,
@@ -55,6 +58,7 @@ class BiddedOrders {
       bids: bids ?? this.bids,
       timeFrame: timeFrame ?? this.timeFrame,
       destination: destination ?? this.destination,
+      startPoint: startPoint ?? this.startPoint,
       fragile: fragile ?? this.fragile,
       distance: distance ?? this.distance,
       shipments: shipments ?? this.shipments,
@@ -72,6 +76,7 @@ class BiddedOrders {
       'bids': bids.toMap(),
       'timeFrame': timeFrame.toMap(),
       'destination': destination,
+      'startPoint': startPoint,
       'fragile': fragile,
       'distance': distance,
       'shipments': shipments,
@@ -89,6 +94,7 @@ class BiddedOrders {
       bids: Bids.fromMap(map['bids']),
       timeFrame: Time.fromMap(map['timeFrame']),
       destination: List<String>.from(map['destination']),
+      startPoint: List<String>.from(map['startPoint']),
       fragile: map['fragile'] ?? false,
       distance: map['distance']?.toDouble() ?? 0.0,
       shipments: List<String>.from(map['shipments']),
@@ -103,7 +109,7 @@ class BiddedOrders {
 
   @override
   String toString() {
-    return 'BiddedOrders(orderNo: $orderNo, biddingTime: $biddingTime, shipmentPhoto: $shipmentPhoto, maxBudget: $maxBudget, orderStatus: $orderStatus, bids: $bids, timeFrame: $timeFrame, destination: $destination, fragile: $fragile, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight)';
+    return 'BiddedOrders(orderNo: $orderNo, biddingTime: $biddingTime, shipmentPhoto: $shipmentPhoto, maxBudget: $maxBudget, orderStatus: $orderStatus, bids: $bids, timeFrame: $timeFrame, destination: $destination, startPoint: $startPoint, fragile: $fragile, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight)';
   }
 
   @override
@@ -120,6 +126,7 @@ class BiddedOrders {
         other.bids == bids &&
         other.timeFrame == timeFrame &&
         listEquals(other.destination, destination) &&
+        listEquals(other.startPoint, startPoint) &&
         other.fragile == fragile &&
         other.distance == distance &&
         listEquals(other.shipments, shipments) &&
@@ -136,6 +143,7 @@ class BiddedOrders {
         bids.hashCode ^
         timeFrame.hashCode ^
         destination.hashCode ^
+        startPoint.hashCode ^
         fragile.hashCode ^
         distance.hashCode ^
         shipments.hashCode ^
