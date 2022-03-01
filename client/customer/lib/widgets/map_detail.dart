@@ -1,3 +1,4 @@
+import 'package:customer/models/time_frame.dart';
 import 'package:customer/utils/mydecoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -6,23 +7,56 @@ import 'package:latlong2/latlong.dart';
 class MapDetail extends StatelessWidget {
   final List<String> startPoint;
   final List<String> endPoint;
+  final TimeFrame deliveryTime;
   const MapDetail({
     Key? key,
     required this.startPoint,
     required this.endPoint,
+    required this.deliveryTime,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     print(LatLng(double.parse(startPoint[1]), double.parse(startPoint[2])));
+    getDate(String givenDate) {
+      var date = DateTime.parse(givenDate).toLocal();
+      String time =
+          "${date.year}-${date.month}-${date.day}  ${date.hour}:${date.minute}";
+      return time;
+    }
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15),
       decoration: MyDecoration.cardDecoration,
-      height: 120,
+      height: 160,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text("Deliver"),
+          Text("Deliver",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              )),
+          Container(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                  child: Row(
+                children: [
+                  Icon(Icons.timer, color: Colors.green),
+                  Text(getDate(deliveryTime.start))
+                ],
+              )),
+              Container(
+                  child: Row(
+                children: [
+                  Icon(Icons.timer, color: Colors.red),
+                  Text(getDate(deliveryTime.end))
+                ],
+              )),
+            ],
+          )),
           Container(
             height: 100,
             child: FlutterMap(

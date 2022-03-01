@@ -1,6 +1,7 @@
 import 'package:customer/models/display_order.dart';
 import 'package:customer/utils/mycolor.dart';
 import 'package:customer/utils/mydecoration.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class OrderDetail extends StatelessWidget {
@@ -29,10 +30,14 @@ class OrderDetail extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child:
             Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Text("Order Details",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              )),
           Container(
               child: Row(
             children: [
-              Icon(Icons.local_shipping_outlined),
+              Icon(Icons.local_shipping_outlined, size: 15),
               Text(" Packages : "),
               for (var string in data.shipments) Text("$string ")
             ],
@@ -40,35 +45,35 @@ class OrderDetail extends StatelessWidget {
           Container(
               child: Row(
             children: [
-              Icon(Icons.monetization_on_sharp),
+              Icon(Icons.monetization_on_sharp, size: 15),
               Text(" Max Budget : Rs. ${data.maxBudget}")
             ],
           )),
           Container(
               child: Row(
             children: [
-              Icon(Icons.drive_eta),
+              Icon(Icons.drive_eta, size: 15),
               Text(" Distance : ${data.distance} km")
             ],
           )),
           Container(
               child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                  child: Row(
-                children: [
-                  Icon(Icons.timer, color: Colors.green),
-                  Text(getDate(data.biddingTime.start))
-                ],
-              )),
-              Container(
-                  child: Row(
-                children: [
-                  Icon(Icons.timer, color: Colors.red),
-                  Text(getDate(data.biddingTime.end))
-                ],
-              )),
+              Icon(
+                CupertinoIcons.briefcase_fill,
+                size: 15,
+              ),
+              Text(" Weight : ${data.shipmentWeight} kg")
+            ],
+          )),
+          Container(
+              child: Row(
+            children: [
+              Icon(
+                CupertinoIcons.map,
+                size: 15,
+              ),
+              Text(" Route : ${data.startPoint[0]} -> ${data.destination[0]}")
             ],
           )),
         ]),
