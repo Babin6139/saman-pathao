@@ -52,9 +52,9 @@ exports.login = async (req, res, next) => {
           inAppCurrency: user.inAppCurrency,
           rating: user.rating,
           verified: user.verified,
-          onDeliveryOrders: user.orders
+          onBidOrders: user.orders
             .map((order, index) => {
-              if (order.orderStatus === "ondDelivery") {
+              if (order.orderStatus === "onbid") {
                 return {
                   orderNo: order.orderNo,
                   status: order.orderStatus,
@@ -71,9 +71,9 @@ exports.login = async (req, res, next) => {
               }
             })
             .filter((el) => el != null),
-          onBidOrders: user.orders
+          onDeliveryOrders: user.orders
             .map((order, index) => {
-              if (order.orderStatus === "onbid") {
+              if (order.orderStatus === "onDelivery") {
                 return {
                   orderNo: order.orderNo,
                   status: order.orderStatus,

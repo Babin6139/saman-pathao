@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "156559166491",
+    "project_id": "saman-pathao",
+    "storage_bucket": "saman-pathao.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156559166491:android:17f7de796e90dc2b21fcbe",
+        "android_client_info": {
+          "package_name": "com.example.customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "156559166491-o4g18a4mu9mnkpc305hgr77umm0esb47.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbHom8ft360_252JFgBYgNdddJP7qkjak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "156559166491-o4g18a4mu9mnkpc305hgr77umm0esb47.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
