@@ -1,4 +1,5 @@
 import 'package:customer/models/user_data.dart';
+import 'package:customer/pages/place_order.dart';
 import 'package:customer/providers/userData.dart';
 import 'package:customer/utils/mycolor.dart';
 import 'package:customer/pages/home.dart';
@@ -97,9 +98,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             child: Text("Hello"),
           ),
-          Container(
-            child: Text("Hello"),
-          ),
+          PlaceOrder(),
         ],
       ),
     );
