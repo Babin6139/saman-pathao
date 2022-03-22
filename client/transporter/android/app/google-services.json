@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "265455820995",
+    "project_id": "saman-pathao-57245",
+    "storage_bucket": "saman-pathao-57245.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265455820995:android:3220dc62f61ff726a2c276",
+        "android_client_info": {
+          "package_name": "com.example.transporter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265455820995-2ccg508si4c3g022aj10d57ar5t7dfmp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvtfqYlOJI2MEdM1jphIJsqQZgF66fz1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265455820995-2ccg508si4c3g022aj10d57ar5t7dfmp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

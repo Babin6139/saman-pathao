@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,6 +46,16 @@ class _SignUpState extends State<SignUp> {
     signUp() async {
       if (_formkey.currentState!.validate() && transporter.photo != null) {
         //Firebase work for uploading user photo
+        FirebaseStorage storageInstance = FirebaseStorage.instance;
+        final imagePathInFirebase = storageInstance
+            .ref()
+            .child('transporters/images/${tempImage.split('/').last}');
+        UploadTask uploadImage = imagePathInFirebase.putFile(File(tempImage));
+        var getResponse = await uploadImage;
+        var getImageLink = await getResponse.ref.getDownloadURL();
+        setState(() {
+          transporter.photo = getImageLink;
+        });
         var name = transporter.firstName!.split(' ');
         if (name.length > 2) {
           transporter.firstName = name[0];
