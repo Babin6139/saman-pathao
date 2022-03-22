@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:transporter/models/transporters.dart';
+import 'package:transporter/providers/changePageProvider.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:transporter/widgets/order_cards.dart';
 
@@ -193,6 +194,7 @@ class _HomepageState extends State<Homepage> {
             ),
             GestureDetector(
               onTap: () {
+                context.read<ChangePageProvider>().resetIndex();
                 Navigator.pushNamed(context, "/verification");
               },
               child: Padding(

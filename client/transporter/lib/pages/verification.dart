@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:transporter/pages/verification_page1.dart';
+import 'package:transporter/providers/changePageProvider.dart';
 
 class VerificationPage extends StatefulWidget {
   const VerificationPage({Key? key}) : super(key: key);
@@ -8,12 +12,6 @@ class VerificationPage extends StatefulWidget {
 }
 
 class _VerificationPageState extends State<VerificationPage> {
-  String licenseNo = '';
-  String vehicleNo = '';
-  double? weightCapacity;
-  double? length;
-  double? breadth;
-  double? height;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -23,214 +21,49 @@ class _VerificationPageState extends State<VerificationPage> {
           title: Text("Verification"),
         ),
         backgroundColor: Color(0xFFDBE4FF),
-        // bottomNavigationBar: BottomNavigationBar(
-        //   currentIndex: 0,
-
-        //   items: [
-        //     BottomNavigationBarItem(icon: Icon(Icons.circle_outlined)),
-        //   ],
-        // ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(8),
-            child: Container(
-              padding: EdgeInsets.all(8),
-              width: double.infinity,
-              decoration: BoxDecoration(color: Colors.white),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Please Enter Details below"),
-                  SizedBox(
-                    height: 15,
+        bottomNavigationBar: Container(
+          height: 50,
+          margin: const EdgeInsets.only(left: 120, right: 120),
+          child: BottomNavigationBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            type: BottomNavigationBarType.fixed,
+            currentIndex: context.watch<ChangePageProvider>().page,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            selectedItemColor: Colors.blue,
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.circle,
+                    size: 10,
                   ),
-                  TextFormField(
-                    validator: ((value) {
-                      if (value == null || value.isEmpty) {
-                        return "* License Number cannot be empty";
-                      }
-                      return null;
-                    }),
-                    onChanged: (value) {
-                      setState(() {
-                        licenseNo = value;
-                      });
-                    },
-                    textAlign: TextAlign.left,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.zero,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40)),
-                      prefixIcon: Icon(
-                        Icons.assignment,
-                      ),
-                      hintText: "License Number",
-                    ),
+                  label: "1"),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.circle,
+                    size: 10,
                   ),
-                  SizedBox(
-                    height: 15,
+                  label: "2"),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.circle,
+                    size: 10,
                   ),
-                  TextFormField(
-                    validator: ((value) {
-                      if (value == null || value.isEmpty) {
-                        return "* Vehicle Number cannot be empty";
-                      }
-                      return null;
-                    }),
-                    onChanged: (value) {
-                      setState(() {
-                        vehicleNo = value;
-                      });
-                    },
-                    textAlign: TextAlign.left,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.zero,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40)),
-                      prefixIcon: Icon(
-                        Icons.directions_car,
-                      ),
-                      hintText: "Vehicle Number",
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextFormField(
-                    validator: ((value) {
-                      if (value == null || value.isEmpty) {
-                        return "* Weight capacity cannot be empty";
-                      }
-                      return null;
-                    }),
-                    onChanged: (value) {
-                      setState(() {
-                        weightCapacity = double.parse(value);
-                      });
-                    },
-                    textAlign: TextAlign.left,
-                    keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.zero,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40)),
-                      prefixIcon: Icon(
-                        Icons.monitor_weight_outlined,
-                      ),
-                      hintText: "Maximum Weight",
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text("Vehicle Dimension"),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Wrap(
-                    spacing: 5,
-                    runSpacing: 15,
-                    children: [
-                      Container(
-                        width: 120,
-                        child: TextFormField(
-                          validator: ((value) {
-                            if (value == null || value.isEmpty) {
-                              return "* Length cannot be empty";
-                            }
-                            return null;
-                          }),
-                          onChanged: (value) {
-                            setState(() {
-                              length = double.parse(value);
-                            });
-                          },
-                          textAlign: TextAlign.left,
-                          keyboardType:
-                              TextInputType.numberWithOptions(decimal: true),
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.zero,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40)),
-                            prefixIcon: Icon(Icons.arrow_forward_rounded),
-                            hintText: "Length",
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 120,
-                        child: TextFormField(
-                          validator: ((value) {
-                            if (value == null || value.isEmpty) {
-                              return "* Breadth cannot be empty";
-                            }
-                            return null;
-                          }),
-                          onChanged: (value) {
-                            setState(() {
-                              breadth = double.parse(value);
-                            });
-                          },
-                          textAlign: TextAlign.left,
-                          keyboardType:
-                              TextInputType.numberWithOptions(decimal: true),
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.zero,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40)),
-                            prefixIcon: Icon(
-                              Icons.line_weight,
-                            ),
-                            hintText: "Breadth",
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 120,
-                        child: TextFormField(
-                          validator: ((value) {
-                            if (value == null || value.isEmpty) {
-                              return "* Height cannot be empty";
-                            }
-                            return null;
-                          }),
-                          onChanged: (value) {
-                            setState(() {
-                              height = double.parse(value);
-                            });
-                          },
-                          textAlign: TextAlign.left,
-                          keyboardType:
-                              TextInputType.numberWithOptions(decimal: true),
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.zero,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40)),
-                            prefixIcon: Icon(Icons.height),
-                            hintText: "Height",
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.blue)),
-                      child: Text(
-                        "Next",
-                        style: TextStyle(color: Colors.white),
-                      )),
-                  SizedBox(height: 15),
-                ],
-              ),
-            ),
+                  label: "3"),
+            ],
           ),
+        ),
+        body: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          onPageChanged: (value) =>
+              context.read<ChangePageProvider>().changeData(value),
+          controller: context.watch<ChangePageProvider>().controller,
+          children: [
+            SingleChildScrollView(child: VerificationPage1()),
+            SingleChildScrollView(child: Text("Second Page")),
+            SingleChildScrollView(child: Text("Third Page")),
+          ],
         ),
       ),
     );
