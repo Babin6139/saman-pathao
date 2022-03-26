@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const Transporter = require("../models/transporter");
 const Order = require("../models/order");
 const OnlineUser = require("../models/onlineUser");
-const { json } = require("express/lib/response");
 
 exports.addTransporter = async (req, res, next) => {
   console.log("hello from addtransporter 1");
@@ -140,6 +139,26 @@ exports.deleteTransporter = async (req, res, next) => {
       res.send({ message: "User not found" });
     } else {
       res.send({ message: "User deleted" });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.userDetails = async (req, res, next) => {
+  try {
+    const userDetails = await Transporter.findOne(
+      { userName: req.query.userName },
+      "firstName middleName lastName email contactNo address userName verified rating securityDeposit dateCreated ratedBy successfullDeliveries review"
+    );
+    const vechileDetails = await Transporter.findOne(
+      { userName: "shreali" },
+      "idCard license licenseNo vechileNo vechilePhoto bluebook vechileDimension vechileCapacity dateRegistered "
+    );
+    if (!userDetails) {
+      res.send({ message: "User not found" });
+    } else {
+      res.status(200).send({ userDetails, vechileDetails });
     }
   } catch (err) {
     next(err);
