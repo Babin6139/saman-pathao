@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt");
 
 const Transporter = require("../models/transporter");
 const Order = require("../models/order");
+const OnlineUser = require("../models/onlineUser");
+const { json } = require("express/lib/response");
 
 exports.addTransporter = async (req, res, next) => {
   console.log("hello from addtransporter 1");
