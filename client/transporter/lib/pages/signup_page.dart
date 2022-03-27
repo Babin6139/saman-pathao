@@ -47,9 +47,8 @@ class _SignUpState extends State<SignUp> {
       if (_formkey.currentState!.validate() && transporter.photo != null) {
         //Firebase work for uploading user photo
         FirebaseStorage storageInstance = FirebaseStorage.instance;
-        final imagePathInFirebase = storageInstance
-            .ref()
-            .child('transporters/images/${tempImage.split('/').last}');
+        final imagePathInFirebase = storageInstance.ref().child(
+            'transporters/images/${transporter.email!.split('@')[0]}/profile_pictures/${tempImage.split('/').last}');
         UploadTask uploadImage = imagePathInFirebase.putFile(File(tempImage));
         var getResponse = await uploadImage;
         var getImageLink = await getResponse.ref.getDownloadURL();

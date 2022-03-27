@@ -15,49 +15,70 @@ class Trial extends StatefulWidget {
 }
 
 class _TrialState extends State<Trial> {
-  String tempImage = '';
-  String? fbImageLink;
-  bool photo = false;
+  int _activeStepIndex = 0;
+
+  List<Step> stepList() => [
+        Step(
+          state: _activeStepIndex <= 0 ? StepState.editing : StepState.complete,
+          isActive: _activeStepIndex == 0,
+          title: Text("Vehicle Details"),
+          content: Text("Hello"),
+        ),
+        Step(
+          state: _activeStepIndex <= 1 ? StepState.editing : StepState.complete,
+          isActive: _activeStepIndex == 1,
+          title: Text("Licence Photo"),
+          content: Text("Ji"),
+        ),
+      ];
   @override
   Widget build(BuildContext context) {
-    Future pickImage() async {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-      tempImage = image.path;
-      print(tempImage);
-      setState(() {
-        photo = true;
-        // transporter.photo = image.path;
-      });
-    }
-
-    Future uploadImage() async {
-      if (photo) {
-        FirebaseStorage storage = FirebaseStorage.instance;
-        var image = storage.ref();
-        var imageRef = image.child('/image/${tempImage.split("/").last}');
-        UploadTask upload = imageRef.putFile(File(tempImage));
-        var res = await upload;
-        var url = await res.ref.getDownloadURL();
-        setState(() {
-          fbImageLink = url;
-        });
-      }
-      print("Hello from outside upload $fbImageLink");
-    }
-
     return SafeArea(
       child: Scaffold(
-          body: Column(
-        children: [
-          GestureDetector(
-            onTap: () {
-              pickImage();
+          body: Padding(
+        padding: EdgeInsets.all(10),
+        child: Container(
+          decoration: BoxDecoration(color: Colors.grey),
+          child: Stepper(
+            currentStep: _activeStepIndex,
+            controlsBuilder: (context, details) {
+              return Container(
+                child: Row(children: [
+                  TextButton(
+                      onPressed: details.onStepCancel, child: Text("Back")),
+                  TextButton(
+                      onPressed: details.onStepContinue, child: Text("Next")),
+                ]),
+              );
             },
-            child: Text("Upload Picture to firebase"),
+            onStepCancel: () {
+              print("hello step cancel");
+              if (_activeStepIndex == 0) {
+                Navigator.pop(context);
+              } else {
+                setState(() {
+                  _activeStepIndex -= 1;
+                });
+              }
+            },
+            onStepContinue: () {
+              if (_activeStepIndex < (stepList().length - 1)) {
+                setState(() {
+                  _activeStepIndex += 1;
+                });
+              } else {
+                print('Submited');
+              }
+            },
+            onStepTapped: (int index) {
+              setState(() {
+                _activeStepIndex = index;
+              });
+            },
+            margin: EdgeInsets.all(5),
+            steps: [...stepList()],
           ),
-          TextButton(onPressed: uploadImage, child: Text("Upload"))
-        ],
+        ),
       )),
     );
   }
