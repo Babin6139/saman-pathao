@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:transporter/models/bidedOrders.dart';
+import 'package:transporter/providers/biddedOrdersProvider.dart';
 
 class OrderedCard extends StatefulWidget {
   final order_1;
-  OrderedCard({
-    Key? key,
-    required this.order_1,
-  }) : super(key: key);
+  final index;
+  OrderedCard({Key? key, required this.order_1, required this.index})
+      : super(key: key);
 
   @override
-  State<OrderedCard> createState() => _OrderedCardState(order_1);
+  State<OrderedCard> createState() => _OrderedCardState(order_1, index);
 }
 
 class _OrderedCardState extends State<OrderedCard> {
   final BiddedOrders order;
-  _OrderedCardState(this.order);
+  final int index;
+  _OrderedCardState(this.order, this.index);
   @override
   Widget build(BuildContext context) {
     final DateTime postedTime =
@@ -23,7 +25,8 @@ class _OrderedCardState extends State<OrderedCard> {
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/biddedOrder', arguments: order);
+        context.read<BiddedOrdersProvider>().updateIndex(index);
+        Navigator.pushNamed(context, '/biddedOrder', arguments: index);
       },
       child: Container(
         width: 230,

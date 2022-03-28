@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:transporter/models/transporters.dart';
 import 'package:transporter/pages/home_page_more.dart';
+import 'package:transporter/providers/biddedOrdersProvider.dart';
 import 'package:transporter/providers/changePageProvider.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:transporter/widgets/order_cards.dart';
@@ -29,6 +30,7 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     final transporterData =
         context.watch<TransporterDataProvider>().transporterData;
+    final biddedOrders = context.watch<BiddedOrdersProvider>().biddedOrdersData;
     final imageUrl = transporterData.photo;
     print(transporterData.onBidOrders[0]);
     return SafeArea(
@@ -142,20 +144,14 @@ class _HomepageState extends State<Homepage> {
                                     BorderRadius.all(Radius.circular(18))),
                             padding: EdgeInsets.all(10),
                             height: 170,
-                            child: (!transporterData.biddedOrders.isEmpty
+                            child: (!biddedOrders.isEmpty
                                 ? ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: bidSelected
-                                        ? transporterData.biddedOrders.length
-                                        : transporterData.onBidOrders.length,
+                                    itemCount: biddedOrders.length,
                                     itemBuilder: (context, index) {
                                       return OrderedCard(
-                                        order_1: bidSelected
-                                            ? transporterData
-                                                .biddedOrders[index]
-                                            : transporterData
-                                                .onBidOrders[index],
-                                      );
+                                          order_1: biddedOrders[index],
+                                          index: index);
                                     },
                                   )
                                 : Center(
