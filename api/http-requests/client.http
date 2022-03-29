@@ -26,7 +26,7 @@ content-Type: application/json
 
 {
    "email": "pujamatta@gmail.com",
-   "password": "JqhVDruJo6b"
+   "password": "hello12345"
 }
 
 ///client update
@@ -36,8 +36,8 @@ PATCH http://localhost:7000/users/client
 content-Type: application/json
 
 {
-    "email":"pirateking@gmail.com",
-    "password":"user123"
+    "email":"pujamatta@gmail.com",
+    "password":"hello12345"
 }
 
 ///client delete
