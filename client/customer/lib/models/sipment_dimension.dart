@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 
 class ShipmentDimension {
-  final List<double> length;
-  final List<double> width;
-  final List<double> height;
+  List<double> length;
+  List<double> width;
+  List<double> height;
   ShipmentDimension({
     required this.length,
     required this.width,
