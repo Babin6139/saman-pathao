@@ -1,9 +1,9 @@
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'dart:async';
 
-import './../widgets/coutdown_timer.dart';
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+import 'dart:io';
 
 class Trial extends StatefulWidget {
   const Trial({
@@ -15,71 +15,79 @@ class Trial extends StatefulWidget {
 }
 
 class _TrialState extends State<Trial> {
-  int _activeStepIndex = 0;
+  LocationData? currentLocationData;
+  enableLocation() async {
+    var location = new Location();
+    var serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return;
+      }
+    }
+    var _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    var currentLocation = await location.getLocation();
+    setState(() {
+      currentLocationData = currentLocation;
+    });
+  }
 
-  List<Step> stepList() => [
-        Step(
-          state: _activeStepIndex <= 0 ? StepState.editing : StepState.complete,
-          isActive: _activeStepIndex == 0,
-          title: Text("Vehicle Details"),
-          content: Text("Hello"),
-        ),
-        Step(
-          state: _activeStepIndex <= 1 ? StepState.editing : StepState.complete,
-          isActive: _activeStepIndex == 1,
-          title: Text("Licence Photo"),
-          content: Text("Ji"),
-        ),
-      ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    enableLocation();
+  }
+
+  Completer<GoogleMapController> _googleMapController = Completer();
+
   @override
   Widget build(BuildContext context) {
+    Set<Circle>? circles;
+    if (currentLocationData != null) {
+      circles = Set.from([
+        Circle(
+          circleId: CircleId("Random_ID"),
+          center: LatLng(currentLocationData?.latitude as double,
+              currentLocationData?.longitude as double),
+          fillColor: Colors.blue.shade100.withAlpha(100),
+          strokeWidth: 2,
+          radius: 5000,
+        )
+      ]);
+    }
     return SafeArea(
       child: Scaffold(
-          body: Padding(
-        padding: EdgeInsets.all(10),
-        child: Container(
-          decoration: BoxDecoration(color: Colors.grey),
-          child: Stepper(
-            currentStep: _activeStepIndex,
-            controlsBuilder: (context, details) {
-              return Container(
-                child: Row(children: [
-                  TextButton(
-                      onPressed: details.onStepCancel, child: Text("Back")),
-                  TextButton(
-                      onPressed: details.onStepContinue, child: Text("Next")),
-                ]),
-              );
-            },
-            onStepCancel: () {
-              print("hello step cancel");
-              if (_activeStepIndex == 0) {
-                Navigator.pop(context);
-              } else {
-                setState(() {
-                  _activeStepIndex -= 1;
-                });
-              }
-            },
-            onStepContinue: () {
-              if (_activeStepIndex < (stepList().length - 1)) {
-                setState(() {
-                  _activeStepIndex += 1;
-                });
-              } else {
-                print('Submited');
-              }
-            },
-            onStepTapped: (int index) {
-              setState(() {
-                _activeStepIndex = index;
-              });
-            },
-            margin: EdgeInsets.all(5),
-            steps: [...stepList()],
-          ),
-        ),
-      )),
+        body: (currentLocationData == null || circles == null)
+            ? Center(child: CircularProgressIndicator())
+            : Container(
+                child: GoogleMap(
+                  zoomControlsEnabled: false,
+                  rotateGesturesEnabled: true,
+                  myLocationEnabled: true,
+                  compassEnabled: true,
+                  myLocationButtonEnabled: true,
+                  onMapCreated: (controller) =>
+                      _googleMapController.complete(controller),
+                  mapToolbarEnabled: true,
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(currentLocationData!.latitude as double,
+                          currentLocationData!.longitude as double),
+                      zoom: 12),
+                  circles: circles as Set<Circle>,
+                ),
+              ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {},
+        //   child: Icon(Icons.center_focus_strong_rounded),
+        // ),
+      ),
     );
   }
 }

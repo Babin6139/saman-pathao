@@ -28,8 +28,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => TransporterDetails());
       case '/verification':
         return MaterialPageRoute(builder: (_) => VerificationPage());
-      // case '/trial':
-      //   return MaterialPageRoute(builder: (_) => Trial());
+      case '/trial':
+        return MaterialPageRoute(builder: (_) => Trial());
 
       default:
         return _errorRoute();
