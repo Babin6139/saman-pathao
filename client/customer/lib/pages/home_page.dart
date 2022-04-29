@@ -1,10 +1,13 @@
 import 'package:customer/models/user_data.dart';
+import 'package:customer/pages/all_orderPage.dart';
+import 'package:customer/pages/chat_page.dart';
 import 'package:customer/pages/place_order.dart';
 import 'package:customer/pages/profile.dart';
 import 'package:customer/providers/userData.dart';
 import 'package:customer/utils/mycolor.dart';
 import 'package:customer/pages/home.dart';
 import 'package:customer/widgets/my_navigationbar.dart';
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import "package:curved_navigation_bar/curved_navigation_bar.dart";
 import 'package:provider/provider.dart';
@@ -34,8 +37,8 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.only(right: 16.0),
             child: Center(
               child: CircleAvatar(
-                backgroundImage: NetworkImage(userData.photo.toString()),
-              ),
+                  // backgroundImage: NetworkImage(" "),
+                  ),
             ),
           )
         ],
@@ -51,6 +54,7 @@ class _HomePageState extends State<HomePage> {
           Icon(Icons.home),
           Icon(Icons.person),
           Icon(Icons.message_rounded),
+          Icon(CupertinoIcons.bag_fill),
           Icon(Icons.local_shipping),
         ],
         onTap: (value) {
@@ -79,6 +83,12 @@ class _HomePageState extends State<HomePage> {
                 page = value;
               });
               break;
+            case 4:
+              setState(() {
+                _scrollToIndex(value);
+                page = value;
+              });
+              break;
             default:
           }
         },
@@ -94,9 +104,8 @@ class _HomePageState extends State<HomePage> {
         children: [
           Home(),
           Profile(),
-          Container(
-            child: Text("Hello"),
-          ),
+          ChatPage(),
+          AllOrderPage(),
           PlaceOrder(),
         ],
       ),

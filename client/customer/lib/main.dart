@@ -1,5 +1,7 @@
+import 'package:customer/pages/chat_page.dart';
 import 'package:customer/pages/confirmation_order_page.dart';
 import 'package:customer/pages/home_page.dart';
+import 'package:customer/pages/individual_chat.dart';
 import 'package:customer/pages/login_page.dart';
 import 'package:customer/pages/map_placeorder.dart';
 import 'package:customer/pages/order_page.dart';
@@ -39,7 +41,8 @@ class MyApp extends StatelessWidget {
         MyRoutes.orderPage: (context) => DisplayOrder(),
         MyRoutes.settingPage: (context) => SettingPage(),
         MyRoutes.mapPlaceOrderPage: (context) => MapPlaceOrder(),
-        MyRoutes.confirmOrder: (context) => OrderConfirmationPage()
+        MyRoutes.confirmOrder: (context) => OrderConfirmationPage(),
+        MyRoutes.chat: (context) => IndvChat(),
       },
     );
   }

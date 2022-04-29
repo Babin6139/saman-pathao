@@ -10,7 +10,7 @@ class UserOrders {
   final int maxBudget;
   final int lowestbids;
   final int distance;
-  final List<String> shipments;
+  final List<dynamic> shipments;
   final int shipmentWeight;
   final String photo;
   UserOrders({
@@ -34,7 +34,7 @@ class UserOrders {
     int? maxBudget,
     int? lowestbids,
     int? distance,
-    List<String>? shipments,
+    List<dynamic>? shipments,
     int? shipmentWeight,
     String? photo,
   }) {
@@ -76,7 +76,7 @@ class UserOrders {
       maxBudget: map['maxBudget']?.toInt() ?? 0,
       lowestbids: map['lowestbids']?.toInt() ?? -1,
       distance: map['distance']?.toInt() ?? 0,
-      shipments: List<String>.from(map['shipments']),
+      shipments: map['shipments'] ?? [],
       shipmentWeight: map['shipmentWeight']?.toInt() ?? 0,
       photo: map['photo'] ?? "https://picsum.photos/200/300",
     );

@@ -38,7 +38,9 @@ class _LoginPageState extends State<LoginPage> {
           var data = responseBody["data"];
           context.read<UserDataProvide>().changeData(UserData.fromMap(data));
           Navigator.pushReplacementNamed(context, MyRoutes.homepage);
-        } else {}
+        } else {
+          Navigator.pushReplacementNamed(context, MyRoutes.signup);
+        }
       }
     }
 

@@ -7,4 +7,5 @@ class MyRoutes {
   static String settingPage = "/settingpage";
   static String mapPlaceOrderPage = "/mapplaceorder";
   static String confirmOrder = "/confirmOrder";
+  static String chat = "/chat";
 }

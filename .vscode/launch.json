@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "customer",
+            "cwd": "client/customer",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "customer (profile mode)",
+            "cwd": "client/customer",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "customer (release mode)",
+            "cwd": "client/customer",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "transporter",
+            "cwd": "client/transporter",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "transporter (profile mode)",
+            "cwd": "client/transporter",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "transporter (release mode)",
+            "cwd": "client/transporter",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

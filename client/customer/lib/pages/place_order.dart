@@ -38,7 +38,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
   List<String> name = [];
   bool fragile = false;
   int _radioValue = -1;
-  PlaceOrderDetail placeOrderDetail = PlaceOrderDetail();
+  PlaceOrderDetail placeOrderDetail =
+      PlaceOrderDetail(startPoint: [], destination: [], shipments: []);
   String tempImage = "";
   bool checkPhoto = false;
   @override
@@ -472,16 +473,32 @@ class _PlaceOrderState extends State<PlaceOrder> {
                 GestureDetector(
                   onTap: () {
                     placeOrderDetail.biddingTime = TimeFrame(
-                        start: bidStartDate.toString() +
-                            bidStartTime.format(context).toString(),
-                        end: bidEndDate.toString() +
-                            bidEndTime.format(context).toString());
+                        start: bidStartDate.toString().substring(0, 10) +
+                            " " +
+                            bidStartTime
+                                .format(context)
+                                .toString()
+                                .substring(0, 4),
+                        end: bidEndDate.toString().substring(0, 10) +
+                            " " +
+                            bidEndTime
+                                .format(context)
+                                .toString()
+                                .substring(0, 4));
 
                     placeOrderDetail.timeFrame = TimeFrame(
-                        start: pickupDate.toString() +
-                            pickupTime.format(context).toString(),
-                        end: deliveryDate.toString() +
-                            deliveryTime.format(context).toString());
+                        start: pickupDate.toString().substring(0, 10) +
+                            " " +
+                            pickupTime
+                                .format(context)
+                                .toString()
+                                .substring(0, 4),
+                        end: deliveryDate.toString().substring(0, 10) +
+                            " " +
+                            deliveryTime
+                                .format(context)
+                                .toString()
+                                .substring(0, 4));
                     placeOrderDetail.shipmentDimension = ShipmentDimension(
                         length: length, width: width, height: height);
                     placeOrderDetail.shipments = name;

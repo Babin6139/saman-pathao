@@ -1,20 +1,58 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:customer/models/placeorder.dart';
+import 'package:customer/models/user_data.dart';
+import 'package:customer/providers/userData.dart';
 import 'package:customer/utils/mycolor.dart';
 import 'package:customer/utils/mydecoration.dart';
 import 'package:customer/utils/routes.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class OrderConfirmationPage extends StatelessWidget {
   const OrderConfirmationPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    UserData userData = context.read<UserDataProvide>().userData;
     Size size = MediaQuery.of(context).size;
     PlaceOrderDetail placeOrderDetail =
         ModalRoute.of(context)!.settings.arguments as PlaceOrderDetail;
     print(placeOrderDetail.photo);
+
+    placeOrder() async {
+      placeOrderDetail.userName = userData.userName;
+      placeOrderDetail.email = userData.email;
+      var random = Random();
+      placeOrderDetail.orderNo = random.nextInt(100).toString();
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference ref = storage.ref().child(
+          File(placeOrderDetail.photo.toString())
+              .path
+              .split('/')
+              .last
+              .toString());
+      UploadTask upload = ref.putFile(File(placeOrderDetail.photo.toString()));
+      await upload.then((res) async {
+        await res.ref
+            .getDownloadURL()
+            .then((value) => placeOrderDetail.photo = value);
+      });
+      print(await json.encode(placeOrderDetail.toMap()));
+      var data = jsonEncode(placeOrderDetail.toMap());
+      print(data);
+      var url = "http://10.0.2.2:7000/order";
+      var response = await http.post(Uri.parse(url),
+          headers: {'Content-Type': 'application/json'}, body: data);
+      if (await jsonDecode(response.body)["message"] ==
+          "Your Order has been created") {
+        Navigator.pushReplacementNamed(context, MyRoutes.homepage);
+      }
+    }
+
     return Material(
         color: MyColor.backColor,
         child: SafeArea(
@@ -69,7 +107,7 @@ class OrderConfirmationPage extends StatelessWidget {
                   ),
                   ListTile(
                     leading: Text("Pick Up Point : "),
-                    title: Text(placeOrderDetail.startPoint![0]),
+                    title: Text(placeOrderDetail.startPoint[0]),
                   ),
                   ListTile(
                     leading: Text("Pick Up Date : "),
@@ -81,7 +119,7 @@ class OrderConfirmationPage extends StatelessWidget {
                   ),
                   ListTile(
                     leading: Text("Delivery Point : "),
-                    title: Text(placeOrderDetail.destination![0]),
+                    title: Text(placeOrderDetail.destination[0]),
                   ),
                   ListTile(
                     leading: Text("Shipment Dimesnsion:"),
@@ -110,6 +148,7 @@ class OrderConfirmationPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
+                    onTap: placeOrder,
                     child: Container(
                       padding: EdgeInsets.all(6.0),
                       color: Colors.lightGreen,
@@ -138,5 +177,17 @@ class OrderConfirmationPage extends StatelessWidget {
             )
           ],
         ))));
+    Future openDialog() => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("Enter your password"),
+              content: TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Password",
+                ),
+                obscureText: true,
+              ),
+              actions: [TextButton(onPressed: () {}, child: Text("Confirm"))],
+            ));
   }
 }

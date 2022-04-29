@@ -28,6 +28,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   animated_text_kit: ^4.2.1
+  cloud_firestore: ^3.1.12
   cupertino_icons: ^1.0.2
   curved_navigation_bar: ^1.0.3
   email_validator: ^2.0.1
