@@ -1,6 +1,6 @@
-///get all orders of different status
+//get all orders of different status
 ###
-GET http://localhost:7000/order/history?userName=piratekingg&orderStatus=prebid
+GET http://localhost:7000/order/history?userName=mks&orderStatus=onbid
 
 //create new order
 ###
@@ -8,22 +8,24 @@ POST http://localhost:7000/order/
 content-type : application/json
 
 {
-    "userName": "pujamatta",
-    "orderNo":"333",
+    "userName": "mks",
+    "orderNo":"01",
     "orderStatus":"prebid",
     "timeFrame":{
-        "start":"2022-04-22 10:30",
-        "end":"2022-04-22 11:30"
+        "start":"2022-05-06 10:30",
+        "end":"2022-05-06 11:30"
     },
     "startPoint":["Singha Durbar",27.697877, 85.319283],
     "destination":["Madyapur Thimi",27.676146, 85.377219],
     "distance":7.7,
     "biddingTime":{
-        "start":"2022-02-20 09:10",
-        "end":"2020-02-20 10:40"
+        "start":"2022-05-05 19:29",
+        "end":"2022-05-05 19:34"
     },
     "maxBudget":2500,
     "shipments":["Bed","Sofa"],
+    "shipmentCount":[1,4],
+    "shipmentPhoto":"https://firebasestorage.googleapis.com/v0/b/saman-pathao.appspot.com/o/user.jpeg?alt=media&token=c5cd18fc-d73e-44c3-bae2-3d18acf1fd12",
     "shipmentWeight":50.5,
     "shipmentDimension":{
         "length":[1.91,1.75],
@@ -34,7 +36,9 @@ content-type : application/json
     "minRated":2
 }
 
-//////get any specific order by their orderNo
+###
+//get any specific order by their orderNo
+
 ###
 GET http://localhost:7000/order?userName=pujamatta&orderNo=10
 

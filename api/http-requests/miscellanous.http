@@ -1,0 +1,21 @@
+POST http://localhost:7000/users/ratingandreview?userType=client
+content-Type: application/json
+
+{
+    "rating" : 4.5,
+    "review" : "This is a review",
+    "userNameReviewer": "pirateQueen",
+    "userNameReviewed": "hb"
+}
+
+###
+GET http://localhost:7000/users/ratingandreview?userType=transporter&userName=hb
+
+###
+POST http://localhost:7000/users/inAppCurrency?userType=transporter
+content-type: application/json
+
+{
+    "userName":"hb",
+    "inAppCurrency":100
+}

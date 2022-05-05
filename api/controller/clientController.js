@@ -186,7 +186,7 @@ exports.userDetails = async (req, res, next) => {
   try {
     const userDetails = await Client.findOne(
       { userName: req.query.userName },
-      "firstName middleName lastName email contactNo address userName verified rating securityDeposit dateCreated ratedBy successfullDeliveries review"
+      "firstName middleName lastName email contactNo address userName verified rating inAppCurrency dateCreated ratedBy successfullDeliveries review -_id"
     );
     if (!userDetails) {
       res.send({ message: "User not found" });

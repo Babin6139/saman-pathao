@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const clientSchema = new mongoose.Schema({
   address: {
     type: String,
@@ -49,6 +50,18 @@ const clientSchema = new mongoose.Schema({
   rating: {
     default: -1,
     type: Number,
+  },
+  ratedBy: {
+    default: 0,
+    type: Number,
+  },
+  review: {
+    type: [
+      {
+        reviewDetail: String,
+        reviewedBy: String,
+      },
+    ],
   },
   inAppCurrency: {
     default: 0,

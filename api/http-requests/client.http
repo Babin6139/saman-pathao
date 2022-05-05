@@ -1,6 +1,4 @@
-
 ///client signup
-
 ###
 POST http://localhost:7000/users/client/signup
 content-Type: application/json
@@ -9,41 +7,58 @@ content-Type: application/json
     "firstName": "Monkey",
     "lastName": "Luffy",
     "middleName": "D.",
-    "userName": "piratekingg",
+    "userName": "pirateQueen",
     "password": "user12345",
-    "email": "piratekingg@gmail.com",
+    "email": "pq@gmail.com",
     "contactNo": 9856213471,
     "address": "Windmill Village",
-    "photo": "East Blue"
+    "photo": "https://firebasestorage.googleapis.com/v0/b/saman-pathao.appspot.com/o/user.jpeg?alt=media&token=c5cd18fc-d73e-44c3-bae2-3d18acf1fd12"
 }
-
+###
 
 ///client login
-
 ###
 POST http://localhost:7000/users/client
 content-Type: application/json
 
 {
-   "email": "piratekingg@gmail.com",
-   "password": "user12345"
+   "email": "mks@gmail.com",
+   "password": "user1234"
 }
+###
 
-///client update
-
-### 
+//password update
+###
 PATCH http://localhost:7000/users/client
 content-Type: application/json
 
 {
-    "email":"pujamatta@gmail.com",
-    "password":"hello12345"
+    "userName":"pirateQueen",
+    "oldPassword":"user12345",
+    "newPassword":"user123"
 }
+###
+
+//client details update
+###
+PATCH http://localhost:7000/users/client
+content-Type: application/json
+
+{
+    "userName":"mks",
+    "firstName":"Monkey",
+    "lastName":"Luffy",
+    "middleName":"D.",
+    "contactNo":"9856213471",
+    "address":"Windmill Village",
+    "photo":"https://firebasestorage.googleapis.com/v0/b/saman-pathao.appspot.com/o/user.jpeg?alt=media&token=c5cd18fc-d73e-44c3-bae2-3d18acf1fd12",
+    "idCard":"https://firebasestorage.googleapis.com/v0/b/saman-pathao.appspot.com/o/National-Identity-Card-of-Nepal.jpeg?alt=media&token=6039aec6-2191-4e96-beda-428eaef60491"
+}
+###
 
 ///client delete
-
 ###
 DELETE http://localhost:7000/users/client?email=pirateking@gmail.com
 
 ###
-GET http://localhost:7000/users/client/details?userName=pujamatta
+GET http://localhost:7000/users/client/details?userName=mks

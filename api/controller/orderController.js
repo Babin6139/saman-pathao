@@ -1,8 +1,11 @@
 const Order = require("../models/order");
 const Client = require("../models/client");
-const { allUsers } = require("./adminController");
+const admin = require("./adminController");
 
-//sends specific order based on orderNo
+/**
+ * for getting specific order based on orderNo
+ */
+
 exports.getOrder = async (req, res, next) => {
   try {
     const user = await Client.findOne(
@@ -21,7 +24,11 @@ exports.getOrder = async (req, res, next) => {
   }
 };
 
-//sends all orders based on requested orderStatus
+/**
+ *sends all orders based on requested orderStatus
+ * orderStatus can be prebid, postbid, onbid, cancelled
+ */
+
 exports.getAllOrders = async (req, res, next) => {
   try {
     let selectOrder, populateTransporter;
@@ -71,7 +78,10 @@ exports.getAllOrders = async (req, res, next) => {
   }
 };
 
-//creates new order
+/**
+ * creates new order
+ */
+
 exports.createOrder = async (req, res, next) => {
   try {
     const order = await Order.create(req.body);

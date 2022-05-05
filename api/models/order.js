@@ -41,6 +41,9 @@ const orderSchema = new mongoose.Schema({
     type: Array,
     required: true,
   },
+  shipmentCount: {
+    type: Array,
+  },
   shipmentPhoto: {
     type: String,
   },

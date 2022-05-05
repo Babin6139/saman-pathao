@@ -1,8 +1,9 @@
 var express = require("express");
 var router = express.Router();
-var clientController = require("../controller/clientController");
-var transporterController = require("../controller/transporterController");
-var deliveryController = require("../controller/deliveryController");
+const clientController = require("../controller/clientController");
+const transporterController = require("../controller/transporterController");
+const deliveryController = require("../controller/deliveryController");
+const miscellanousController = require("../controller/miscellaneousController");
 
 router.route("/client/signup").post(clientController.addClient);
 
@@ -28,5 +29,12 @@ router.route("/transporter/liveupdate").patch(deliveryController.liveUpdate);
 router
   .route("/transporter/deliveryStatus")
   .patch(deliveryController.deliveryStatus);
+
+router
+  .route("/ratingandreview")
+  .get(miscellanousController.getReviews)
+  .post(miscellanousController.ratingAndReview);
+
+router.route("/inAppCurrency").post(miscellanousController.addInAppCurrency);
 
 module.exports = router;

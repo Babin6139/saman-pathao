@@ -67,7 +67,19 @@ const transporterSchema = new mongoose.Schema({
     default: -1,
     type: Number,
   },
-  securityDeposit: {
+  ratedBy: {
+    default: 0,
+    type: Number,
+  },
+  review: {
+    type: [
+      {
+        reviewDetail: String,
+        reviewedBy: String,
+      },
+    ],
+  },
+  inAppCurrency: {
     type: Number,
     default: 0,
   },
@@ -91,9 +103,6 @@ const transporterSchema = new mongoose.Schema({
   dateRegistered: {
     type: String,
   },
-  ratedBy: {
-    type: Number,
-  },
   successfullDeliveries: {
     type: Number,
   },
@@ -104,9 +113,6 @@ const transporterSchema = new mongoose.Schema({
   pickUpOrders: {
     type: [mongoose.ObjectId],
     ref: "order",
-  },
-  review: {
-    type: [String],
   },
 });
 
