@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 
 const Transporter = require("../models/transporter");
 const Order = require("../models/order");
+const OnlineUser = require("../models/onlineUser");
 
 exports.addTransporter = async (req, res, next) => {
   console.log("hello from addtransporter 1");
@@ -26,7 +27,7 @@ exports.login = async (req, res, next) => {
       .populate({
         path: "biddedOrders",
         select:
-          "orderNo biddingTime shipmentPhoto maxBudget orderStatus bids.bidAmount timeFrame startPoint destination fragile distance shipments shipmentWeight",
+          "orderNo biddingTime shipmentPhoto maxBudget orderStatus bids.bidAmount timeFrame startPoint destination fragile distance shipments shipmentWeight userName",
         match: {
           $or: [{ orderStatus: "postbid" }, { orderStatus: "onbid" }],
         },
@@ -34,7 +35,7 @@ exports.login = async (req, res, next) => {
       .populate({
         path: "pickUpOrders",
         select:
-          "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination fragile distance shipments shipmentWeight",
+          "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination fragile distance shipments shipmentWeight userName",
         match: {
           orderStatus: "finialized",
         },
@@ -44,14 +45,14 @@ exports.login = async (req, res, next) => {
         transporter: user._id,
         orderStatus: "onDelivery",
       },
-      "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination distance shipments shipmentWeight pickedUpTime"
+      "orderNo shipmentPhoto orderStatus bidCost timeFrame startPoint destination distance shipments shipmentWeight pickedUpTime userName"
     );
     const availabelOrders = await Order.find(
       {
         orderStatus: "onbid",
         rating: { $lte: user.rating },
       },
-      "orderNo shipmentPhoto orderStatus bids.bidAmount timeFrame startPoint destination fragile distance shipments shipmentWeight biddingTime"
+      "orderNo shipmentPhoto orderStatus bids.bidAmount timeFrame startPoint destination fragile distance shipments shipmentWeight biddingTime userName"
     );
     // console.log(user);
     if (!user) {
@@ -138,6 +139,26 @@ exports.deleteTransporter = async (req, res, next) => {
       res.send({ message: "User not found" });
     } else {
       res.send({ message: "User deleted" });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.userDetails = async (req, res, next) => {
+  try {
+    const userDetails = await Transporter.findOne(
+      { userName: req.query.userName },
+      "firstName middleName lastName email contactNo address userName verified rating securityDeposit dateCreated ratedBy successfullDeliveries review"
+    );
+    const vechileDetails = await Transporter.findOne(
+      { userName: "shreali" },
+      "idCard license licenseNo vechileNo vechilePhoto bluebook vechileDimension vechileCapacity dateRegistered "
+    );
+    if (!userDetails) {
+      res.send({ message: "User not found" });
+    } else {
+      res.status(200).send({ userDetails, vechileDetails });
     }
   } catch (err) {
     next(err);

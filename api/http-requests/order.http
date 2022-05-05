@@ -1,6 +1,6 @@
 ///get all orders of different status
 ###
-GET http://localhost:7000/order/history?userName=pujamatta&orderStatus=postbid
+GET http://localhost:7000/order/history?userName=pujamatta&orderStatus=onbid
 
 //create new order
 ###
@@ -9,11 +9,11 @@ content-type : application/json
 
 {
     "userName": "pujamatta",
-    "orderNo":"10",
-    "orderStatus":"onbid",
+    "orderNo":"333",
+    "orderStatus":"prebid",
     "timeFrame":{
-        "start":"2022-02-22 10:30",
-        "end":"2022-02-22 11:30"
+        "start":"2022-04-22 10:30",
+        "end":"2022-04-22 11:30"
     },
     "startPoint":["Singha Durbar",27.697877, 85.319283],
     "destination":["Madyapur Thimi",27.676146, 85.377219],
@@ -30,8 +30,8 @@ content-type : application/json
         "width":[1.37,0.75],
         "height":[0.6,0.6]
     },
-    "fragile":false,
-    "minRated":3
+    "fragile":true,
+    "minRated":2
 }
 
 //////get any specific order by their orderNo
@@ -48,9 +48,27 @@ content-type : application/json
     "userName": "pujamatta",
     "orderNo":"1",
     "biddingTime":{
+        "start":"2022-03-01 13:58",
+        "end":"2022-03-01 14:45"
+    },
+    "maxBudget":3000,
+    "fragile":false,
+    "orderStatus":"prebid"
+}
+
+//scheduler calls this api
+###
+
+PATCH  http://localhost:7000/order/statusChanger
+content-type : application/json
+
+{
+    "userName": "pujamatta",
+    "orderNo":"1",
+    "biddingTime":{
         "start":"2022-02-21 15:10",
         "end":"2020-02-21 16:40"
     },
-    "maxBudget":3000,
+    "oldOrderStatus":"prebid",
     "fragile":false
 }

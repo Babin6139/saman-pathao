@@ -29,6 +29,10 @@ const orderSchema = new mongoose.Schema({
     start: { type: Date, required: true },
     end: { type: Date, required: true },
   },
+  userName: {
+    // required: true,
+    type: String,
+  },
   maxBudget: {
     type: Number,
     required: true,
