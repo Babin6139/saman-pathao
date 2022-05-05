@@ -176,3 +176,19 @@ exports.deleteClient = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.userDetails = async (req, res, next) => {
+  try {
+    const userDetails = await Client.findOne(
+      { userName: req.query.userName },
+      "firstName middleName lastName email contactNo address userName verified rating securityDeposit dateCreated ratedBy successfullDeliveries review"
+    );
+    if (!userDetails) {
+      res.send({ message: "User not found" });
+    } else {
+      res.status(200).send({ userDetails });
+    }
+  } catch (err) {
+    next(err);
+  }
+};

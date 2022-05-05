@@ -44,3 +44,6 @@ content-Type: application/json
 
 ###
 DELETE http://localhost:7000/users/client?email=pirateking@gmail.com
+
+###
+GET http://localhost:7000/users/client/details?userName=pujamatta
