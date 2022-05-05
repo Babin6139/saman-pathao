@@ -36,9 +36,9 @@ class DetailCard extends StatelessWidget {
                     color: Colors.amber),
                 child: CircleAvatar(
                   backgroundColor: MyColor.color1,
-                  backgroundImage: NetworkImage(
-                    userData.photo,
-                  ),
+                  // backgroundImage: NetworkImage(
+                  //   userData.photo,
+                  // ),
                 ),
               ),
               Expanded(

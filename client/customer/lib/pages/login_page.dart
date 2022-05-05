@@ -38,7 +38,9 @@ class _LoginPageState extends State<LoginPage> {
           var data = responseBody["data"];
           context.read<UserDataProvide>().changeData(UserData.fromMap(data));
           Navigator.pushReplacementNamed(context, MyRoutes.homepage);
-        } else {}
+        } else {
+          Navigator.pushReplacementNamed(context, MyRoutes.signup);
+        }
       }
     }
 
@@ -140,10 +142,14 @@ class _LoginPageState extends State<LoginPage> {
                             onChanged: (value) {
                               password = value;
                             },
-                            obscureText: true,
+                            obscureText: false,
                             decoration: InputDecoration(
                                 border: MyDecoration.inputBorder,
                                 prefixIcon: Icon(Icons.lock),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.remove_red_eye),
+                                  onPressed: () {},
+                                ),
                                 // label: Text("Password",
                                 //     style: TextStyle(color: MyColor.color1)),
                                 hintText: "Password",

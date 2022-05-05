@@ -8,9 +8,9 @@ class UserOrders {
   final String orderStartTime;
   final String orderEndTime;
   final int maxBudget;
-  final int lowestbid;
+  final int lowestbids;
   final int distance;
-  final List<String> shipments;
+  final List<dynamic> shipments;
   final int shipmentWeight;
   final String photo;
   UserOrders({
@@ -19,7 +19,7 @@ class UserOrders {
     required this.orderStartTime,
     required this.orderEndTime,
     required this.maxBudget,
-    required this.lowestbid,
+    required this.lowestbids,
     required this.distance,
     required this.shipments,
     required this.shipmentWeight,
@@ -32,9 +32,9 @@ class UserOrders {
     String? orderStartTime,
     String? orderEndTime,
     int? maxBudget,
-    int? lowestbid,
+    int? lowestbids,
     int? distance,
-    List<String>? shipments,
+    List<dynamic>? shipments,
     int? shipmentWeight,
     String? photo,
   }) {
@@ -44,7 +44,7 @@ class UserOrders {
       orderStartTime: orderStartTime ?? this.orderStartTime,
       orderEndTime: orderEndTime ?? this.orderEndTime,
       maxBudget: maxBudget ?? this.maxBudget,
-      lowestbid: lowestbid ?? this.lowestbid,
+      lowestbids: lowestbids ?? this.lowestbids,
       distance: distance ?? this.distance,
       shipments: shipments ?? this.shipments,
       shipmentWeight: shipmentWeight ?? this.shipmentWeight,
@@ -59,7 +59,7 @@ class UserOrders {
       'orderStartTime': orderStartTime,
       'orderEndTime': orderEndTime,
       'maxBudget': maxBudget,
-      'lowestbid': lowestbid,
+      'lowestbids': lowestbids,
       'distance': distance,
       'shipments': shipments,
       'shipmentWeight': shipmentWeight,
@@ -74,9 +74,9 @@ class UserOrders {
       orderStartTime: map['orderStartTime'] ?? '',
       orderEndTime: map['orderEndTime'] ?? '',
       maxBudget: map['maxBudget']?.toInt() ?? 0,
-      lowestbid: map['lowestbid']?.toInt() ?? -1,
+      lowestbids: map['lowestbids']?.toInt() ?? -1,
       distance: map['distance']?.toInt() ?? 0,
-      shipments: List<String>.from(map['shipments']),
+      shipments: map['shipments'] ?? [],
       shipmentWeight: map['shipmentWeight']?.toInt() ?? 0,
       photo: map['photo'] ?? "https://picsum.photos/200/300",
     );
@@ -89,7 +89,7 @@ class UserOrders {
 
   @override
   String toString() {
-    return 'UserOrders(orderNo: $orderNo, status: $status, orderStartTime: $orderStartTime, orderEndTime: $orderEndTime, maxBudget: $maxBudget, lowestbid: $lowestbid, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, photo: $photo)';
+    return 'UserOrders(orderNo: $orderNo, status: $status, orderStartTime: $orderStartTime, orderEndTime: $orderEndTime, maxBudget: $maxBudget, lowestbids: $lowestbids, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, photo: $photo)';
   }
 
   @override
@@ -103,7 +103,7 @@ class UserOrders {
         other.orderStartTime == orderStartTime &&
         other.orderEndTime == orderEndTime &&
         other.maxBudget == maxBudget &&
-        other.lowestbid == lowestbid &&
+        other.lowestbids == lowestbids &&
         other.distance == distance &&
         listEquals(other.shipments, shipments) &&
         other.shipmentWeight == shipmentWeight &&
@@ -117,7 +117,7 @@ class UserOrders {
         orderStartTime.hashCode ^
         orderEndTime.hashCode ^
         maxBudget.hashCode ^
-        lowestbid.hashCode ^
+        lowestbids.hashCode ^
         distance.hashCode ^
         shipments.hashCode ^
         shipmentWeight.hashCode ^

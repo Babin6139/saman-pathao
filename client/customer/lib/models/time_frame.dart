@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 class TimeFrame {
-  final String start;
-  final String end;
+  String start;
+  String end;
   TimeFrame({
     required this.start,
     required this.end,
