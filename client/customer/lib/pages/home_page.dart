@@ -37,8 +37,8 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.only(right: 16.0),
             child: Center(
               child: CircleAvatar(
-                  // backgroundImage: NetworkImage(" "),
-                  ),
+                backgroundImage: NetworkImage(userData.photo),
+              ),
             ),
           )
         ],

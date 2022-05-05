@@ -7,5 +7,5 @@ class MyDecoration {
   static BoxDecoration cardDecoration = BoxDecoration(
       boxShadow: MyColor.shadow1,
       color: Colors.white,
-      borderRadius: BorderRadius.circular(10));
+      borderRadius: BorderRadius.circular(30));
 }

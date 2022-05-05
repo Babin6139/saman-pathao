@@ -23,7 +23,7 @@ class DetailCard extends StatelessWidget {
           decoration: BoxDecoration(
               boxShadow: MyColor.shadow1,
               color: Colors.white,
-              borderRadius: BorderRadius.circular(10)),
+              borderRadius: BorderRadius.circular(30)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -36,9 +36,9 @@ class DetailCard extends StatelessWidget {
                     color: Colors.amber),
                 child: CircleAvatar(
                   backgroundColor: MyColor.color1,
-                  // backgroundImage: NetworkImage(
-                  //   userData.photo,
-                  // ),
+                  backgroundImage: NetworkImage(
+                    userData.photo,
+                  ),
                 ),
               ),
               Expanded(

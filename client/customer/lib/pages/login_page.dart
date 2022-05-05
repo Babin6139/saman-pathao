@@ -24,6 +24,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? email;
   String? password;
+  bool obscurePassword = true;
   final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -83,9 +84,11 @@ class _LoginPageState extends State<LoginPage> {
               Center(
                 child: Container(
                   height: 300.0,
-                  width: 200.0,
+                  width: size.width - 100,
                   decoration: BoxDecoration(
-                      color: Colors.white, boxShadow: MyColor.shadow1
+                      color: MyColor.cardColor,
+                      borderRadius: BorderRadius.circular(35),
+                      boxShadow: MyColor.shadow1
                       // boxShadow: [
                       //   BoxShadow(
                       //     color: MyColor.color1,
@@ -109,6 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           TextFormField(
+                            style: TextStyle(fontSize: 13),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Email cannot be empty";
@@ -124,13 +128,16 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             decoration: InputDecoration(
                                 border: MyDecoration.inputBorder,
-                                prefixIcon: Icon(Icons.person),
+                                prefixIcon: Icon(
+                                  Icons.person,
+                                ),
                                 // label: Text("Email / Username",
                                 //     style: TextStyle(color: MyColor.color1)),
                                 hintText: "Email",
                                 hintStyle: TextStyle(color: MyColor.color1)),
                           ),
                           TextFormField(
+                            style: TextStyle(fontSize: 13),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Password required";
@@ -142,13 +149,21 @@ class _LoginPageState extends State<LoginPage> {
                             onChanged: (value) {
                               password = value;
                             },
-                            obscureText: false,
+                            obscureText: obscurePassword,
                             decoration: InputDecoration(
                                 border: MyDecoration.inputBorder,
-                                prefixIcon: Icon(Icons.lock),
+                                prefixIcon: Icon(
+                                  Icons.lock,
+                                ),
                                 suffixIcon: IconButton(
-                                  icon: Icon(Icons.remove_red_eye),
-                                  onPressed: () {},
+                                  icon: obscurePassword
+                                      ? Icon(Icons.remove_red_eye)
+                                      : Icon(Icons.visibility_off),
+                                  onPressed: () {
+                                    setState(() {
+                                      obscurePassword = !obscurePassword;
+                                    });
+                                  },
                                 ),
                                 // label: Text("Password",
                                 //     style: TextStyle(color: MyColor.color1)),

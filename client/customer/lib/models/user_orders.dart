@@ -78,7 +78,7 @@ class UserOrders {
       distance: map['distance']?.toInt() ?? 0,
       shipments: map['shipments'] ?? [],
       shipmentWeight: map['shipmentWeight']?.toInt() ?? 0,
-      photo: map['photo'] ?? "https://picsum.photos/200/300",
+      photo: map['shipmentPhoto'] ?? "https://picsum.photos/200/300",
     );
   }
 
