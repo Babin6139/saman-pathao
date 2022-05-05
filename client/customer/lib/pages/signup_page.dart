@@ -67,9 +67,10 @@ class _SignUpState extends State<SignUp> {
     }
 
     Size size = MediaQuery.of(context).size;
-    return Material(
-      color: MyColor.backColor,
-      child: SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: MyColor.backColor,
+      body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Container(
           decoration: BoxDecoration(
               //     gradient: LinearGradient(
@@ -103,9 +104,11 @@ class _SignUpState extends State<SignUp> {
               Center(
                 child: Container(
                   margin: EdgeInsets.only(top: 140, bottom: 40.0),
-                  width: 200.0,
+                  width: size.width - 100,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: MyColor.cardColor,
+                    borderRadius: BorderRadius.circular(35),
+
                     boxShadow: MyColor.shadow1,
                     // boxShadow: [
                     //   BoxShadow(
@@ -359,7 +362,7 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Positioned(
-                  top: size.height / 2 - 220,
+                  top: 60,
                   left: size.width / 2 - 40.0,
                   child: Container(
                     clipBehavior: Clip.antiAlias,

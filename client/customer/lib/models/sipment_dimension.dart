@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 
 class ShipmentDimension {
-  List<double> length;
-  List<double> width;
-  List<double> height;
+  List<dynamic> length;
+  List<dynamic> width;
+  List<dynamic> height;
   ShipmentDimension({
     required this.length,
     required this.width,
@@ -13,9 +13,9 @@ class ShipmentDimension {
   });
 
   ShipmentDimension copyWith({
-    List<double>? length,
-    List<double>? width,
-    List<double>? height,
+    List<dynamic>? length,
+    List<dynamic>? width,
+    List<dynamic>? height,
   }) {
     return ShipmentDimension(
       length: length ?? this.length,
@@ -34,9 +34,9 @@ class ShipmentDimension {
 
   factory ShipmentDimension.fromMap(Map<String, dynamic> map) {
     return ShipmentDimension(
-      length: List<double>.from(map['length']),
-      width: List<double>.from(map['width']),
-      height: List<double>.from(map['height']),
+      length: List<dynamic>.from(map['length']),
+      width: List<dynamic>.from(map['width']),
+      height: List<dynamic>.from(map['height']),
     );
   }
 

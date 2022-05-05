@@ -25,7 +25,7 @@ class OrderDetail extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(15),
       decoration: MyDecoration.cardDecoration,
-      height: 120,
+      height: 180,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child:
@@ -73,7 +73,12 @@ class OrderDetail extends StatelessWidget {
                 CupertinoIcons.map,
                 size: 15,
               ),
-              Text(" Route : ${data.startPoint[0]} -> ${data.destination[0]}")
+              Flexible(
+                child: Text(
+                  " Route : ${data.startPoint[0]} -> ${data.destination[0]}",
+                  softWrap: true,
+                ),
+              )
             ],
           )),
         ]),

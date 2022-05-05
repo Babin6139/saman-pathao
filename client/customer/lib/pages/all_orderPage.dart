@@ -39,7 +39,6 @@ class _AllOrderPageState extends State<AllOrderPage> {
       prebid = [];
     }
     print(prebid);
-    setState(() {});
     var url1 =
         "http://10.0.2.2:7000/order/history?userName=${userData.userName}&orderStatus=onbid";
     var response1 = await http.get(Uri.parse(url1));
