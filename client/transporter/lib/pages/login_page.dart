@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:transporter/models/transporters.dart';
+import 'package:transporter/providers/biddedOrdersProvider.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:transporter/utils/mycolors.dart';
 import 'package:transporter/utils/route.dart';
@@ -40,7 +41,10 @@ class _LoginPageState extends State<LoginPage> {
           context
               .read<TransporterDataProvider>()
               .changeData(Transporters.fromMap(data));
-          Navigator.pushNamed(context, "/homepage", arguments: data);
+          context
+              .read<BiddedOrdersProvider>()
+              .changeData(Transporters.fromMap(data).biddedOrders);
+          Navigator.pushNamed(context, "/homepage");
         } else {
           return showDialog<void>(
               context: context,
@@ -133,8 +137,8 @@ class _LoginPageState extends State<LoginPage> {
                             suffixIcon: IconButton(
                               icon: Icon(
                                 passwordVisible
-                                    ? (Icons.visibility_off_outlined)
-                                    : (Icons.visibility_outlined),
+                                    ? (Icons.visibility_outlined)
+                                    : (Icons.visibility_off_outlined),
                               ),
                               onPressed: () {
                                 setState(() {
@@ -177,7 +181,9 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 10),
               SignInButton(
                 Buttons.Google,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/trial');
+                },
                 elevation: 5,
               ),
               SizedBox(height: 20),
