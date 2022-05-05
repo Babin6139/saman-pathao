@@ -1,6 +1,11 @@
+import 'package:customer/pages/chat_page.dart';
+import 'package:customer/pages/confirmation_order_page.dart';
 import 'package:customer/pages/home_page.dart';
+import 'package:customer/pages/individual_chat.dart';
 import 'package:customer/pages/login_page.dart';
+import 'package:customer/pages/map_placeorder.dart';
 import 'package:customer/pages/order_page.dart';
+import 'package:customer/pages/setting_page.dart';
 import 'package:customer/pages/signup_page.dart';
 import 'package:customer/providers/orderDataProvide.dart';
 import 'package:customer/providers/userData.dart';
@@ -33,7 +38,11 @@ class MyApp extends StatelessWidget {
         MyRoutes.login: (context) => LoginPage(),
         MyRoutes.signup: (context) => SignUp(),
         MyRoutes.homepage: (context) => HomePage(),
-        MyRoutes.orderPage: (context) => DisplayOrder()
+        MyRoutes.orderPage: (context) => DisplayOrder(),
+        MyRoutes.settingPage: (context) => SettingPage(),
+        MyRoutes.mapPlaceOrderPage: (context) => MapPlaceOrder(),
+        MyRoutes.confirmOrder: (context) => OrderConfirmationPage(),
+        MyRoutes.chat: (context) => IndvChat(),
       },
     );
   }

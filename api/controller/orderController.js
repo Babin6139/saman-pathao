@@ -27,7 +27,7 @@ exports.getAllOrders = async (req, res, next) => {
     let selectOrder, populateTransporter;
     if (req.query.orderStatus === "prebid") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance timeFrame biddingTime  maxBudget minRated fragile shipmentPhoto";
+        "orderNo orderStatus startPoint destination distance timeFrame biddingTime  maxBudget minRated fragile shipmentPhoto shipments shipmentWeight";
     } else if (req.query.orderStatus === "onbid") {
       selectOrder =
         "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget shipmentPhoto bids";

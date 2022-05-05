@@ -50,7 +50,7 @@ class OrderCard extends StatelessWidget {
                   style: TextStyle(fontSize: 12),
                 ),
                 Text(
-                  "Lowest bid: ${userOrder.lowestbid == -1 ? "No bid" : userOrder.lowestbid}",
+                  "Lowest bid : ${userOrder.lowestbids == -1 ? "No bid" : userOrder.lowestbids}",
                   style: TextStyle(fontSize: 12),
                 )
               ],

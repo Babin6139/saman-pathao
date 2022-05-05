@@ -21,9 +21,7 @@ class Home extends StatelessWidget {
         DetailCard(
           userData: userData,
         ),
-        Orders(
-          userData: userData,
-        ),
+        Orders(),
         Delivery(
           userData: userData,
         )

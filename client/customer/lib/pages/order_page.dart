@@ -95,18 +95,40 @@ class _DisplayOrderState extends State<DisplayOrder> {
                           padding: const EdgeInsets.only(
                               top: 15.0, left: 15, right: 15),
                           child: Container(
+                            padding: EdgeInsets.only(top: 5),
                             decoration: MyDecoration.cardDecoration,
-                            height: 25,
+                            height: 35,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Icon(
-                                  CupertinoIcons.arrow_2_circlepath_circle,
-                                  color: Colors.orange,
+                                GestureDetector(
+                                  onTap: () {
+                                    print("object");
+                                  },
+                                  child: Column(children: [
+                                    Icon(
+                                      CupertinoIcons.arrow_2_circlepath,
+                                      color: Colors.amber,
+                                      size: 14,
+                                    ),
+                                    Text("Update")
+                                  ]),
                                 ),
-                                Icon(
-                                  CupertinoIcons.xmark_circle,
-                                  color: Colors.red,
+                                GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            _buildPopupDialog(context));
+                                  },
+                                  child: Column(children: [
+                                    Icon(
+                                      CupertinoIcons.xmark,
+                                      color: Colors.red,
+                                      size: 14,
+                                    ),
+                                    Text("Delete")
+                                  ]),
                                 ),
                               ],
                             ),
@@ -128,5 +150,26 @@ class _DisplayOrderState extends State<DisplayOrder> {
                       ]))
                     ])),
         ));
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Popup example'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Hello"),
+        ],
+      ),
+      actions: <Widget>[
+        new ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Close'),
+        ),
+      ],
+    );
   }
 }

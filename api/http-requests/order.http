@@ -1,6 +1,6 @@
 ///get all orders of different status
 ###
-GET http://localhost:7000/order/history?userName=pujamatta&orderStatus=onbid
+GET http://localhost:7000/order/history?userName=pirateking&orderStatus=prebid
 
 //create new order
 ###
