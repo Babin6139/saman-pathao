@@ -25,8 +25,8 @@ POST http://localhost:7000/users/client
 content-Type: application/json
 
 {
-   "email": "pujamatta@gmail.com",
-   "password": "JqhVDruJo6b"
+   "email": "piratekingg@gmail.com",
+   "password": "user12345"
 }
 
 ///client update

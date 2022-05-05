@@ -2,9 +2,14 @@ const bcrypt = require("bcrypt");
 
 const Client = require("../models/client");
 
+/**
+ * Signup function for client
+ * @param {object} req  contaions all the signup details from front end
+ * @param {object} res  contains the response from the server
+ * @param {object} next  contains the error if any
+ */
+
 exports.addClient = async (req, res, next) => {
-  console.log("hello from addClient 1");
-  console.log(req.body);
   const hash = await bcrypt.hash(req.body.password, 10);
   req.body.password = hash;
   const userObj = req.body;

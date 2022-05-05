@@ -1,0 +1,7 @@
+GET http://router.project-osrm.org/route/v1/driving/27.619783639731505,85.53830709871025;27.625187552395317,85.54094207377399
+
+###
+GET https://api.mapbox.com/directions-matrix/v1/mapbox/driving/85.33958229232894,27.696426414048474;85.33259102191215,27.69304332952308?approaches=curb;curb;curb&access_token=pk.eyJ1IjoibmJobiIsImEiOiJjbDI0d3Z3ZmowMHc1M2ptbGlxcXU3M2E5In0.pNvr3Yp0jiznM1WWdkhWIA
+
+###
+GET https://api.mapbox.com/directions/v5/mapbox/driving/85.33958229232894%2C27.696426414048474%3B85.33259102191215%2C27.69304332952308?alternatives=true&geometries=geojson&language=en&overview=simplified&steps=true&access_token=pk.eyJ1IjoibmJobiIsImEiOiJjbDI0d3Z3ZmowMHc1M2ptbGlxcXU3M2E5In0.pNvr3Yp0jiznM1WWdkhWIA

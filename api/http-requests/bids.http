@@ -31,3 +31,6 @@ GET http://localhost:7000/bid/history?userName=shreali
 
 ###
 GET http://localhost:7000/bid/suitablebids?userName=shreali
+
+###
+GET http://localhost:7000/bid/trial?userName=shreali

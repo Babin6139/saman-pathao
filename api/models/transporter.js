@@ -1,3 +1,4 @@
+const { stringify } = require("jade/lib/utils");
 const mongoose = require("mongoose");
 const transporterSchema = new mongoose.Schema({
   firstName: {
@@ -31,6 +32,10 @@ const transporterSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  requestForVerification: {
+    type: String,
+    default: "false",
   },
   verified: {
     type: Boolean,

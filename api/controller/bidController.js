@@ -2,6 +2,48 @@ const Order = require("../models/order");
 const Transporter = require("../models/transporter");
 const Client = require("../models/client");
 const mongoose = require("mongoose");
+const mbxClient = require("@mapbox/mapbox-sdk");
+const mbxMatrix = require("@mapbox/mapbox-sdk/services/matrix");
+const mbxDirection = require("@mapbox/mapbox-sdk/services/directions");
+const baseClient = mbxClient({
+  accessToken:
+    "pk.eyJ1IjoibmJobiIsImEiOiJjbDI0d3Z3ZmowMHc1M2ptbGlxcXU3M2E5In0.pNvr3Yp0jiznM1WWdkhWIA",
+});
+const matrixClient = mbxMatrix(baseClient);
+const directionsClient = mbxDirection(baseClient);
+
+function nearMe(order) {
+  matrixClient
+    .getMatrix({
+      points: [
+        {
+          coordinates: [
+            parseInt(order.startPoint[2]),
+            parseInt(order.startPoint[1]),
+          ],
+        },
+        {
+          coordinates: [85.52111841641558, 27.630063957063957],
+        },
+      ],
+      profile: "driving",
+      annotations: ["distance", "duration"],
+    })
+    .send()
+    .then((response) => {
+      const matrix = response.body;
+      console.log(matrix.distances, matrix.durations);
+      if (matrix.distances[1] <= 1000) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
+}
 
 //for transporter to add bids to suitable order
 exports.addBids = async (req, res, next) => {
@@ -205,7 +247,6 @@ exports.getSuitableBids = async (req, res, next) => {
       userName: req.query.userName,
     });
     console.log(transporter._id);
-
     const order = await Order.find({
       orderStatus: "onbid",
       "bids.transporter": {
@@ -218,4 +259,73 @@ exports.getSuitableBids = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+exports.locationApproriateBids = async (req, res, next) => {
+  const order = await Order.find({}, "orderNo startPoint destination");
+  // locationMatrix = [[]];
+  // order.forEach((order, index) => {
+  //   locationMatrix[index] = [
+  //     [order.orderNo, order.startPoint[2], order.destination[2]],
+  //   ];
+  // });
+  suitableorder = [];
+  order.forEach((order) => {
+    distanceMatrices = matrixClient
+      .getMatrix({
+        points: [
+          {
+            coordinates: [
+              parseInt(order.startPoint[2]),
+              parseInt(order.startPoint[1]),
+            ],
+          },
+          {
+            coordinates: [85.52111841641558, 27.630063957063957],
+          },
+        ],
+        profile: "driving",
+        annotations: ["distance"],
+      })
+      .send()
+      .then((response) => {
+        const matrix = response.body;
+        console.log(matrix.distances);
+        if (matrix.distances[1][0] >= 1000) {
+          suitableorder.push(order);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
+  res.send(order);
+};
+
+exports.routeOfOrders = async (req, res, next) => {
+  var directions;
+  // res.send("hello");
+  await directionsClient
+    .getDirections({
+      profile: "driving-traffic",
+      waypoints: [
+        {
+          coordinates: [13.4301, 52.5109],
+          approach: "unrestricted",
+        },
+        {
+          coordinates: [13.4265, 52.508],
+        },
+        {
+          coordinates: [13.4194, 52.5072],
+          bearing: [100, 60],
+        },
+      ],
+    })
+    .send()
+    .then((response) => {
+      directions = response.body;
+    });
+  res.send({ message: directions });
 };
