@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:transporter/models/bidedOrders.dart';
+import 'package:transporter/models/onBidOrders.dart';
 import 'package:transporter/models/onDeliveryOrders.dart';
 import 'package:transporter/models/pickUpOrders.dart';
 
@@ -16,6 +17,7 @@ class Transporters {
   List<PickUpOrders> pickUpOrders;
   List<BiddedOrders> biddedOrders;
   List<OnDeliveryOrders> onDeliveryOrders;
+  List<OnBidOrders> onBidOrders;
   Transporters({
     required this.userName,
     required this.transporterId,
@@ -27,6 +29,7 @@ class Transporters {
     required this.pickUpOrders,
     required this.biddedOrders,
     required this.onDeliveryOrders,
+    required this.onBidOrders,
   });
 
   Transporters copyWith({
@@ -40,6 +43,7 @@ class Transporters {
     List<PickUpOrders>? pickUpOrders,
     List<BiddedOrders>? biddedOrders,
     List<OnDeliveryOrders>? onDeliveryOrders,
+    List<OnBidOrders>? onBidOrders,
   }) {
     return Transporters(
       userName: userName ?? this.userName,
@@ -52,6 +56,7 @@ class Transporters {
       pickUpOrders: pickUpOrders ?? this.pickUpOrders,
       biddedOrders: biddedOrders ?? this.biddedOrders,
       onDeliveryOrders: onDeliveryOrders ?? this.onDeliveryOrders,
+      onBidOrders: onBidOrders ?? this.onBidOrders,
     );
   }
 
@@ -67,6 +72,7 @@ class Transporters {
       'pickUpOrders': pickUpOrders.map((x) => x.toMap()).toList(),
       'biddedOrders': biddedOrders.map((x) => x.toMap()).toList(),
       'onDeliveryOrders': onDeliveryOrders.map((x) => x.toMap()).toList(),
+      'onBidOrders': onBidOrders.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -85,6 +91,8 @@ class Transporters {
           map['biddedOrders']?.map((x) => BiddedOrders.fromMap(x))),
       onDeliveryOrders: List<OnDeliveryOrders>.from(
           map['onDeliveryOrders']?.map((x) => OnDeliveryOrders.fromMap(x))),
+      onBidOrders: List<OnBidOrders>.from(
+          map['onBidOrders']?.map((x) => OnBidOrders.fromMap(x))),
     );
   }
 
@@ -95,7 +103,7 @@ class Transporters {
 
   @override
   String toString() {
-    return 'Transporters(userName: $userName, transporterId: $transporterId, email: $email, photo: $photo, inAppCurrency: $inAppCurrency, rating: $rating, verified: $verified, pickUpOrders: $pickUpOrders, biddedOrders: $biddedOrders, onDeliveryOrders: $onDeliveryOrders)';
+    return 'Transporters(userName: $userName, transporterId: $transporterId, email: $email, photo: $photo, inAppCurrency: $inAppCurrency, rating: $rating, verified: $verified, pickUpOrders: $pickUpOrders, biddedOrders: $biddedOrders, onDeliveryOrders: $onDeliveryOrders, onBidOrders: $onBidOrders)';
   }
 
   @override
@@ -113,7 +121,8 @@ class Transporters {
         other.verified == verified &&
         listEquals(other.pickUpOrders, pickUpOrders) &&
         listEquals(other.biddedOrders, biddedOrders) &&
-        listEquals(other.onDeliveryOrders, onDeliveryOrders);
+        listEquals(other.onDeliveryOrders, onDeliveryOrders) &&
+        listEquals(other.onBidOrders, onBidOrders);
   }
 
   @override
@@ -127,6 +136,7 @@ class Transporters {
         verified.hashCode ^
         pickUpOrders.hashCode ^
         biddedOrders.hashCode ^
-        onDeliveryOrders.hashCode;
+        onDeliveryOrders.hashCode ^
+        onBidOrders.hashCode;
   }
 }

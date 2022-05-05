@@ -6,6 +6,8 @@ import 'package:transporter/pages/login_page.dart';
 import 'package:transporter/pages/order_page.dart';
 import 'package:transporter/pages/signup_page.dart';
 import 'package:transporter/pages/signup_phone.dart';
+import 'package:transporter/pages/transporter_details.dart';
+import 'package:transporter/pages/verification.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -22,8 +24,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Homepage());
       case '/biddedOrder':
         return MaterialPageRoute(builder: (_) => OrderPage(args: args));
+      case '/details':
+        return MaterialPageRoute(builder: (_) => TransporterDetails());
+      case '/verification':
+        return MaterialPageRoute(builder: (_) => VerificationPage());
       case '/trial':
-        return MaterialPageRoute(builder: (_) => Trial(args: args));
+        return MaterialPageRoute(builder: (_) => Trial());
 
       default:
         return _errorRoute();

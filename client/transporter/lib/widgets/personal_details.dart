@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:transporter/models/user.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
 
 class PersonalDetail extends StatefulWidget {
