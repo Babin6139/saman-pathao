@@ -16,6 +16,8 @@ class Trial extends StatefulWidget {
 
 class _TrialState extends State<Trial> {
   LocationData? currentLocationData;
+  final Set<Marker> markers = new Set();
+
   enableLocation() async {
     var location = new Location();
     var serviceEnabled = await location.serviceEnabled();
@@ -46,6 +48,7 @@ class _TrialState extends State<Trial> {
   }
 
   Completer<GoogleMapController> _googleMapController = Completer();
+  LatLng position = const LatLng(27.675396686559694, 85.39714593440296);
 
   @override
   Widget build(BuildContext context) {
@@ -58,16 +61,45 @@ class _TrialState extends State<Trial> {
               currentLocationData?.longitude as double),
           fillColor: Colors.blue.shade100.withAlpha(100),
           strokeWidth: 2,
-          radius: 5000,
+          radius: 2000,
         )
       ]);
     }
+    markers.add(Marker(
+      //add first marker
+      markerId: MarkerId('122'),
+      position:
+          LatLng(27.675396686559694, 85.39714593440296), //position of marker
+      infoWindow: InfoWindow(
+        //popup info
+        title: 'PickUp location ',
+        snippet: 'Pickup here',
+      ),
+      icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+    ));
+
     return SafeArea(
       child: Scaffold(
         body: (currentLocationData == null || circles == null)
             ? Center(child: CircularProgressIndicator())
             : Container(
                 child: GoogleMap(
+                  onTap: (coordinates) {
+                    setState(() {
+                      position = coordinates;
+                      markers.add(Marker(
+                        //add second marker
+                        markerId: MarkerId(position.toString()),
+                        position: coordinates, //position of marker
+                        infoWindow: InfoWindow(
+                          //popup info
+                          title: 'Delivery Location ',
+                          snippet: 'Deliver here',
+                        ),
+                        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+                      ));
+                    });
+                  },
                   zoomControlsEnabled: false,
                   rotateGesturesEnabled: true,
                   myLocationEnabled: true,
@@ -81,12 +113,9 @@ class _TrialState extends State<Trial> {
                           currentLocationData!.longitude as double),
                       zoom: 12),
                   circles: circles as Set<Circle>,
+                  markers: markers,
                 ),
               ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {},
-        //   child: Icon(Icons.center_focus_strong_rounded),
-        // ),
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:transporter/providers/biddedOrdersProvider.dart';
 import 'package:transporter/providers/changePageProvider.dart';
 import 'package:transporter/providers/formValueProvider.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
 
 import 'package:transporter/route_generator.dart';
 
@@ -24,10 +25,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/',
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: RouteGenerator.generateRoute,
-    );
+    return KhaltiScope(
+        publicKey: 'test_public_key_30e12814fed64afa9a7d4a92a2194aeb',
+        builder: (context, navigatorKey) {
+          return MaterialApp(
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('ne', 'NP'),
+            ],
+            navigatorKey: navigatorKey,
+            localizationsDelegates: const [
+              KhaltiLocalizations.delegate,
+            ],
+            initialRoute: '/',
+            debugShowCheckedModeBanner: false,
+            onGenerateRoute: RouteGenerator.generateRoute,
+          );
+        });
   }
 }

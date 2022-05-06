@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:transporter/models/transporters.dart';
 import 'package:transporter/pages/home_page_more.dart';
+import 'package:transporter/pages/khalti_integration.dart';
 import 'package:transporter/pages/place_bids_page.dart';
 import 'package:transporter/providers/biddedOrdersProvider.dart';
 import 'package:transporter/providers/changePageProvider.dart';
@@ -207,7 +208,7 @@ class _HomepageState extends State<Homepage> {
                       ],
                     ),
             ),
-            PlaceBidsPage(),
+            KhaltiPaymentApp(),
             Text("Message"),
             HomepageMore()
           ],
