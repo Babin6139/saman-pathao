@@ -83,7 +83,7 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
                       });
                       var response = await http.post(
                           Uri.parse(
-                              "http://192.168.254.2:7000/users/inAppCurrency?userType=transporter"),
+                              "http://10.0.2.2:7000/users/inAppCurrency?userType=transporter"),
                           headers: {'Content-Type': 'application/json'},
                           body: data);
                       ScaffoldMessenger.of(context)

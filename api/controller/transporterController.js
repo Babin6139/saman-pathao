@@ -85,7 +85,7 @@ exports.login = async (req, res, next) => {
           verified: user.verified,
           transporterId: user._id,
           pickUpOrders: user.pickUpOrders,
-          biddedOrders: [],
+          biddedOrders: user.biddedOrders,
           onBidOrders: availabelOrders.filter(
             ({ orderNo: val1 }) =>
               !user.biddedOrders.some(({ orderNo: val2 }) => val1 === val2)
