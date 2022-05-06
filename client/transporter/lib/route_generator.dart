@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:transporter/pages/Trial.dart';
 
 import 'package:transporter/pages/home_page.dart';
+import 'package:transporter/pages/khalti_integration.dart';
 import 'package:transporter/pages/login_page.dart';
 import 'package:transporter/pages/order_page.dart';
 import 'package:transporter/pages/signup_page.dart';
@@ -30,6 +31,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => VerificationPage());
       case '/trial':
         return MaterialPageRoute(builder: (_) => Trial());
+      case '/wallet_load':
+        return MaterialPageRoute(builder: (_) => KhaltiPaymentApp());
 
       default:
         return _errorRoute();
