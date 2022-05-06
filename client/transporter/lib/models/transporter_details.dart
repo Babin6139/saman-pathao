@@ -11,7 +11,7 @@ class TransporterDetail {
   String dateCreated;
   int ratedBy;
   int successfullDeliveries;
-  List<String> review;
+  // List<String> review;
   String firstName;
   String middleName;
   String lastName;
@@ -27,7 +27,7 @@ class TransporterDetail {
     required this.dateCreated,
     required this.ratedBy,
     required this.successfullDeliveries,
-    required this.review,
+    // required this.review,
     required this.firstName,
     required this.middleName,
     required this.lastName,
@@ -45,7 +45,7 @@ class TransporterDetail {
     String? dateCreated,
     int? ratedBy,
     int? successfullDeliveries,
-    List<String>? review,
+    // List<String>? review,
     String? firstName,
     String? middleName,
     String? lastName,
@@ -63,7 +63,7 @@ class TransporterDetail {
       ratedBy: ratedBy ?? this.ratedBy,
       successfullDeliveries:
           successfullDeliveries ?? this.successfullDeliveries,
-      review: review ?? this.review,
+      // review: review ?? this.review,
       firstName: firstName ?? this.firstName,
       middleName: middleName ?? this.middleName,
       lastName: lastName ?? this.lastName,
@@ -83,7 +83,7 @@ class TransporterDetail {
       'dateCreated': dateCreated,
       'ratedBy': ratedBy,
       'successfullDeliveries': successfullDeliveries,
-      'review': review,
+      // 'review': review,
       'firstName': firstName,
       'middleName': middleName,
       'lastName': lastName,
@@ -103,7 +103,7 @@ class TransporterDetail {
       dateCreated: map['dateCreated'] ?? '',
       ratedBy: map['ratedBy']?.toInt() ?? 0,
       successfullDeliveries: map['successfullDeliveries']?.toInt() ?? 0,
-      review: List<String>.from(map['review']),
+      // review: List<String>.from(map['review']),
       firstName: map['firstName'] ?? '',
       middleName: map['middleName'] ?? '',
       lastName: map['lastName'] ?? '',
@@ -120,7 +120,8 @@ class TransporterDetail {
 
   @override
   String toString() {
-    return 'TransporterDetail(email: $email, address: $address, userName: $userName, verified: $verified, securityDeposit: $securityDeposit, dateCreated: $dateCreated, ratedBy: $ratedBy, successfullDeliveries: $successfullDeliveries, review: $review, firstName: $firstName, middleName: $middleName, lastName: $lastName, contactNo: $contactNo, photo: $photo, rating: $rating)';
+    return 'TransporterDetail(email: $email, address: $address, userName: $userName, verified: $verified, securityDeposit: $securityDeposit, dateCreated: $dateCreated, ratedBy: $ratedBy, successfullDeliveries: $successfullDeliveries, firstName: $firstName, middleName: $middleName, lastName: $lastName, contactNo: $contactNo, photo: $photo, rating: $rating)';
+    //  review: $review
   }
 
   @override
@@ -137,7 +138,7 @@ class TransporterDetail {
         other.dateCreated == dateCreated &&
         other.ratedBy == ratedBy &&
         other.successfullDeliveries == successfullDeliveries &&
-        listEquals(other.review, review) &&
+        // listEquals(other.review, review) &&
         other.firstName == firstName &&
         other.middleName == middleName &&
         other.lastName == lastName &&
@@ -156,7 +157,7 @@ class TransporterDetail {
         dateCreated.hashCode ^
         ratedBy.hashCode ^
         successfullDeliveries.hashCode ^
-        review.hashCode ^
+        // review.hashCode ^
         firstName.hashCode ^
         middleName.hashCode ^
         lastName.hashCode ^

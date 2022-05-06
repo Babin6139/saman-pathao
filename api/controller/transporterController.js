@@ -40,6 +40,11 @@ exports.login = async (req, res, next) => {
           orderStatus: "finialized",
         },
       });
+    if(!user){
+      res.send({message: "User not found"})
+      console.log("user not found")
+      return 0
+    }
     const deliveryOrders = await Order.find(
       {
         transporter: user._id,

@@ -46,6 +46,7 @@ class _SignUpPhoneState extends State<SignUpPhone> {
               height: 15,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
