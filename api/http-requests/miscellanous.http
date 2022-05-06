@@ -1,15 +1,15 @@
-POST http://localhost:7000/users/ratingandreview?userType=client
+POST http://localhost:7000/users/ratingandreview?userType=transporter
 content-Type: application/json
 
 {
     "rating" : 4.5,
-    "review" : "This is a review",
-    "userNameReviewer": "pirateQueen",
-    "userNameReviewed": "hb"
+    "review" : "this is review test",
+    "userNameReviewer": "hb",
+    "userNameReviewed": "pirateking"
 }
 
 ###
-GET http://localhost:7000/users/ratingandreview?userType=transporter&userName=hb
+GET http://localhost:7000/users/ratingandreview?userType=client&userName=pirateking
 
 ###
 POST http://localhost:7000/users/inAppCurrency?userType=transporter
@@ -19,3 +19,6 @@ content-type: application/json
     "userName":"hb",
     "inAppCurrency":100
 }
+
+###
+GET http://localhost:7000/users/transporter/details?userName=hb

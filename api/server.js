@@ -9,6 +9,7 @@ app.listen(PORT, () => {
   console.log(`server started at localhost:${PORT}`);
 });
 
+//sends onbids order periodically
 var autoUpdater = async (req, res) => {
   const headers = {
     "Content-Type": "text/event-stream",
@@ -22,7 +23,7 @@ var autoUpdater = async (req, res) => {
       orderStatus: "onbid",
       // rating: { $lte: rating },
     },
-    "orderNo shipmentPhoto orderStatus bids.bidAmount timeFrame startPoint destination fragile distance shipments shipmentWeight biddingTime userName"
+    "orderNo  userName"
   );
 
   res.write("data: " + `${JSON.stringify(data)} \n\n`);
@@ -43,21 +44,23 @@ var autoUpdater = async (req, res) => {
 
 app.get("/autoUpdate", autoUpdater);
 
-var job = new cron(" */5 * * * *", () => {
-  console.log("running a task every  5 minute" + new Date());
-  statusChanger.statusChanger("prebid").then(async () => {
+var job = new cron(" */1 * * * *", () => {
+  console.log("running a task every  1 minute" + new Date());
+  statusChanger.statusChanger("prebid");
+  statusChanger.statusChanger("onbid");
+  async () => {
     const data = await Order.find(
       {
         orderStatus: "onbid",
         // rating: { $lte: rating },
       },
-      "orderNo shipmentPhoto orderStatus bids.bidAmount timeFrame startPoint destination fragile distance shipments shipmentWeight biddingTime userName"
+      "orderNo  userName"
     );
+    console.log(onlineUser);
     onlineUser.forEach((user) => {
       user.res.write("data: " + `${JSON.stringify(data)} \n\n`);
     });
-  });
-  // statusChanger.statusChanger("onbid").then(console.log);
+  };
 });
 
 job.start();

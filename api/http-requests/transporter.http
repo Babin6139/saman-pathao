@@ -9,8 +9,8 @@ POST http://localhost:7000/users/transporter
 content-Type: application/json
 
 {
-    "email": "shreali@gmail.com",
-    "password": "uCSUPEVatmkA"
+    "email": "hb@gmail.com",
+    "password": "user123"
 }
 
 ### 

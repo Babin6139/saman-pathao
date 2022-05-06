@@ -29,7 +29,7 @@ class _HomepageMoreState extends State<HomepageMore> {
         context.read<TransporterDataProvider>().transporterData.userName;
     var response = await http.get(
         Uri.parse(
-            "http://10.0.2.2:7000/users/transporter/details?userName=$userName"),
+            "http://192.168.254.2:7000/users/transporter/details?userName=$userName"),
         headers: {'Content-Type': 'application/json'});
     var responseData = await jsonDecode(response.body);
     var transporteDetail = responseData["userDetails"];
@@ -61,6 +61,21 @@ class _HomepageMoreState extends State<HomepageMore> {
                     ),
                     child: Column(
                       children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, "/details");
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.person),
+                              SizedBox(width: 10),
+                              Text("Profile")
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
                         GestureDetector(
                           onTap: () {
                             context.read<ChangePageProvider>().resetIndex();

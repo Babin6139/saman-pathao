@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:transporter/providers/biddedOrdersProvider.dart';
 import 'package:transporter/providers/changePageProvider.dart';
+import 'package:transporter/providers/deliveryOrdersProvider.dart';
 import 'package:transporter/providers/formValueProvider.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
@@ -16,6 +17,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => TransporterDataProvider()),
     ChangeNotifierProvider(create: (_) => FormValueProvider()),
     ChangeNotifierProvider(create: (_) => BiddedOrdersProvider()),
+    ChangeNotifierProvider(create: (_) => DeliveryOrdersProvider()),
     ChangeNotifierProvider(create: (_) => ChangePageProvider()),
   ], child: MyApp()));
 }

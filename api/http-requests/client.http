@@ -22,8 +22,8 @@ POST http://localhost:7000/users/client
 content-Type: application/json
 
 {
-   "email": "mks@gmail.com",
-   "password": "user1234"
+   "email": "pirateking@gmail.com",
+   "password": "user12345"
 }
 ###
 
