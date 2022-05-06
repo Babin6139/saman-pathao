@@ -1,6 +1,7 @@
 import 'package:customer/models/user_data.dart';
 import 'package:customer/pages/all_orderPage.dart';
 import 'package:customer/pages/chat_page.dart';
+import 'package:customer/pages/khalti_payment_page.dart';
 import 'package:customer/pages/place_order.dart';
 import 'package:customer/pages/profile.dart';
 import 'package:customer/providers/userData.dart';
@@ -11,6 +12,8 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import "package:curved_navigation_bar/curved_navigation_bar.dart";
 import 'package:provider/provider.dart';
+
+import 'collateral_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -52,10 +55,10 @@ class _HomePageState extends State<HomePage> {
         index: page,
         items: [
           Icon(Icons.home),
-          Icon(Icons.person),
-          Icon(Icons.message_rounded),
+          Icon(Icons.monetization_on),
           Icon(CupertinoIcons.bag_fill),
           Icon(Icons.local_shipping),
+          Icon(Icons.person),
         ],
         onTap: (value) {
           switch (value) {
@@ -103,10 +106,10 @@ class _HomePageState extends State<HomePage> {
         },
         children: [
           Home(),
-          Profile(),
-          ChatPage(),
+          KhaltiPaymentPage(),
           AllOrderPage(),
           PlaceOrder(),
+          Profile(),
         ],
       ),
     );

@@ -16,10 +16,11 @@ class PlaceOrderDetail {
   ShipmentDimension? shipmentDimension;
   bool? fragile;
   double? minRated;
-  String? photo;
+  String? shipmentPhoto;
   double? distance;
   String? email;
   String? orderNo;
+  List shipmentCount;
   PlaceOrderDetail({
     this.userName,
     this.timeFrame,
@@ -32,10 +33,11 @@ class PlaceOrderDetail {
     this.shipmentDimension,
     this.fragile,
     this.minRated,
-    this.photo,
+    this.shipmentPhoto,
     this.distance,
     this.email,
     this.orderNo,
+    required this.shipmentCount,
   });
 
   PlaceOrderDetail copyWith({
@@ -50,10 +52,11 @@ class PlaceOrderDetail {
     ShipmentDimension? shipmentDimension,
     bool? fragile,
     double? minRated,
-    String? photo,
+    String? shipmentPhoto,
     double? distance,
     String? email,
     String? orderNo,
+    List? shipmentCount,
   }) {
     return PlaceOrderDetail(
       userName: userName ?? this.userName,
@@ -67,31 +70,59 @@ class PlaceOrderDetail {
       shipmentDimension: shipmentDimension ?? this.shipmentDimension,
       fragile: fragile ?? this.fragile,
       minRated: minRated ?? this.minRated,
-      photo: photo ?? this.photo,
+      shipmentPhoto: shipmentPhoto ?? this.shipmentPhoto,
       distance: distance ?? this.distance,
       email: email ?? this.email,
       orderNo: orderNo ?? this.orderNo,
+      shipmentCount: shipmentCount ?? this.shipmentCount,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'userName': userName,
-      'timeFrame': timeFrame?.toMap(),
-      'startPoint': startPoint,
-      'destination': destination,
-      'biddingTime': biddingTime?.toMap(),
-      'maxBudget': maxBudget,
-      'shipments': shipments,
-      'shipmentWeight': shipmentWeight,
-      'shipmentDimension': shipmentDimension?.toMap(),
-      'fragile': fragile,
-      'minRated': minRated,
-      'photo': photo,
-      'distance': distance,
-      'email': email,
-      'orderNo': orderNo,
-    };
+    final result = <String, dynamic>{};
+
+    if (userName != null) {
+      result.addAll({'userName': userName});
+    }
+    if (timeFrame != null) {
+      result.addAll({'timeFrame': timeFrame!.toMap()});
+    }
+    result.addAll({'startPoint': startPoint});
+    result.addAll({'destination': destination});
+    if (biddingTime != null) {
+      result.addAll({'biddingTime': biddingTime!.toMap()});
+    }
+    if (maxBudget != null) {
+      result.addAll({'maxBudget': maxBudget});
+    }
+    result.addAll({'shipments': shipments});
+    if (shipmentWeight != null) {
+      result.addAll({'shipmentWeight': shipmentWeight});
+    }
+    if (shipmentDimension != null) {
+      result.addAll({'shipmentDimension': shipmentDimension!.toMap()});
+    }
+    if (fragile != null) {
+      result.addAll({'fragile': fragile});
+    }
+    if (minRated != null) {
+      result.addAll({'minRated': minRated});
+    }
+    if (shipmentPhoto != null) {
+      result.addAll({'shipmentPhoto': shipmentPhoto});
+    }
+    if (distance != null) {
+      result.addAll({'distance': distance});
+    }
+    if (email != null) {
+      result.addAll({'email': email});
+    }
+    if (orderNo != null) {
+      result.addAll({'orderNo': orderNo});
+    }
+    result.addAll({'shipmentCount': shipmentCount});
+
+    return result;
   }
 
   factory PlaceOrderDetail.fromMap(Map<String, dynamic> map) {
@@ -112,10 +143,11 @@ class PlaceOrderDetail {
           : null,
       fragile: map['fragile'],
       minRated: map['minRated']?.toDouble(),
-      photo: map['photo'],
+      shipmentPhoto: map['shipmentPhoto'],
       distance: map['distance']?.toDouble(),
       email: map['email'],
       orderNo: map['orderNo'],
+      shipmentCount: List.from(map['shipmentCount']),
     );
   }
 
@@ -126,7 +158,7 @@ class PlaceOrderDetail {
 
   @override
   String toString() {
-    return 'PlaceOrderDetail(userName: $userName, timeFrame: $timeFrame, startPoint: $startPoint, destination: $destination, biddingTime: $biddingTime, maxBudget: $maxBudget, shipments: $shipments, shipmentWeight: $shipmentWeight, shipmentDimension: $shipmentDimension, fragile: $fragile, minRated: $minRated, photo: $photo, distance: $distance, email: $email, orderNo: $orderNo)';
+    return 'PlaceOrderDetail(userName: $userName, timeFrame: $timeFrame, startPoint: $startPoint, destination: $destination, biddingTime: $biddingTime, maxBudget: $maxBudget, shipments: $shipments, shipmentWeight: $shipmentWeight, shipmentDimension: $shipmentDimension, fragile: $fragile, minRated: $minRated, shipmentPhoto: $shipmentPhoto, distance: $distance, email: $email, orderNo: $orderNo, shipmentCount: $shipmentCount)';
   }
 
   @override
@@ -146,10 +178,11 @@ class PlaceOrderDetail {
         other.shipmentDimension == shipmentDimension &&
         other.fragile == fragile &&
         other.minRated == minRated &&
-        other.photo == photo &&
+        other.shipmentPhoto == shipmentPhoto &&
         other.distance == distance &&
         other.email == email &&
-        other.orderNo == orderNo;
+        other.orderNo == orderNo &&
+        listEquals(other.shipmentCount, shipmentCount);
   }
 
   @override
@@ -165,9 +198,10 @@ class PlaceOrderDetail {
         shipmentDimension.hashCode ^
         fragile.hashCode ^
         minRated.hashCode ^
-        photo.hashCode ^
+        shipmentPhoto.hashCode ^
         distance.hashCode ^
         email.hashCode ^
-        orderNo.hashCode;
+        orderNo.hashCode ^
+        shipmentCount.hashCode;
   }
 }

@@ -1,13 +1,15 @@
 import 'dart:convert';
+
 import 'package:collection/collection.dart';
 import 'package:customer/models/user_orders.dart';
+import 'package:flutter/material.dart';
 
 class UserData {
   final String userName;
   final String email;
   final String photo;
   final int inAppCurrency;
-  final int rating;
+  final double rating;
   final List<UserOrders> postBidOrders;
   final List<UserOrders> onBidOrders;
   final List<UserOrders> onDeliveryOrders;
@@ -27,7 +29,7 @@ class UserData {
     String? email,
     String? photo,
     int? inAppCurrency,
-    int? rating,
+    double? rating,
     List<UserOrders>? postBidOrders,
     List<UserOrders>? onBidOrders,
     List<UserOrders>? onDeliveryOrders,
@@ -45,16 +47,20 @@ class UserData {
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'userName': userName,
-      'email': email,
-      'photo': photo,
-      'inAppCurrency': inAppCurrency,
-      'rating': rating,
-      'postBidOrders': postBidOrders.map((x) => x.toMap()).toList(),
-      'onBidOrders': onBidOrders.map((x) => x.toMap()).toList(),
-      'onDeliveryOrders': onDeliveryOrders.map((x) => x.toMap()).toList(),
-    };
+    final result = <String, dynamic>{};
+
+    result.addAll({'userName': userName});
+    result.addAll({'email': email});
+    result.addAll({'photo': photo});
+    result.addAll({'inAppCurrency': inAppCurrency});
+    result.addAll({'rating': rating});
+    result.addAll(
+        {'postBidOrders': postBidOrders.map((x) => x.toMap()).toList()});
+    result.addAll({'onBidOrders': onBidOrders.map((x) => x.toMap()).toList()});
+    result.addAll(
+        {'onDeliveryOrders': onDeliveryOrders.map((x) => x.toMap()).toList()});
+
+    return result;
   }
 
   factory UserData.fromMap(Map<String, dynamic> map) {
@@ -63,7 +69,7 @@ class UserData {
       email: map['email'] ?? '',
       photo: map['photo'] ?? '',
       inAppCurrency: map['inAppCurrency']?.toInt() ?? 0,
-      rating: map['rating']?.toInt() ?? 0,
+      rating: map['rating']?.toDouble() ?? 0.0,
       postBidOrders: List<UserOrders>.from(
           map['postBidOrders']?.map((x) => UserOrders.fromMap(x))),
       onBidOrders: List<UserOrders>.from(

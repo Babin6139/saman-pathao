@@ -21,7 +21,7 @@ class OrderConfirmationPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     PlaceOrderDetail placeOrderDetail =
         ModalRoute.of(context)!.settings.arguments as PlaceOrderDetail;
-    print(placeOrderDetail.photo);
+    print(placeOrderDetail.shipmentPhoto);
 
     placeOrder() async {
       placeOrderDetail.userName = userData.userName;
@@ -30,16 +30,17 @@ class OrderConfirmationPage extends StatelessWidget {
       placeOrderDetail.orderNo = random.nextInt(100).toString();
       FirebaseStorage storage = FirebaseStorage.instance;
       Reference ref = storage.ref().child(
-          File(placeOrderDetail.photo.toString())
+          File(placeOrderDetail.shipmentPhoto.toString())
               .path
               .split('/')
               .last
               .toString());
-      UploadTask upload = ref.putFile(File(placeOrderDetail.photo.toString()));
+      UploadTask upload =
+          ref.putFile(File(placeOrderDetail.shipmentPhoto.toString()));
       await upload.then((res) async {
         await res.ref
             .getDownloadURL()
-            .then((value) => placeOrderDetail.photo = value);
+            .then((value) => placeOrderDetail.shipmentPhoto = value);
       });
       print(await json.encode(placeOrderDetail.toMap()));
       var data = jsonEncode(placeOrderDetail.toMap());
@@ -74,7 +75,8 @@ class OrderConfirmationPage extends StatelessWidget {
             ),
             Container(
               height: 100,
-              child: Image.file(File(placeOrderDetail.photo.toString())),
+              child:
+                  Image.file(File(placeOrderDetail.shipmentPhoto.toString())),
             ),
             Expanded(
                 child: Container(

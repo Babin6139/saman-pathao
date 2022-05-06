@@ -34,27 +34,27 @@ exports.getAllOrders = async (req, res, next) => {
     let selectOrder, populateTransporter;
     if (req.query.orderStatus === "prebid") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance timeFrame biddingTime  maxBudget minRated fragile shipmentPhoto shipments shipmentWeight";
+        "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
     } else if (req.query.orderStatus === "onbid") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget shipmentPhoto bids";
+        "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
     } else if (req.query.orderStatus === "postbid") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance timeFrame maxBudget shipmentPhoto bids";
+        "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime";
     } else if (req.query.orderStatus === "finalized") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance timeFrame shipmentPhoto transporter bidCost";
+        "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
     } else if (req.query.orderStatus === "onDelivery") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance timeFrame shipmentPhoto timeLocation transporter bidCost pickedUpTime";
+        "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
       populateTransporter = { path: "transporter", select: "userName" };
     } else if (req.query.orderStatus === "completed") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance shipmentPhoto transporter bidCost deliveredTime";
+        "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
       populateTransporter = { path: "transporter", select: "userName" };
     } else {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance shipmentPhoto";
+        "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
     }
     const user = await Client.findOne({
       userName: req.query.userName,
@@ -111,34 +111,19 @@ exports.updateOrder = async (req, res, next) => {
     console.log(update.userName);
     const user = await Client.exists({
       userName: req.body.userName,
-    }).populate({
-      path: "orders",
-      match: { orderNo: req.body.orderNo },
     });
-
-    if (user.orders.length > 0) {
+    if (user) {
       const order = await Order.findOneAndUpdate(
-        {
-          orderNo: req.body.orderNo,
-          $or: [
-            { orderStatus: "prebid" },
-            {
-              $and: [
-                { orderStatus: "postbid" },
-                { "bids.transporter.length": 0 },
-              ],
-            },
-          ],
-        },
+        { orderNo: req.body.orderNo },
         update,
         { new: true }
       );
       res.send({ message: "Order updated", order });
     } else {
-      res.send({ message: "Order not found" });
+      res.send({ messsage: "Invalid user" });
     }
   } catch (error) {
-    next(error);
+    res.send(error);
   }
 };
 

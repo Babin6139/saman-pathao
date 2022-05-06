@@ -11,6 +11,7 @@ app.listen(PORT, () => {
 
 //sends onbids order periodically
 var autoUpdater = async (req, res) => {
+  console.log(`${req.query.userName} Connection started`);
   const headers = {
     "Content-Type": "text/event-stream",
     Connection: "keep-alive",
@@ -44,23 +45,21 @@ var autoUpdater = async (req, res) => {
 
 app.get("/autoUpdate", autoUpdater);
 
-var job = new cron(" */1 * * * *", () => {
-  console.log("running a task every  1 minute" + new Date());
-  statusChanger.statusChanger("prebid");
-  statusChanger.statusChanger("onbid");
-  async () => {
-    const data = await Order.find(
-      {
-        orderStatus: "onbid",
-        // rating: { $lte: rating },
-      },
-      "orderNo  userName"
-    );
-    console.log(onlineUser);
-    onlineUser.forEach((user) => {
-      user.res.write("data: " + `${JSON.stringify(data)} \n\n`);
-    });
-  };
+var job = new cron(" */10 * * * * *", async () => {
+  console.log("running a task every  1 minute " + new Date());
+  // data1 = statusChanger.statusChanger("prebid");
+  // data2 = statusChanger.statusChanger("onbid");
+  // console.log(onlineUser[0].userName);
+  const data = await Order.find(
+    {
+      orderStatus: "onbid",
+      // rating: { $lte: rating },
+    },
+    "orderNo  userName"
+  );
+  onlineUser.forEach((user) => {
+    user.res.write("data: " + `${JSON.stringify(data)} \n\n`);
+  });
 });
 
 job.start();
