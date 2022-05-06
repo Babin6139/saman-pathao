@@ -93,16 +93,24 @@ exports.addBids = async (req, res, next) => {
   try {
     const order = await Order.findOne({ orderNo: req.body.orderNo });
     if (order) {
-      order.bids.transporter.push(req.body.transporterId);
-      order.bids.bidAmount.push(req.body.bidAmount);
-      await order.save();
-      res.send(order);
+      var transporter = await Transporter.findOne({ email: req.body.email });
+      if (transporter) {
+        console.log(order._id.toString());
+        transporter.biddedOrders.push(order._id.toString());
+        await transporter.save();
+        order.bids.transporter.push(transporter._id.toString());
+        order.bids.bidAmount.push(req.body.bidAmount);
+        await order.save();
+        res.send(order);
+      } else {
+        res.send({ message: "you are not a transporter" });
+      }
     } else {
       res.send({ meesage: "order not found" });
     }
   } catch (err) {
     next(err);
-    res.send(err);
+    // res.send(err);
   }
 };
 

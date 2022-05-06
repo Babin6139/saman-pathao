@@ -4,7 +4,7 @@ content-type:application/json
 
 {
     "orderNo":"38",
-    "transporterId": "62751ba544342f1fb74845b7",
+    "email":"hb@gmail.com",
     "bidAmount": 1900
 }
 
