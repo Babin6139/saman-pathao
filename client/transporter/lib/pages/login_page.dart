@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:transporter/models/transporters.dart';
 import 'package:transporter/providers/biddedOrdersProvider.dart';
+import 'package:transporter/providers/deliveryOrdersProvider.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:transporter/utils/mycolors.dart';
 import 'package:transporter/utils/route.dart';
@@ -45,6 +46,9 @@ class _LoginPageState extends State<LoginPage> {
           context
               .read<BiddedOrdersProvider>()
               .changeData(Transporters.fromMap(data).biddedOrders);
+          context
+              .read<DeliveryOrdersProvider>()
+              .changeData(Transporters.fromMap(data).onDeliveryOrders);
           Navigator.pushNamed(context, "/homepage");
         } else {
           return showDialog<void>(
