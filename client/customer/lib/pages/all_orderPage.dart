@@ -32,22 +32,16 @@ class _AllOrderPageState extends State<AllOrderPage> {
         "http://10.0.2.2:7000/order/history?userName=${userData.userName}&orderStatus=prebid";
     var response = await http.get(Uri.parse(url));
     var data = await jsonDecode(response.body);
-    print(data);
     if (data.length != 0) {
       prebid = data.map((e) => UserOrders.fromMap(e)).toList();
-    } else {
-      prebid = [];
-    }
-    print(prebid);
+    } else {}
     var url1 =
         "http://10.0.2.2:7000/order/history?userName=${userData.userName}&orderStatus=onbid";
     var response1 = await http.get(Uri.parse(url1));
     var data1 = await jsonDecode(response1.body);
     if (data1.length != 0) {
       onbid = data1.map((e) => UserOrders.fromMap(e)).toList();
-    } else {
-      onbid = [];
-    }
+    } else {}
     var url2 =
         "http://10.0.2.2:7000/order/history?userName=${userData.userName}&orderStatus=postbid";
     var response2 = await http.get(Uri.parse(url2));
@@ -55,9 +49,7 @@ class _AllOrderPageState extends State<AllOrderPage> {
     var data2 = await jsonDecode(response2.body);
     if (data2.length != 0) {
       postbid = data2.map((e) => UserOrders.fromMap(e)).toList();
-    } else {
-      postbid = [];
-    }
+    } else {}
   }
 
   @override
@@ -65,8 +57,7 @@ class _AllOrderPageState extends State<AllOrderPage> {
     Size size = MediaQuery.of(context).size;
     var title = ["Prebid", "Onbid", "Postbid"];
 
-    var datas = [prebid ?? [], onbid ?? [], postbid ?? []];
-    print(datas);
+    var datas = [prebid, onbid, postbid];
     return Container(
         color: MyColor.backColor,
         child: Padding(
@@ -96,55 +87,59 @@ class _AllOrderPageState extends State<AllOrderPage> {
                           height: 5,
                         ),
                         Container(
-                          height: 80,
-                          child: datas[0] == []
-                              ? Center(
-                                  child: Text("Currently there is no order"))
-                              : ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: datas[0].length,
-                                  itemBuilder: (context, index) {
-                                    return OrderCard(
-                                        userOrder: datas[0][index]);
-                                  }),
-                        ),
+                            height: 150,
+                            child: datas[0] != null
+                                ? ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: datas[0].length,
+                                    itemBuilder: (context, index) {
+                                      return OrderCard(
+                                          userOrder: datas[0][index]);
+                                    })
+                                : Center(
+                                    child:
+                                        Text("Currently there is no order"))),
                         SizedBox(
-                          height: 15,
+                          height: 30,
                         ),
                         Text(
                           title[1],
                           textAlign: TextAlign.start,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Expanded(
-                          child: datas[1] != []
-                              ? Center(
-                                  child: Text("Currently there is no order"))
-                              : ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: datas[1].length,
-                                  itemBuilder: (context, index) {
-                                    return OrderCard(
-                                        userOrder: datas[1][index]);
-                                  }),
+                        Container(
+                            height: 150,
+                            child: datas[1] != null
+                                ? ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: datas[1].length,
+                                    itemBuilder: (context, index) {
+                                      return OrderCard(
+                                          userOrder: datas[1][index]);
+                                    })
+                                : Center(
+                                    child:
+                                        Text("Currently there is no order"))),
+                        SizedBox(
+                          height: 30,
                         ),
                         Text(
                           title[2],
                           textAlign: TextAlign.start,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Expanded(
-                          child: datas[2] != []
-                              ? Center(
-                                  child: Text("Currently there is no order"))
-                              : ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: datas[2].length,
-                                  itemBuilder: (context, index) {
-                                    return OrderCard(
-                                        userOrder: datas[2][index]);
-                                  }),
-                        )
+                        Container(
+                            height: 150,
+                            child: datas[2] != null
+                                ? ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: datas[2].length,
+                                    itemBuilder: (context, index) {
+                                      return OrderCard(
+                                          userOrder: datas[2][index]);
+                                    })
+                                : Center(
+                                    child: Text("Currently there is no order")))
                       ],
                     ),
                   ),

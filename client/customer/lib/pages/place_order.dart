@@ -36,10 +36,12 @@ class _PlaceOrderState extends State<PlaceOrder> {
   List<double> width = [];
   List<double> height = [];
   List<String> name = [];
+  List<String> count = [];
+
   bool fragile = false;
   int _radioValue = -1;
-  PlaceOrderDetail placeOrderDetail =
-      PlaceOrderDetail(startPoint: [], destination: [], shipments: []);
+  PlaceOrderDetail placeOrderDetail = PlaceOrderDetail(
+      startPoint: [], shipmentCount: [], destination: [], shipments: []);
   String tempImage = "";
   bool checkPhoto = false;
   @override
@@ -502,8 +504,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                     placeOrderDetail.shipmentDimension = ShipmentDimension(
                         length: length, width: width, height: height);
                     placeOrderDetail.shipments = name;
-                    placeOrderDetail.photo = tempImage;
-
+                    placeOrderDetail.shipmentPhoto = tempImage;
+                    placeOrderDetail.shipmentCount = count;
                     Navigator.pushNamed(context, MyRoutes.mapPlaceOrderPage,
                         arguments: placeOrderDetail);
                   },
@@ -592,6 +594,13 @@ class _PlaceOrderState extends State<PlaceOrder> {
             Container(
               height: 40,
               child: TextFormField(
+                onChanged: (value) {
+                  if (count.length < itemCount) {
+                    count.add(value);
+                  } else {
+                    count[itemCount - 1] = value;
+                  }
+                },
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     border: MyDecoration.inputBorder,

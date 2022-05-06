@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:customer/models/time_frame.dart';
 import 'package:customer/utils/mydecoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:http/http.dart' as http;
 
 class MapDetail extends StatelessWidget {
   final List<String> startPoint;
@@ -26,6 +29,12 @@ class MapDetail extends StatelessWidget {
       return time;
     }
 
+    // getData() async{
+    //   var url = "https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248d1de629205604d079e594d9110a46430&start=${double.parse(startPoint[0]},${double.parse(endPoint[0]}end=${double.parse(startPoint[1]},${double.parse(endPoint[1]}";
+    //       var response = await http.get(Uri.parse(url));
+    //       var data=await jsonDecode(response.body);
+    //       print(data);
+    // }
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15),
       decoration: MyDecoration.cardDecoration,

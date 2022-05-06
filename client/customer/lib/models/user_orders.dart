@@ -70,9 +70,9 @@ class UserOrders {
   factory UserOrders.fromMap(Map<String, dynamic> map) {
     return UserOrders(
       orderNo: map['orderNo'] ?? '',
-      status: map['status'] ?? '',
-      orderStartTime: map['orderStartTime'] ?? '',
-      orderEndTime: map['orderEndTime'] ?? '',
+      status: map['orderStatus'] ?? '',
+      orderStartTime: map['startTime'] ?? '',
+      orderEndTime: map['endTime'] ?? '',
       maxBudget: map['maxBudget']?.toInt() ?? 0,
       lowestbids: map['lowestbids']?.toInt() ?? -1,
       distance: map['distance']?.toInt() ?? 0,

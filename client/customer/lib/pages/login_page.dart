@@ -16,7 +16,6 @@ import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -24,6 +23,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? email;
   String? password;
+  bool incorrectInput = false;
   bool obscurePassword = true;
   final _formkey = GlobalKey<FormState>();
   @override
@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
           context.read<UserDataProvide>().changeData(UserData.fromMap(data));
           Navigator.pushReplacementNamed(context, MyRoutes.homepage);
         } else {
-          Navigator.pushReplacementNamed(context, MyRoutes.signup);
+          setState(() => incorrectInput = true);
         }
       }
     }
@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Center(
                 child: Container(
-                  height: 300.0,
+                  height: 500.0,
                   width: size.width - 100,
                   decoration: BoxDecoration(
                       color: MyColor.cardColor,
@@ -111,6 +111,12 @@ class _LoginPageState extends State<LoginPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                          incorrectInput
+                              ? Text(
+                                  "Incorrect Email/Password",
+                                  style: TextStyle(color: Colors.red),
+                                )
+                              : SizedBox(),
                           TextFormField(
                             style: TextStyle(fontSize: 13),
                             validator: (value) {
@@ -213,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Positioned(
-                top: size.height / 2 - 230,
+                top: size.height / 2 - 330,
                 left: size.width / 2 - 40.0,
                 child: CircleAvatar(
                   maxRadius: 40,
