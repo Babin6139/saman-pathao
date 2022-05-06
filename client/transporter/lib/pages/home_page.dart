@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:transporter/models/transporters.dart';
 import 'package:transporter/pages/home_page_more.dart';
 import 'package:transporter/pages/khalti_integration.dart';
+import 'package:transporter/pages/onBid_page.dart';
 import 'package:transporter/pages/place_bids_page.dart';
 import 'package:transporter/providers/biddedOrdersProvider.dart';
 import 'package:transporter/providers/changePageProvider.dart';
@@ -34,7 +35,62 @@ class _HomepageState extends State<Homepage> {
         context.watch<TransporterDataProvider>().transporterData;
     final biddedOrders = context.watch<BiddedOrdersProvider>().biddedOrdersData;
     final imageUrl = transporterData.photo;
-    print(transporterData.onBidOrders[0]);
+    List<Widget> bids(BuildContext context) {
+      return [
+        Container(
+            margin: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.all(Radius.circular(18))),
+            padding: EdgeInsets.all(10),
+            height: 200,
+            child: (!biddedOrders.isEmpty
+                ? ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: biddedOrders.length,
+                    itemBuilder: (context, index) {
+                      return OrderedCard(
+                          order_1: biddedOrders[index], index: index);
+                    },
+                  )
+                : Center(
+                    child: Text("There are no orders"),
+                  ))),
+        SizedBox(
+          height: 10,
+        ),
+        Container(
+          padding: EdgeInsets.all(8),
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          width: double.infinity,
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Column(children: [
+            Text(
+              "Delivery Orders",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Text(
+                "Currently No Delivery Orders",
+                style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
+              ),
+            )
+          ]),
+        )
+      ];
+    }
+
+    Widget newBids(BuildContext context) {
+      return OnBidOrdersPage();
+    }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xFFDBE4FF),
@@ -154,57 +210,7 @@ class _HomepageState extends State<Homepage> {
                             ],
                           ),
                         ),
-                        Container(
-                            margin: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.grey),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(18))),
-                            padding: EdgeInsets.all(10),
-                            height: 170,
-                            child: (!biddedOrders.isEmpty
-                                ? ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: biddedOrders.length,
-                                    itemBuilder: (context, index) {
-                                      return OrderedCard(
-                                          order_1: biddedOrders[index],
-                                          index: index);
-                                    },
-                                  )
-                                : Center(
-                                    child: Text("There are no orders"),
-                                  ))),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: Column(children: [
-                            Text(
-                              "Delivery Orders",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              child: Text(
-                                "Currently No Delivery Orders",
-                                style: TextStyle(
-                                    color: Colors.grey.shade700, fontSize: 12),
-                              ),
-                            )
-                          ]),
-                        )
+                        if (bidSelected) ...bids(context) else newBids(context)
                       ],
                     ),
             ),

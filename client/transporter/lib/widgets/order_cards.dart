@@ -29,7 +29,7 @@ class _OrderedCardState extends State<OrderedCard> {
         Navigator.pushNamed(context, '/biddedOrder', arguments: index);
       },
       child: Container(
-        width: 230,
+        width: 300,
         decoration: BoxDecoration(
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.only(
@@ -41,6 +41,7 @@ class _OrderedCardState extends State<OrderedCard> {
             title: Column(mainAxisSize: MainAxisSize.min, children: [
               Text(
                 "Order: ${order.orderNo}",
+                style: TextStyle(fontSize: 15),
               ),
               Text(
                 'Posted at: ${postedTime.hour}:${postedTime.minute}',
