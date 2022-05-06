@@ -1,0 +1,7 @@
+PATCH http://localhost:7000/users/transporter/liveupdate
+content-type: application/json
+
+{
+    "userName":"hb",
+    "timeLocation":[1,100]
+}

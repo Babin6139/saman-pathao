@@ -1,11 +1,16 @@
 const Order = require("../models/order");
+const Transporter = require("../models/transporter");
 
 exports.liveUpdate = async (req, res, next) => {
   try {
+    const transporter = await Transporter.exists({
+      userName: req.body.userName,
+    });
+    req.body.timeLocation.push(Date.now());
     const order = await Order.findOneAndUpdate(
       {
-        orderNo: req.body.orderNo,
         orderStatus: "onDelivery",
+        transporter: transporter._id,
       },
       { $push: { timeLocation: req.body.timeLocation } },
       { new: true }

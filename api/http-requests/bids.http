@@ -3,35 +3,35 @@ POST http://localhost:7000/bid
 content-type:application/json
 
 {
-    "orderNo":"38",
+    "orderNo":"mks-1651857073",
     "email":"hb@gmail.com",
-    "bidAmount": 1900
+    "bidAmount": 3300
 }
 
 ###
-GET http://localhost:7000/bid/specific?transporterUserName=shreali&orderNo=99&userName=missula
+GET http://localhost:7000/bid/specific?transporterUserName=gjee&orderNo=38&userName=pirateking
 
 ###
-GET http://localhost:7000/bid?userName=pujamatta&orderNo=10
+GET http://localhost:7000/bid?userName=pirateking&orderNo=38
 ###
 PATCH http://localhost:7000/bid/
 content-type: application/json
 
 {
-    "orderNo":"99",
-    "userName": "shreali",
-    "bidAmount": 1500
+    "orderNo":"38",
+    "userName": "gjee",
+    "bidAmount": 100
 }
 
 ###
-DELETE http://localhost:7000/bid?orderNo=123456&transporterId=620a435e9961e847c6ee96c2
+DELETE http://localhost:7000/bid?orderNo=38&transporterId=62736d2ad14d5aa32ecc84fc
 
 ###
 
-GET http://localhost:7000/bid/history?userName=shreali
+GET http://localhost:7000/bid/history?userName=hb
 
 ###
-GET http://localhost:7000/bid/suitablebids?userName=shreali
+GET http://localhost:7000/bid/suitablebids?userName=hb
 
 ###
-GET http://localhost:7000/bid/trial?userName=shreali
+GET http://localhost:7000/bid/trial?userName=hb

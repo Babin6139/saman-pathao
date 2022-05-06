@@ -47,9 +47,8 @@ app.get("/autoUpdate", autoUpdater);
 
 var job = new cron(" */10 * * * * *", async () => {
   console.log("running a task every  1 minute " + new Date());
-  // data1 = statusChanger.statusChanger("prebid");
-  // data2 = statusChanger.statusChanger("onbid");
-  // console.log(onlineUser[0].userName);
+  statusChanger.statusChanger("onbid");
+  statusChanger.statusChanger("prebid");
   const data = await Order.find(
     {
       orderStatus: "onbid",

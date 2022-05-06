@@ -215,6 +215,14 @@ exports.deleteBids = async (req, res, next) => {
     const session = await Order.startSession();
     await session.withTransaction(async () => {
       const bids = await Order.findOne({ orderNo: req.query.orderNo }, "bids ");
+      var transporterTarget = await Transporter.findOne({
+        _id: req.query.transporterId,
+      });
+      console.log(transporterTarget);
+      transporterTarget.biddedOrders = transporterTarget.biddedOrders.filter(
+        (item) => item.toString() !== bids._id.toString()
+      );
+      await transporterTarget.save();
       bids.bids.transporter.filter((element, index) => {
         if (element.toString() === req.query.transporterId) i = index;
         return element.toString() != req.query.transporterId;
@@ -233,8 +241,9 @@ exports.deleteBids = async (req, res, next) => {
         { orderNo: req.query.orderNo },
         { $set: { bids: bids.bids } }
       );
-      console.log(bids.bids, index);
+      // console.log(bids.bids, index);
     });
+
     session.endSession();
     res.send({ message: "bid deleted sucessfully" });
   } catch (error) {

@@ -9,18 +9,17 @@ content-type : application/json
 
 {
     "userName": "mks",
-    "orderNo":"03",
     "orderStatus":"prebid",
     "timeFrame":{
-        "start":"2022-06-06 10:30",
-        "end":"2022-06-06 11:30"
+        "start":"2022-06-15 10:30",
+        "end":"2022-06-15 11:30"
     },
     "startPoint":["Singha Durbar",27.697877, 85.319283],
     "destination":["Madyapur Thimi",27.676146, 85.377219],
     "distance":7.7,
     "biddingTime":{
         "start":"2022-05-06 01:15",
-        "end":"2022-05-06 01:21"
+        "end":"2022-05-09 01:21"
     },
     "maxBudget":2500,
     "shipments":["Bed","Sofa"],
