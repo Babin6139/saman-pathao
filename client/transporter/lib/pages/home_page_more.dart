@@ -94,6 +94,21 @@ class _HomepageMoreState extends State<HomepageMore> {
                         ),
                         GestureDetector(
                           onTap: () {
+                            Navigator.pushNamed(context, "/wallet_load");
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.account_balance_wallet),
+                              SizedBox(width: 10),
+                              Text("Load Collateral")
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        GestureDetector(
+                          onTap: () {
                             Navigator.pushNamed(context, "/trial");
                           },
                           child: Row(
