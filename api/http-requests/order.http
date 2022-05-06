@@ -50,11 +50,11 @@ PATCH  http://localhost:7000/order
 content-type : application/json
 
 {
-    "userName": "pujamatta",
-    "orderNo":"1",
+    "userName": "pirateking",
+    "orderNo":"38",
     "biddingTime":{
-        "start":"2022-03-01 13:58",
-        "end":"2022-03-01 14:45"
+        "start":"2022-05-06 17:33",
+        "end":"2022-05-06 17:59"
     },
     "maxBudget":3000,
     "fragile":false,
