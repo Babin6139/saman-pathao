@@ -31,7 +31,7 @@ class _TransporterDetailsState extends State<TransporterDetails> {
         context.read<TransporterDataProvider>().transporterData.userName;
     var response = await http.get(
         Uri.parse(
-            "http://192.168.254.2:7000/users/transporter/details?userName=$userName"),
+            "http://10.0.2.2:7000/users/transporter/details?userName=$userName"),
         headers: {'Content-Type': 'application/json'});
     var responseData = await jsonDecode(response.body);
     var transporteDetail = responseData["userDetails"];
@@ -83,13 +83,13 @@ class _TransporterDetailsState extends State<TransporterDetails> {
               contentPadding: EdgeInsets.zero,
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(40)),
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.person_outline,
               ),
               hintText: "Name",
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           TextFormField(
@@ -110,13 +110,13 @@ class _TransporterDetailsState extends State<TransporterDetails> {
               contentPadding: EdgeInsets.zero,
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(40)),
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.phone,
               ),
               hintText: "Contact No.",
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           TextFormField(
@@ -137,13 +137,13 @@ class _TransporterDetailsState extends State<TransporterDetails> {
               contentPadding: EdgeInsets.zero,
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(40)),
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.location_on,
               ),
               hintText: "Address",
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Center(
@@ -159,7 +159,7 @@ class _TransporterDetailsState extends State<TransporterDetails> {
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith(
                     (states) => Colors.blue.shade400)),
-            child: Text(
+            child: const Text(
               "Update",
               style: TextStyle(color: Colors.white),
             ),
@@ -172,66 +172,66 @@ class _TransporterDetailsState extends State<TransporterDetails> {
       return Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               children: [
-                Icon(Icons.person),
-                SizedBox(
+                const Icon(Icons.person),
+                const SizedBox(
                   width: 5,
                 ),
                 Text(
                   '${detail!.firstName} ${detail!.middleName} ${detail!.lastName}',
-                  style: TextStyle(fontSize: 15),
+                  style: const TextStyle(fontSize: 15),
                 ),
               ],
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(left: 15, right: 15),
             child: Divider(
               color: Colors.black,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               children: [
-                Icon(Icons.phone),
-                SizedBox(
+                const Icon(Icons.phone),
+                const SizedBox(
                   width: 5,
                 ),
                 Text(
                   detail!.contactNo.join(','),
-                  style: TextStyle(fontSize: 15),
+                  style: const TextStyle(fontSize: 15),
                 ),
               ],
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(left: 15, right: 15),
             child: Divider(
               color: Colors.black,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               children: [
-                Icon(Icons.location_on),
-                SizedBox(
+                const Icon(Icons.location_on),
+                const SizedBox(
                   width: 5,
                 ),
-                Text(detail!.address, style: TextStyle(fontSize: 15)),
+                Text(detail!.address, style: const TextStyle(fontSize: 15)),
               ],
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(left: 15, right: 15),
             child: Divider(
               color: Colors.black,
@@ -245,22 +245,22 @@ class _TransporterDetailsState extends State<TransporterDetails> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xFFDBE4FF),
+        backgroundColor: const Color(0xFFDBE4FF),
         appBar: AppBar(
-          backgroundColor: Color(0xFF399DBC).withOpacity(0.65),
-          title: Text(
+          backgroundColor: const Color(0xFF399DBC).withOpacity(0.65),
+          title: const Text(
             "Details",
             style: TextStyle(color: Colors.black),
           ),
         ),
         body: (detail == null)
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : SingleChildScrollView(
                 child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -281,7 +281,7 @@ class _TransporterDetailsState extends State<TransporterDetails> {
                             decoration: BoxDecoration(
                                 color: Colors.grey.shade100.withOpacity(0.4),
                                 borderRadius: BorderRadius.circular(40)),
-                            child: Icon(
+                            child: const Icon(
                               Icons.camera_alt_outlined,
                               color: Colors.white,
                             ),
@@ -291,7 +291,7 @@ class _TransporterDetailsState extends State<TransporterDetails> {
                     ),
                     Align(
                       alignment: Alignment.bottomRight,
-                      child: Container(
+                      child: SizedBox(
                         width: 80,
                         child: ChoiceChip(
                           autofocus: true,
@@ -300,7 +300,7 @@ class _TransporterDetailsState extends State<TransporterDetails> {
                           selectedColor: Colors.teal.shade100,
                           label: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
+                              children: const [
                                 Text("Edit"),
                                 SizedBox(
                                   width: 2,
@@ -321,20 +321,20 @@ class _TransporterDetailsState extends State<TransporterDetails> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Padding(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: Form(
                         key: _formkey,
                         child: Container(
-                          padding: EdgeInsets.all(6),
-                          decoration: BoxDecoration(color: Colors.white),
+                          padding: const EdgeInsets.all(6),
+                          decoration: const BoxDecoration(color: Colors.white),
                           child: Column(
                             children: [
                               if (edit) Edit(context) else NotEdit(context),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               TextButton(
@@ -348,7 +348,7 @@ class _TransporterDetailsState extends State<TransporterDetails> {
                                     backgroundColor:
                                         MaterialStateProperty.resolveWith(
                                             (states) => Colors.blue.shade400)),
-                                child: Text(
+                                child: const Text(
                                   "Add Bio",
                                   style: TextStyle(color: Colors.white),
                                 ),

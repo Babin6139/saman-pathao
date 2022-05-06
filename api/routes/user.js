@@ -6,14 +6,13 @@ const deliveryController = require("../controller/deliveryController");
 const miscellanousController = require("../controller/miscellaneousController");
 
 router.route("/client/signup").post(clientController.addClient);
+router.route("/client/details").get(clientController.userDetails);
 
 router
   .route("/client")
   .post(clientController.login)
   .patch(clientController.updateClient)
   .delete(clientController.deleteClient);
-
-router.route("/client/details").get(clientController.userDetails);
 
 router.route("/transporter/signup").post(transporterController.addTransporter);
 router.route("/transporter/details").get(transporterController.userDetails);

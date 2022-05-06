@@ -9,24 +9,38 @@ POST http://localhost:7000/users/transporter
 content-Type: application/json
 
 {
-    "email": "hb@gmail.com",
+    "email": "junushu@gmail.com",
     "password": "user123"
 }
 
+###
+//userdetails change
 ### 
 PATCH http://localhost:7000/users/transporter
 content-Type: application/json
 
 {
-    "email":"pirateking@gmail.com",
-    "userName":"pirateking",
+    "userName":"junushu",
     "firstName": "Monkey",
     "lastName": "lucy",
     "middleName": "D."
 }
 
 ###
-DELETE http://localhost:7000/users/transporter?email=pirateking@gmail.com
+//password change
+###
+PATCH http://localhost:7000/users/transporter
+content-Type: application/json
+
+{
+    "userName":"junushu",
+    "oldPassword": "IlIoWc",
+    "newPassword": "user123"
+}
+###
 
 ###
-GET http://localhost:7000/users/transporter/details?userName=shreali
+DELETE http://localhost:7000/users/transporter?email=junushu@gmail.com
+
+###
+GET http://localhost:7000/users/transporter/details?userName=junushu
