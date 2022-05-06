@@ -153,16 +153,30 @@ class _DisplayOrderState extends State<DisplayOrder> {
   }
 
   Widget _buildPopupDialog(BuildContext context) {
+    String userName = context.read<UserDataProvide>().userData.userName;
+    String orderNo = context.read<OrderDataProvide>().userOrder.orderNo;
     return new AlertDialog(
-      title: const Text('Popup example'),
+      title: const Text('Confirmation'),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Hello"),
+          Text("Are you sure you want to delete the order"),
         ],
       ),
       actions: <Widget>[
+        new ElevatedButton(
+          style: ElevatedButton.styleFrom(primary: Colors.red),
+          onPressed: () async {
+            print(orderNo);
+            var url = "http://10.0.2.2:7000/order/";
+            var data = jsonEncode({'userName': userName, 'orderNo': orderNo});
+            var response = await http.delete(Uri.parse(url),
+                headers: {'Content-Type': 'application/json'}, body: data);
+            print(await response.body);
+          },
+          child: const Text('Delete'),
+        ),
         new ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();

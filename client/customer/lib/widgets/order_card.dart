@@ -25,8 +25,9 @@ class OrderCard extends StatelessWidget {
               bottomRight: Radius.circular(18.0),
               topLeft: Radius.circular(18.0))),
       width: 200,
-      child: Hero(
-        tag: userOrder.orderNo,
+      height: 150,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 15.0),
         child: Card(
           elevation: 0,
           child: ListTile(
@@ -45,9 +46,15 @@ class OrderCard extends StatelessWidget {
                   "${userOrder.shipments[0]}",
                   style: TextStyle(fontSize: 12),
                 ),
+                SizedBox(
+                  height: 5,
+                ),
                 Text(
                   "Max Budget: ${userOrder.maxBudget}",
                   style: TextStyle(fontSize: 12),
+                ),
+                SizedBox(
+                  height: 5,
                 ),
                 Text(
                   "Lowest bid : ${userOrder.lowestbids == -1 ? "No bid" : userOrder.lowestbids}",

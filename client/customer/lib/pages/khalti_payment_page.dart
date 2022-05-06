@@ -1,10 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
-import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-import 'package:transporter/providers/transporterDataProvider.dart';
 
 class KhaltiPaymentPage extends StatefulWidget {
   const KhaltiPaymentPage({Key? key}) : super(key: key);
@@ -22,8 +17,6 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final userName =
-        context.read<TransporterDataProvider>().transporterData.userName;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Khalti Payment Integration'),
@@ -72,20 +65,10 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
                     preferences: [
                       PaymentPreference.khalti,
                     ],
-                    onSuccess: (su) async {
+                    onSuccess: (su) {
                       const successsnackBar = SnackBar(
                         content: Text('Payment Successful'),
                       );
-                      var data = jsonEncode({
-                        'token': su.token,
-                        'amount': su.amount,
-                        'userName': userName
-                      });
-                      var response = await http.post(
-                          Uri.parse(
-                              "http://192.168.254.2:7000/users/inAppCurrency?userType=transporter"),
-                          headers: {'Content-Type': 'application/json'},
-                          body: data);
                       ScaffoldMessenger.of(context)
                           .showSnackBar(successsnackBar);
                     },

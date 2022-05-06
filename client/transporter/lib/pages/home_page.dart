@@ -158,27 +158,42 @@ class _HomepageState extends State<Homepage> {
                           ),
                         ),
                         Container(
-                            margin: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.grey),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(18))),
-                            padding: EdgeInsets.all(10),
-                            height: 170,
-                            child: (!biddedOrders.isEmpty
-                                ? ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: biddedOrders.length,
-                                    itemBuilder: (context, index) {
-                                      return OrderedCard(
-                                          order_1: biddedOrders[index],
-                                          index: index);
-                                    },
-                                  )
-                                : Center(
-                                    child: Text("There are no bidded orders"),
-                                  ))),
+                          margin: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.grey),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(18))),
+                          padding: EdgeInsets.all(10),
+                          height: 170,
+                          child: Column(
+                            children: [
+                              Text(
+                                "Bidded Orders",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                child: (!biddedOrders.isEmpty
+                                    ? ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: biddedOrders.length,
+                                        itemBuilder: (context, index) {
+                                          return OrderedCard(
+                                              order_1: biddedOrders[index],
+                                              index: index);
+                                        },
+                                      )
+                                    : Center(
+                                        child:
+                                            Text("There are no bidded orders"),
+                                      )),
+                              ),
+                            ],
+                          ),
+                        ),
                         SizedBox(
                           height: 10,
                         ),
@@ -200,13 +215,13 @@ class _HomepageState extends State<Homepage> {
                               height: 10,
                             ),
                             Container(
-                              child: (!biddedOrders.isEmpty
+                              child: (!deliveryOrders.isEmpty
                                   ? ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: biddedOrders.length,
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: deliveryOrders.length,
                                       itemBuilder: (context, index) {
                                         return OrderedCard(
-                                            order_1: biddedOrders[index],
+                                            order_1: deliveryOrders[index],
                                             index: index);
                                       },
                                     )

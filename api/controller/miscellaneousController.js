@@ -65,7 +65,7 @@ exports.addInAppCurrency = async (req, res, next) => {
     if (!user) {
       res.send({ message: "User not found" });
     } else {
-      user.inAppCurrency = user.inAppCurrency + req.body.inAppCurrency;
+      user.inAppCurrency = user.inAppCurrency + req.body.amount/100;
       await user.save();
       res.send({ message: "User updated" });
     }

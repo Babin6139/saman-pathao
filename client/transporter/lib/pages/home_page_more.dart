@@ -24,6 +24,7 @@ class _HomepageMoreState extends State<HomepageMore> {
     loadData();
   }
 
+  logout() async {}
   loadData() async {
     String userName =
         context.read<TransporterDataProvider>().transporterData.userName;
@@ -139,6 +140,7 @@ class _HomepageMoreState extends State<HomepageMore> {
                         ),
                         GestureDetector(
                           onTap: () {
+                            logout();
                             Navigator.pushNamed(context, "/");
                           },
                           child: Row(

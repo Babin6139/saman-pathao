@@ -55,7 +55,9 @@ class DetailCard extends StatelessWidget {
                                     fontWeight: FontWeight.bold, fontSize: 18),
                                 colors: [Colors.orange, Colors.yellow])
                           ]),
-                          Text("Unrated"),
+                          userData.rating == -1
+                              ? Text("Unrated")
+                              : Text(userData.rating.toString()),
                           // Expanded(
                           //   child: ListView.builder(
                           //       itemCount: userData.rating == -1

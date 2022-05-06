@@ -60,9 +60,11 @@ class _SignUpState extends State<SignUp> {
           transporter.firstName = name[0];
           transporter.middleName = name[1];
           transporter.lastName = name[2];
-        } else {
+        } else if (name.length == 2) {
           transporter.firstName = name[0];
           transporter.lastName = name[1];
+        } else {
+          transporter.firstName = name[0];
         }
         var transporterData = jsonEncode(transporter.toMap());
         var url = "http://10.0.2.2:7000/users/transporter/signup";
