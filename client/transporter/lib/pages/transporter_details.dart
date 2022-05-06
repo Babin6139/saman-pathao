@@ -21,9 +21,9 @@ class _TransporterDetailsState extends State<TransporterDetails> {
 
   bool photo = true;
   bool edit = false;
-  String name = "Shreya Rasali";
-  String contact = "041-66766";
-  String address = "Hetauda";
+  String name = "";
+  String contact = "";
+  String address = "";
   final _formkey = GlobalKey<FormState>();
 
   loadData() async {

@@ -29,4 +29,4 @@ content-Type: application/json
 DELETE http://localhost:7000/users/transporter?email=pirateking@gmail.com
 
 ###
-GET http://localhost:7000/users/transporter/details?userName=shreali
+GET http://localhost:7000/users/transporter/details?userName=hb
