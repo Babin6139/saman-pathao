@@ -13,20 +13,34 @@ content-Type: application/json
     "password": "user123"
 }
 
+###
+//userdetails change
 ### 
 PATCH http://localhost:7000/users/transporter
 content-Type: application/json
 
 {
-    "email":"pirateking@gmail.com",
-    "userName":"pirateking",
+    "userName":"junushu",
     "firstName": "Monkey",
     "lastName": "lucy",
     "middleName": "D."
 }
 
 ###
-DELETE http://localhost:7000/users/transporter?email=pirateking@gmail.com
+//password change
+###
+PATCH http://localhost:7000/users/transporter
+content-Type: application/json
+
+{
+    "userName":"junushu",
+    "oldPassword": "IlIoWc",
+    "newPassword": "user123"
+}
+###
+
+###
+DELETE http://localhost:7000/users/transporter?email=junushu@gmail.com
 
 ###
 GET http://localhost:7000/users/transporter/details?userName=hb

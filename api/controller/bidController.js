@@ -47,48 +47,70 @@ function nearMe(order) {
 
 //for transporter to add bids to suitable order
 exports.addBids = async (req, res, next) => {
+  // try {
+  //   const checker = await Order.aggregate([
+  //     {
+  //       $match: {
+  //         orderNo: req.body.orderNo,
+  //       },
+  //     },
+  //     {
+  //       $project: {
+  //         "bids.transporter": 1,
+  //         data: {
+  //           $setIsSubset: [
+  //             [mongoose.Types.ObjectId(req.body.transporterId)],
+  //             "$bids.transporter",
+  //           ],
+  //         },
+  //       },
+  //     },
+  //   ]);
+  //   console.log(checker[0].bids);
+  //   if (!checker[0].data) {
+  //     const order = await Order.findOneAndUpdate(
+  //       { orderNo: req.body.orderNo },
+  //       {
+  //         $push: {
+  //           "bids.transporter": req.body.transporterId,
+  //           "bids.bidAmount": req.body.bidAmount,
+  //         },
+  //       },
+  //       { new: true }
+  //     );
+  //     await Transporter.findOneAndUpdate(
+  //       { email: req.body.email },
+  //       { $push: { biddedOders: order._id.toString() } }
+  //     );
+  //     console.log(order);
+  //     res.send({ message: "bid added sucessfully" });
+  //   } else {
+  //     res.send({ message: "you have already bidded for this order" });
+  //   }
+  // } catch (err) {
+  //   next(err);
+  // }
   try {
-    const checker = await Order.aggregate([
-      {
-        $match: {
-          orderNo: req.body.orderNo,
-        },
-      },
-      {
-        $project: {
-          "bids.transporter": 1,
-          data: {
-            $setIsSubset: [
-              [mongoose.Types.ObjectId(req.body.transporterId)],
-              "$bids.transporter",
-            ],
-          },
-        },
-      },
-    ]);
-    console.log(checker[0].bids);
-    if (!checker[0].data) {
-      const order = await Order.findOneAndUpdate(
-        { orderNo: req.body.orderNo },
-        {
-          $push: {
-            "bids.transporter": req.body.transporterId,
-            "bids.bidAmount": req.body.bidAmount,
-          },
-        },
-        { new: true }
-      );
-      await Transporter.findOneAndUpdate(
-        { email: req.body.email },
-        { $push: { biddedOders: order._id.toString() } }
-      );
-      console.log(order);
-      res.send({ message: "bid added sucessfully" });
+    const order = await Order.findOne({ orderNo: req.body.orderNo });
+    if (order) {
+      var transporter = await Transporter.findOne({ email: req.body.email });
+      if (transporter) {
+        console.log(order._id.toString());
+        transporter.biddedOrders.push(order._id.toString());
+        await transporter.save();
+        order.bids.transporter.push(transporter._id.toString());
+        order.bids.bidAmount.push(req.body.bidAmount);
+        await order.save();
+        res.send(order);
+      } else {
+        res.send({ message: "you are not a transporter" });
+      }
     } else {
-      res.send({ message: "you have already bidded for this order" });
+      res.send({ meesage: "order not found" });
     }
   } catch (err) {
     next(err);
+    // res.send(err);
   }
 };
 

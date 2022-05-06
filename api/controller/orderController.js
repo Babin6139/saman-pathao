@@ -2,6 +2,16 @@ const Order = require("../models/order");
 const Client = require("../models/client");
 const admin = require("./adminController");
 
+async function orderNoGenerator(userName) {
+  generatedNo = ` ${userName}-${Math.round(new Date().getTime() / 1000)}`;
+  const oldOrderNoChecker = await Order.exists({ orderNo: generatedNo });
+  if (oldOrderNoChecker) {
+    orderNoGenerator(userName);
+  } else {
+    return generatedNo;
+  }
+}
+
 /**
  * for getting specific order based on orderNo
  */
@@ -56,6 +66,19 @@ exports.getAllOrders = async (req, res, next) => {
       selectOrder =
         "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
     }
+    console.log(req.query.userType);
+    if (req.query.userType === "transporter") {
+      const sendData = await Order.find(
+        {
+          orderStatus: req.query.orderStatus,
+          minRated: { $lte: req.query.rating },
+        },
+        selectOrder
+      );
+
+      res.send(sendData);
+      return 0;
+    }
     const user = await Client.findOne({
       userName: req.query.userName,
     }).populate({
@@ -84,6 +107,10 @@ exports.getAllOrders = async (req, res, next) => {
 
 exports.createOrder = async (req, res, next) => {
   try {
+    var newOrderNo = `${req.body.userName}-${Math.round(
+      new Date().getTime() / 1000
+    )}`;
+    req.body.orderNo = newOrderNo.trim();
     const order = await Order.create(req.body);
     console.log(order._id.toString());
     await Client.findOneAndUpdate(

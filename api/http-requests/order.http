@@ -86,3 +86,6 @@ content-type: application/json
     "userName":"pirateking",
     "orderNo":"38"
 }
+
+###
+GET http://localhost:7000/order/history?orderStatus=postbid&userType=transporter&rating=5

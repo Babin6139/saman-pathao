@@ -30,7 +30,7 @@ class _HomepageMoreState extends State<HomepageMore> {
         context.read<TransporterDataProvider>().transporterData.userName;
     var response = await http.get(
         Uri.parse(
-            "http://192.168.254.2:7000/users/transporter/details?userName=$userName"),
+            "http://10.0.2.2:7000/users/transporter/details?userName=$userName"),
         headers: {'Content-Type': 'application/json'});
     var responseData = await jsonDecode(response.body);
     var transporteDetail = responseData["userDetails"];
@@ -44,18 +44,18 @@ class _HomepageMoreState extends State<HomepageMore> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return detail == null
-        ? Center(child: CircularProgressIndicator())
-        : Container(
+        ? const Center(child: CircularProgressIndicator())
+        : SizedBox(
             height: size.height,
             child: Column(
               children: [
                 //Profile top widget with user name below
-                TransporterProfileCard(),
+                const TransporterProfileCard(),
                 //logout, edit verify
                 Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
@@ -67,14 +67,14 @@ class _HomepageMoreState extends State<HomepageMore> {
                             Navigator.pushNamed(context, "/details");
                           },
                           child: Row(
-                            children: [
+                            children: const [
                               Icon(Icons.person),
                               SizedBox(width: 10),
                               Text("Profile")
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         GestureDetector(
@@ -83,14 +83,14 @@ class _HomepageMoreState extends State<HomepageMore> {
                             Navigator.pushNamed(context, "/verification");
                           },
                           child: Row(
-                            children: [
+                            children: const [
                               Icon(Icons.assignment_ind_outlined),
                               SizedBox(width: 10),
                               Text("Verify")
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         GestureDetector(
@@ -98,14 +98,14 @@ class _HomepageMoreState extends State<HomepageMore> {
                             Navigator.pushNamed(context, "/vehicleDetails");
                           },
                           child: Row(
-                            children: [
+                            children: const [
                               Icon(Icons.directions_car_outlined),
                               SizedBox(width: 10),
                               Text("Vehicle Details")
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         GestureDetector(
@@ -113,14 +113,14 @@ class _HomepageMoreState extends State<HomepageMore> {
                             Navigator.pushNamed(context, "/wallet_load");
                           },
                           child: Row(
-                            children: [
+                            children: const [
                               Icon(Icons.account_balance_wallet),
                               SizedBox(width: 10),
                               Text("Load Collateral")
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         GestureDetector(
@@ -128,14 +128,14 @@ class _HomepageMoreState extends State<HomepageMore> {
                             Navigator.pushNamed(context, "/trial");
                           },
                           child: Row(
-                            children: [
+                            children: const [
                               Icon(Icons.info_outline),
                               SizedBox(width: 10),
                               Text("About us")
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         GestureDetector(
@@ -144,7 +144,7 @@ class _HomepageMoreState extends State<HomepageMore> {
                             Navigator.pushNamed(context, "/");
                           },
                           child: Row(
-                            children: [
+                            children: const [
                               Icon(Icons.logout),
                               SizedBox(
                                 width: 10,

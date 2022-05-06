@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
     login() async {
       if (_formkey.currentState!.validate()) {
         var data = jsonEncode({'email': email, 'password': password});
-        var url = "http://192.168.254.2:7000/users/transporter";
+        var url = "http://10.0.2.2:7000/users/transporter";
         var response = await http.post(Uri.parse(url),
             headers: {'Content-Type': 'application/json'}, body: data);
         var responseBody = await jsonDecode(response.body);
@@ -55,14 +55,14 @@ class _LoginPageState extends State<LoginPage> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text('Login Failed'),
-                  content: Text('E-mail or username not valid'),
+                  title: const Text('Login Failed'),
+                  content: const Text('E-mail or username not valid'),
                   actions: [
                     TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('OK')),
+                        child: const Text('OK')),
                   ],
                 );
               });
@@ -72,12 +72,12 @@ class _LoginPageState extends State<LoginPage> {
 
     Size size = MediaQuery.of(context).size;
     return Material(
-      color: Color(0xFF7DBED3),
+      color: const Color(0xFF7DBED3),
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(50),
           child: Container(
-            padding: EdgeInsets.all(30),
+            padding: const EdgeInsets.all(30),
             decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.7),
                 borderRadius: BorderRadius.circular(20)),
@@ -87,7 +87,9 @@ class _LoginPageState extends State<LoginPage> {
                   width: 145,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(80),
-                    boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 15)],
+                    boxShadow: const [
+                      BoxShadow(color: Colors.grey, blurRadius: 15)
+                    ],
                   ),
                   child: const Center(
                     child: CircleAvatar(
@@ -98,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       "Saman Pathao",
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -108,13 +110,13 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     AnimatedTextKit(repeatForever: true, animatedTexts: [
                       TypewriterAnimatedText("WE DELIVER",
-                          speed: Duration(milliseconds: 400))
+                          speed: const Duration(milliseconds: 400))
                     ])
                   ],
                 ),
                 const SizedBox(height: 70),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: size.width / 2 + 60,
                     child: Form(
                       key: _formkey,
@@ -139,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                               contentPadding: EdgeInsets.zero,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40)),
-                              prefixIcon: Icon(Icons.mail_outline),
+                              prefixIcon: const Icon(Icons.mail_outline),
                               hintText: "E-mail",
                             ),
                           ),
@@ -160,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                               contentPadding: EdgeInsets.zero,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40)),
-                              prefixIcon: Icon(Icons.lock_outline),
+                              prefixIcon: const Icon(Icons.lock_outline),
                               hintText: "Password",
                               suffixIcon: IconButton(
                                 icon: Icon(
@@ -191,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith(
                           (states) => Colors.blue.shade400)),
-                  child: Text(
+                  child: const Text(
                     "Login",
                     style: TextStyle(color: Colors.white),
                   ),
@@ -201,7 +203,7 @@ class _LoginPageState extends State<LoginPage> {
                     style:
                         TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 10),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(left: 18, right: 18),
                   child: Divider(
                     color: Colors.black,
@@ -215,15 +217,15 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   elevation: 5,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 RichText(
                   text: TextSpan(
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                     children: [
-                      TextSpan(text: "Do not have an account?"),
+                      const TextSpan(text: "Do not have an account?"),
                       TextSpan(
                           text: "Sign Up",
-                          style: TextStyle(color: Colors.blue),
+                          style: const TextStyle(color: Colors.blue),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.pushNamed(
