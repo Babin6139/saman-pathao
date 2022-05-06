@@ -20,7 +20,7 @@ exports.getOrder = async (req, res, next) => {
     });
     res.send({ user, orders: user.orders });
   } catch (error) {
-    next(error);
+    res.sendStatus(400);
   }
 };
 
@@ -98,7 +98,10 @@ exports.createOrder = async (req, res, next) => {
   }
 };
 
-//update exsitng order
+/**
+ * update existing order
+ */
+
 exports.updateOrder = async (req, res, next) => {
   try {
     let update = { ...req.body };
@@ -144,23 +147,22 @@ exports.deleteOrder = async (req, res, next) => {
   try {
     const user = await Client.exists({
       userName: req.body.userName,
-    }).populate({
-      path: "orders",
-      match: { orderNo: req.body.orderNo },
     });
-    if (user.orders.length > 0) {
-      const order = await Order.findOneAndUpdate(
+    if (user) {
+      newOrderStatus = "cancelled";
+      selectFilter = {
+        orderNo: req.body.orderNo,
+      };
+      await Order.updateMany(
+        selectFilter,
         {
-          orderNo: req.body.orderNo,
-          orderStatus: "prebid" || "postbid" || "onbid",
-          bidConfirmed: false,
+          orderStatus: newOrderStatus,
         },
-        { orderStatus: "cancelled", bids: { transporter: [], bidAmount: [] } },
         { new: true }
       );
-      res.send({ message: "Order cancelled", order });
+      res.send({ message: "order cancelled" });
     } else {
-      res.send({ message: "Order not found" });
+      res.send({ message: "Order or user not found" });
     }
   } catch (error) {
     next(error);
@@ -210,14 +212,14 @@ exports.statusChanger = async (oldOrderStatus) => {
         updateData.newOrderStatus = "onbid";
         selectFilter = {
           "biddingTime.start": { $lte: new Date() },
-          "biddingTime.end": { $gte: new Date() },
+          // "biddingTime.end": { $gte: new Date() },
           orderStatus: "prebid",
         };
         break;
       case "onbid":
         updateData.newOrderStatus = "postbid";
         selectFilter = {
-          "biddingTime.start": { $lte: new Date() },
+          // "biddingTime.start": { $lte: new Date() },
           "biddingTime.end": { $lte: new Date() },
           orderStatus: "onbid",
         };

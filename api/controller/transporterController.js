@@ -40,6 +40,10 @@ exports.login = async (req, res, next) => {
           orderStatus: "finialized",
         },
       });
+    if (!user) {
+      res.send({ message: "user Not found" });
+      return 0;
+    }
     const deliveryOrders = await Order.find(
       {
         transporter: user._id,
@@ -62,6 +66,16 @@ exports.login = async (req, res, next) => {
       if (!isMatch) {
         res.send({ message: "Password not match" });
       } else {
+        OnlineUser.findByIdAndUpdate(
+          {},
+          {
+            userName: user.userName,
+            loginTime: Date(),
+          },
+          {
+            upsert: true,
+          }
+        );
         let data = {
           userName: user.userName,
           email: user.email,
@@ -149,7 +163,7 @@ exports.userDetails = async (req, res, next) => {
   try {
     const userDetails = await Transporter.findOne(
       { userName: req.query.userName },
-      "firstName middleName lastName email contactNo address userName verified rating securityDeposit dateCreated ratedBy successfullDeliveries review"
+      "firstName middleName lastName email contactNo address userName verified rating securityDeposit dateCreated ratedBy successfullDeliveries"
     );
     const vechileDetails = await Transporter.findOne(
       { userName: "shreali" },
