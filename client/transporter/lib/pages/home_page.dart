@@ -1,7 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:transporter/models/onDeliveryOrders.dart';
 
 import 'package:transporter/models/transporters.dart';
 import 'package:transporter/pages/home_page_more.dart';
@@ -9,7 +8,6 @@ import 'package:transporter/pages/khalti_integration.dart';
 import 'package:transporter/pages/place_bids_page.dart';
 import 'package:transporter/providers/biddedOrdersProvider.dart';
 import 'package:transporter/providers/changePageProvider.dart';
-import 'package:transporter/providers/deliveryOrdersProvider.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:transporter/widgets/order_cards.dart';
 
@@ -35,9 +33,8 @@ class _HomepageState extends State<Homepage> {
     final transporterData =
         context.watch<TransporterDataProvider>().transporterData;
     final biddedOrders = context.watch<BiddedOrdersProvider>().biddedOrdersData;
-    final deliveryOrders =
-        context.watch<DeliveryOrdersProvider>().deliveryOrdersData;
     final imageUrl = transporterData.photo;
+    print(transporterData.onBidOrders[0]);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xFFDBE4FF),
@@ -158,42 +155,27 @@ class _HomepageState extends State<Homepage> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(18))),
-                          padding: EdgeInsets.all(10),
-                          height: 170,
-                          child: Column(
-                            children: [
-                              Text(
-                                "Bidded Orders",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                child: (!biddedOrders.isEmpty
-                                    ? ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: biddedOrders.length,
-                                        itemBuilder: (context, index) {
-                                          return OrderedCard(
-                                              order_1: biddedOrders[index],
-                                              index: index);
-                                        },
-                                      )
-                                    : Center(
-                                        child:
-                                            Text("There are no bidded orders"),
-                                      )),
-                              ),
-                            ],
-                          ),
-                        ),
+                            margin: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.grey),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(18))),
+                            padding: EdgeInsets.all(10),
+                            height: 170,
+                            child: (!biddedOrders.isEmpty
+                                ? ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: biddedOrders.length,
+                                    itemBuilder: (context, index) {
+                                      return OrderedCard(
+                                          order_1: biddedOrders[index],
+                                          index: index);
+                                    },
+                                  )
+                                : Center(
+                                    child: Text("There are no orders"),
+                                  ))),
                         SizedBox(
                           height: 10,
                         ),
@@ -215,24 +197,11 @@ class _HomepageState extends State<Homepage> {
                               height: 10,
                             ),
                             Container(
-                              child: (!deliveryOrders.isEmpty
-                                  ? ListView.builder(
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: deliveryOrders.length,
-                                      itemBuilder: (context, index) {
-                                        return OrderedCard(
-                                            order_1: deliveryOrders[index],
-                                            index: index);
-                                      },
-                                    )
-                                  : Center(
-                                      child: Text(
-                                        "Currently No Delivery Orders",
-                                        style: TextStyle(
-                                            color: Colors.grey.shade700,
-                                            fontSize: 12),
-                                      ),
-                                    )),
+                              child: Text(
+                                "Currently No Delivery Orders",
+                                style: TextStyle(
+                                    color: Colors.grey.shade700, fontSize: 12),
+                              ),
                             )
                           ]),
                         )
