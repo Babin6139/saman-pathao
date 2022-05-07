@@ -8,6 +8,7 @@ import 'package:transporter/pages/order_page.dart';
 import 'package:transporter/pages/signup_page.dart';
 import 'package:transporter/pages/signup_phone.dart';
 import 'package:transporter/pages/transporter_details.dart';
+import 'package:transporter/pages/vehicle_details_page.dart';
 import 'package:transporter/pages/verification.dart';
 
 class RouteGenerator {
@@ -31,6 +32,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => VerificationPage());
       case '/trial':
         return MaterialPageRoute(builder: (_) => Trial());
+      case '/vehicleDetails':
+        return MaterialPageRoute(builder: (_) => VehicleDetailsPage());
       case '/wallet_load':
         return MaterialPageRoute(builder: (_) => KhaltiPaymentApp());
 

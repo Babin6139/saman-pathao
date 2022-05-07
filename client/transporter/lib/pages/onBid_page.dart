@@ -3,8 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
 import 'package:transporter/models/onBidOrders.dart';
 import 'package:provider/provider.dart';
+import 'package:transporter/providers/locationProvider.dart';
 import 'package:transporter/providers/onBidOrdersProvider.dart';
 import 'package:transporter/widgets/onBid_order_card.dart';
 
@@ -19,6 +21,8 @@ class _OnBidOrdersPageState extends State<OnBidOrdersPage> {
   StreamController<double> controller = StreamController();
   List<OnBidOrders> orders = [];
   getBids() async {
+    LocationData currentLocation =
+        context.read<LocationProvider>().locationData;
     // Stream stream = controller.stream;
     var url =
         "http://10.0.2.2:7000/order/history?userType=transporter&orderStatus=onbid&rating=5";
