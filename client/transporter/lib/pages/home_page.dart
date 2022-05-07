@@ -1,5 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 import 'package:transporter/models/transporters.dart';
@@ -9,6 +11,7 @@ import 'package:transporter/pages/onBid_page.dart';
 import 'package:transporter/pages/place_bids_page.dart';
 import 'package:transporter/providers/biddedOrdersProvider.dart';
 import 'package:transporter/providers/changePageProvider.dart';
+import 'package:transporter/providers/locationProvider.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:transporter/widgets/order_cards.dart';
 
@@ -20,6 +23,8 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  LocationData? currentLocationData;
+  var locationUpdate = new Location();
   int page = 0;
   PageController _controller = PageController();
   void _scrollToIndex(int index) {
@@ -29,34 +34,76 @@ class _HomepageState extends State<Homepage> {
 
   bool bidSelected = true;
   bool newOrderSelected = false;
+
+  //enable location
+  enableLocation() async {
+    var location = new Location();
+    var serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return;
+      }
+    }
+    var _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    var currentLocation = await location.getLocation();
+    setState(() {
+      currentLocationData = currentLocation;
+      context.read<LocationProvider>().updateLocationData(currentLocation);
+    });
+  }
+
+  LatLng position = const LatLng(27.675396686559694, 85.39714593440296);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    enableLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
     final transporterData =
         context.watch<TransporterDataProvider>().transporterData;
+    final deliveryOrders = context
+        .watch<TransporterDataProvider>()
+        .transporterData
+        .onDeliveryOrders;
     final biddedOrders = context.watch<BiddedOrdersProvider>().biddedOrdersData;
     final imageUrl = transporterData.photo;
+    // locationUpdate.onLocationChanged.listen((event) {
+    //   context.read<LocationProvider>().updateLocationData(event);
+    // });
     List<Widget> bids(BuildContext context) {
       return [
         Container(
-            margin: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.all(Radius.circular(18))),
-            padding: EdgeInsets.all(10),
-            height: 200,
-            child: (!biddedOrders.isEmpty
-                ? ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: biddedOrders.length,
-                    itemBuilder: (context, index) {
-                      return OrderedCard(
-                          order_1: biddedOrders[index], index: index);
-                    },
-                  )
-                : Center(
-                    child: Text("There are no orders"),
-                  ))),
+          margin: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.all(Radius.circular(18))),
+          padding: EdgeInsets.all(10),
+          height: 200,
+          child: (!biddedOrders.isEmpty
+              ? ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: biddedOrders.length,
+                  itemBuilder: (context, index) {
+                    return OrderedCard(
+                        order_1: biddedOrders[index], index: index);
+                  },
+                )
+              : Center(
+                  child: Text("There are no orders"),
+                )),
+        ),
         SizedBox(
           height: 10,
         ),
@@ -68,21 +115,32 @@ class _HomepageState extends State<Homepage> {
               border: Border.all(color: Colors.grey),
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Column(children: [
-            Text(
-              "Delivery Orders",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              child: Text(
-                "Currently No Delivery Orders",
-                style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
+          child: Column(
+            children: [
+              Text(
+                "Delivery Orders",
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
-            )
-          ]),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 200,
+                child: (!deliveryOrders.isEmpty
+                    ? ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: deliveryOrders.length,
+                        itemBuilder: (context, index) {
+                          return OrderedCard(
+                              order_1: deliveryOrders[index], index: index);
+                        },
+                      )
+                    : Center(
+                        child: Text("There are no orders to deliver"),
+                      )),
+              )
+            ],
+          ),
         )
       ];
     }
@@ -127,7 +185,7 @@ class _HomepageState extends State<Homepage> {
           items: [
             Icon(Icons.home),
             Icon(Icons.attach_money_outlined),
-            Icon(Icons.message),
+            Icon(Icons.history),
             Icon(Icons.menu)
           ],
           onTap: (value) {
@@ -223,7 +281,7 @@ class _HomepageState extends State<Homepage> {
                     ),
             ),
             KhaltiPaymentApp(),
-            Text("Message"),
+            Text("History"),
             HomepageMore()
           ],
         ),
