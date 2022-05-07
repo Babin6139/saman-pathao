@@ -8,6 +8,7 @@ import 'package:transporter/models/onBidOrders.dart';
 import 'package:transporter/providers/onBidOrdersProvider.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:transporter/widgets/map_details.dart';
+import 'package:transporter/widgets/onBid_order_details.dart';
 import 'package:transporter/widgets/personal_details.dart';
 
 class PlaceBidsPage extends StatefulWidget {
@@ -112,9 +113,7 @@ class _PlaceBidsPageState extends State<PlaceBidsPage> {
                     SliverList(
                       delegate: SliverChildListDelegate(
                         [
-                          // OrderDetail(
-                          //   args: orderData,
-                          // ),
+                          OnBidOrderDetails(),
                           MapDetail(
                               startPoint: orderData.startPoint,
                               endPoint: orderData.destination),
