@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:transporter/models/onBidOrders.dart';
 import 'package:transporter/providers/onBidOrdersProvider.dart';
+import 'package:transporter/widgets/coutdown_timer.dart';
 
 class OnBidOrderCard extends StatefulWidget {
   final order;
@@ -26,7 +27,7 @@ class _OnBidOrderCardState extends State<OnBidOrderCard> {
     return Container(
       margin: EdgeInsets.all(10),
       width: double.infinity,
-      height: 170,
+      height: 220,
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.only(
@@ -53,7 +54,7 @@ class _OnBidOrderCardState extends State<OnBidOrderCard> {
                 children: [
                   Container(
                     padding: EdgeInsets.all(8),
-                    height: 100,
+                    height: 130,
                     decoration: BoxDecoration(
                         color: Color(0xFFDBE4FF),
                         border: Border.all(color: Colors.grey),
@@ -65,7 +66,7 @@ class _OnBidOrderCardState extends State<OnBidOrderCard> {
                             width: 20,
                             child: Icon(
                               Icons.shopping_bag_outlined,
-                              size: 15,
+                              size: 18,
                             ),
                           ),
                           SizedBox(
@@ -74,21 +75,21 @@ class _OnBidOrderCardState extends State<OnBidOrderCard> {
                           Text(
                             "Materials: ${order.shipments[0]}...",
                             style: TextStyle(
-                                fontSize: 10, color: Colors.grey.shade700),
+                                fontSize: 15, color: Colors.grey.shade700),
                           ),
                         ]),
                         Row(
                           children: [
                             Container(
                               width: 20,
-                              child: Icon(Icons.emoji_transportation, size: 15),
+                              child: Icon(Icons.emoji_transportation, size: 18),
                             ),
                             SizedBox(
                               width: 5,
                             ),
                             Text("Weight: ${order.shipmentWeight}",
                                 style: TextStyle(
-                                    color: Colors.grey.shade700, fontSize: 10)),
+                                    color: Colors.grey.shade700, fontSize: 15)),
                           ],
                         ),
                         Row(
@@ -96,7 +97,7 @@ class _OnBidOrderCardState extends State<OnBidOrderCard> {
                             Container(
                               width: 20,
                               child: Icon(Icons.attach_money_outlined,
-                                  color: Colors.green, size: 15),
+                                  color: Colors.green, size: 18),
                             ),
                             SizedBox(
                               width: 5,
@@ -107,18 +108,22 @@ class _OnBidOrderCardState extends State<OnBidOrderCard> {
                           children: [
                             Container(
                               width: 20,
-                              child: Icon(Icons.location_on_outlined, size: 15),
+                              child: Icon(Icons.location_on_outlined, size: 18),
                             ),
                             SizedBox(
                               width: 5,
                             ),
+                            Text("Distance: ${order.distance}",
+                                style: TextStyle(
+                                    color: Colors.grey.shade700, fontSize: 15)),
                           ],
                         ),
+                        //lowest bid
                         Row(
                           children: [
                             Container(
                               width: 20,
-                              child: Icon(Icons.low_priority_rounded, size: 15),
+                              child: Icon(Icons.low_priority_rounded, size: 18),
                             ),
                             SizedBox(
                               width: 5,
@@ -128,11 +133,16 @@ class _OnBidOrderCardState extends State<OnBidOrderCard> {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [countDownTimer(endTime: order.biddingTime.end)],
+                  ),
                 ],
               ),
             ),
           ),
-          Text("Map Goes here"),
         ],
       ),
     );
