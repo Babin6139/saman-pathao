@@ -35,6 +35,7 @@ class _OrderPageState extends State<OrderPage> {
             context.read<TransporterDataProvider>().transporterData.userName,
         'bidAmount': newBid
       });
+
       var url = "http://10.0.2.2:7000/bid/";
       var response = await http.patch(Uri.parse(url),
           headers: {'Content-Type': 'application/json'}, body: updateData);
@@ -99,7 +100,7 @@ class _OrderPageState extends State<OrderPage> {
                                   ),
                                   padding: EdgeInsets.all(3),
                                   child: Container(
-                                    height: 35,
+                                    height: 40,
                                     child: Column(children: [
                                       Text(
                                         "Order No: ${orderData.orderNo}",

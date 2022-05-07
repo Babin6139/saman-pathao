@@ -4,6 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:transporter/models/onBidOrders.dart';
+import 'package:provider/provider.dart';
+import 'package:transporter/providers/onBidOrdersProvider.dart';
+import 'package:transporter/widgets/onBid_order_card.dart';
 
 class OnBidOrdersPage extends StatefulWidget {
   const OnBidOrdersPage({Key? key}) : super(key: key);
@@ -16,7 +19,7 @@ class _OnBidOrdersPageState extends State<OnBidOrdersPage> {
   StreamController<double> controller = StreamController();
   List<OnBidOrders> orders = [];
   getBids() async {
-    Stream stream = controller.stream;
+    // Stream stream = controller.stream;
     var url =
         "http://10.0.2.2:7000/order/history?userType=transporter&orderStatus=onbid&rating=5";
     var response = await http
@@ -25,6 +28,7 @@ class _OnBidOrdersPageState extends State<OnBidOrdersPage> {
     setState(() {
       orders = List<OnBidOrders>.from(
           responseBody.map((x) => OnBidOrders.fromMap(x)));
+      context.read<OnBidOrdersProvider>().changeData(orders);
     });
   }
 
@@ -37,25 +41,18 @@ class _OnBidOrdersPageState extends State<OnBidOrdersPage> {
   @override
   Widget build(BuildContext context) {
     return orders.isNotEmpty
-        ? Container(
-            margin: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.all(Radius.circular(18))),
-            padding: EdgeInsets.all(10),
-            height: 200,
-            child: (orders.isNotEmpty
-                ? ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: orders.length,
-                    itemBuilder: (context, index) {
-                      return Text('${orders[index]}');
-                    },
-                  )
-                : Center(
-                    child: Text("There are no orders"),
-                  )))
+        ? (orders.isNotEmpty
+            ? ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: orders.length,
+                itemBuilder: (context, index) {
+                  return OnBidOrderCard(order: orders[index], index: index);
+                },
+              )
+            : Center(
+                child: Text("There are no orders"),
+              ))
         : Center(
             child: CircularProgressIndicator(),
           );

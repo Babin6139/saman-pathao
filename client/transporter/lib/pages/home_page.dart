@@ -88,7 +88,15 @@ class _HomepageState extends State<Homepage> {
     }
 
     Widget newBids(BuildContext context) {
-      return OnBidOrdersPage();
+      return Container(
+          margin: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.all(Radius.circular(18))),
+          padding: EdgeInsets.all(10),
+          height: MediaQuery.of(context).size.height,
+          child: OnBidOrdersPage());
     }
 
     return SafeArea(
