@@ -14,6 +14,8 @@ class OnBidOrders {
   List<String> destination;
   bool fragile;
   double distance;
+  double maxBudget;
+  double minRated;
   List<String> shipments;
   double shipmentWeight;
   Time biddingTime;
@@ -28,6 +30,8 @@ class OnBidOrders {
     required this.destination,
     required this.fragile,
     required this.distance,
+    required this.maxBudget,
+    required this.minRated,
     required this.shipments,
     required this.shipmentWeight,
     required this.biddingTime,
@@ -44,6 +48,8 @@ class OnBidOrders {
     List<String>? destination,
     bool? fragile,
     double? distance,
+    double? maxBudget,
+    double? minRated,
     List<String>? shipments,
     double? shipmentWeight,
     Time? biddingTime,
@@ -59,6 +65,8 @@ class OnBidOrders {
       destination: destination ?? this.destination,
       fragile: fragile ?? this.fragile,
       distance: distance ?? this.distance,
+      maxBudget: maxBudget ?? this.maxBudget,
+      minRated: minRated ?? this.minRated,
       shipments: shipments ?? this.shipments,
       shipmentWeight: shipmentWeight ?? this.shipmentWeight,
       biddingTime: biddingTime ?? this.biddingTime,
@@ -77,6 +85,8 @@ class OnBidOrders {
       'destination': destination,
       'fragile': fragile,
       'distance': distance,
+      'maxBudget': maxBudget,
+      'minRated': minRated,
       'shipments': shipments,
       'shipmentWeight': shipmentWeight,
       'biddingTime': biddingTime.toMap(),
@@ -95,6 +105,8 @@ class OnBidOrders {
       destination: List<String>.from(map['destination']),
       fragile: map['fragile'] ?? false,
       distance: map['distance']?.toDouble() ?? 0.0,
+      maxBudget: map['maxBudget']?.toDouble() ?? 0.0,
+      minRated: map['minRated']?.toDouble() ?? 0.0,
       shipments: List<String>.from(map['shipments']),
       shipmentWeight: map['shipmentWeight']?.toDouble() ?? 0.0,
       biddingTime: Time.fromMap(map['biddingTime']),
@@ -109,7 +121,7 @@ class OnBidOrders {
 
   @override
   String toString() {
-    return 'OnBidOrders(orderNo: $orderNo, shipmentPhoto: $shipmentPhoto, orderStatus: $orderStatus, bids: $bids, timeFrame: $timeFrame, startPoint: $startPoint, destination: $destination, fragile: $fragile, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, biddingTime: $biddingTime, userName: $userName)';
+    return 'OnBidOrders(orderNo: $orderNo, shipmentPhoto: $shipmentPhoto, orderStatus: $orderStatus, bids: $bids, timeFrame: $timeFrame, startPoint: $startPoint, destination: $destination, fragile: $fragile, distance: $distance, maxBudget: $maxBudget, minRated: $minRated, shipments: $shipments, shipmentWeight: $shipmentWeight, biddingTime: $biddingTime, userName: $userName)';
   }
 
   @override
@@ -127,6 +139,8 @@ class OnBidOrders {
         listEquals(other.destination, destination) &&
         other.fragile == fragile &&
         other.distance == distance &&
+        other.maxBudget == maxBudget &&
+        other.minRated == minRated &&
         listEquals(other.shipments, shipments) &&
         other.shipmentWeight == shipmentWeight &&
         other.biddingTime == biddingTime &&
@@ -144,6 +158,8 @@ class OnBidOrders {
         destination.hashCode ^
         fragile.hashCode ^
         distance.hashCode ^
+        maxBudget.hashCode ^
+        minRated.hashCode ^
         shipments.hashCode ^
         shipmentWeight.hashCode ^
         biddingTime.hashCode ^

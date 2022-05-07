@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:transporter/models/demo.dart';
 import 'package:transporter/models/onBidOrders.dart';
 import 'package:transporter/providers/onBidOrdersProvider.dart';
 import 'package:transporter/widgets/coutdown_timer.dart';
@@ -27,7 +28,7 @@ class _OnBidOrderCardState extends State<OnBidOrderCard> {
     return Container(
       margin: EdgeInsets.all(10),
       width: double.infinity,
-      height: 220,
+      height: 250,
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.only(
@@ -54,7 +55,7 @@ class _OnBidOrderCardState extends State<OnBidOrderCard> {
                 children: [
                   Container(
                     padding: EdgeInsets.all(8),
-                    height: 130,
+                    height: 160,
                     decoration: BoxDecoration(
                         color: Color(0xFFDBE4FF),
                         border: Border.all(color: Colors.grey),
@@ -102,6 +103,9 @@ class _OnBidOrderCardState extends State<OnBidOrderCard> {
                             SizedBox(
                               width: 5,
                             ),
+                            Text("Budget: ${order.maxBudget}",
+                                style: TextStyle(
+                                    color: Colors.grey.shade700, fontSize: 15)),
                           ],
                         ),
                         Row(
@@ -127,6 +131,25 @@ class _OnBidOrderCardState extends State<OnBidOrderCard> {
                             ),
                             SizedBox(
                               width: 5,
+                            ),
+                            Text(
+                              "Lowest Bid:${order.bids.bidAmount.isNotEmpty ? order.bids.bidAmount.reduce((curr, next) => curr < next ? curr : next) : 'No bids yet'}",
+                              style: TextStyle(fontSize: 15),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 20,
+                              child: Icon(Icons.star, size: 18),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Min Rating: ${order.minRated}",
+                              style: TextStyle(fontSize: 15),
                             )
                           ],
                         ),
