@@ -90,7 +90,7 @@ class _HomepageState extends State<Homepage> {
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.all(Radius.circular(18))),
           padding: EdgeInsets.all(10),
-          height: 200,
+          height: 250,
           child: (!biddedOrders.isEmpty
               ? ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -153,7 +153,7 @@ class _HomepageState extends State<Homepage> {
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.all(Radius.circular(18))),
           padding: EdgeInsets.all(10),
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height / 1.4,
           child: OnBidOrdersPage());
     }
 

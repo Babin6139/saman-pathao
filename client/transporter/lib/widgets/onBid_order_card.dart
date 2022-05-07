@@ -73,10 +73,11 @@ class _OnBidOrderCardState extends State<OnBidOrderCard> {
                           SizedBox(
                             width: 5,
                           ),
-                          Text(
-                            "Materials: ${order.shipments[0]}...",
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey.shade700),
+                          Flexible(
+                            child: Text(
+                              "Materials: ${order.shipments[0]}...",
+                              style: TextStyle(color: Colors.grey.shade700),
+                            ),
                           ),
                         ]),
                         Row(

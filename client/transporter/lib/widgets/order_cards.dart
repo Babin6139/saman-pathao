@@ -30,6 +30,7 @@ class _OrderedCardState extends State<OrderedCard> {
       },
       child: Container(
         width: 300,
+        margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.only(
@@ -39,13 +40,16 @@ class _OrderedCardState extends State<OrderedCard> {
           elevation: 0,
           child: ListTile(
             title: Column(mainAxisSize: MainAxisSize.min, children: [
-              Text(
-                "Order: ${order.orderNo}",
-                style: TextStyle(fontSize: 15),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  "Order: ${order.orderNo}",
+                  style: TextStyle(fontSize: 15),
+                ),
               ),
               Text(
                 'Posted at: ${postedTime.hour}:${postedTime.minute}',
-                style: TextStyle(color: Colors.grey.shade700, fontSize: 10),
+                style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
               ),
               SizedBox(
                 height: 5,
@@ -58,7 +62,7 @@ class _OrderedCardState extends State<OrderedCard> {
               children: [
                 Container(
                   padding: EdgeInsets.all(8),
-                  height: 90,
+                  height: 120,
                   decoration: BoxDecoration(
                       color: Color(0xFFDBE4FF),
                       border: Border.all(color: Colors.grey),
@@ -70,30 +74,32 @@ class _OrderedCardState extends State<OrderedCard> {
                           width: 20,
                           child: Icon(
                             Icons.shopping_bag_outlined,
-                            size: 15,
+                            size: 18,
                           ),
                         ),
                         SizedBox(
                           width: 5,
                         ),
-                        Text(
-                          "Materials: ${order.shipments[0]}...",
-                          style: TextStyle(
-                              fontSize: 10, color: Colors.grey.shade700),
+                        Flexible(
+                          child: Text(
+                            "Materials: ${order.shipments[0]}...",
+                            style: TextStyle(
+                                fontSize: 12, color: Colors.grey.shade700),
+                          ),
                         ),
                       ]),
                       Row(
                         children: [
                           Container(
                             width: 20,
-                            child: Icon(Icons.emoji_transportation, size: 15),
+                            child: Icon(Icons.emoji_transportation, size: 18),
                           ),
                           SizedBox(
                             width: 5,
                           ),
                           Text("Weight: ${order.shipmentWeight}",
                               style: TextStyle(
-                                  color: Colors.grey.shade700, fontSize: 10)),
+                                  color: Colors.grey.shade700, fontSize: 12)),
                         ],
                       ),
                       Row(
@@ -101,42 +107,42 @@ class _OrderedCardState extends State<OrderedCard> {
                           Container(
                             width: 20,
                             child: Icon(Icons.attach_money_outlined,
-                                color: Colors.green, size: 15),
+                                color: Colors.green, size: 18),
                           ),
                           SizedBox(
                             width: 5,
                           ),
                           Text("Budget: ${order.maxBudget}",
                               style: TextStyle(
-                                  color: Colors.grey.shade700, fontSize: 10)),
+                                  color: Colors.grey.shade700, fontSize: 12)),
                         ],
                       ),
                       Row(
                         children: [
                           Container(
                             width: 20,
-                            child: Icon(Icons.location_on_outlined, size: 15),
+                            child: Icon(Icons.location_on_outlined, size: 18),
                           ),
                           SizedBox(
                             width: 5,
                           ),
                           Text("Distance: ${order.maxBudget}",
                               style: TextStyle(
-                                  color: Colors.grey.shade700, fontSize: 10)),
+                                  color: Colors.grey.shade700, fontSize: 12)),
                         ],
                       ),
                       Row(
                         children: [
                           Container(
                             width: 20,
-                            child: Icon(Icons.low_priority_rounded, size: 15),
+                            child: Icon(Icons.low_priority_rounded, size: 18),
                           ),
                           SizedBox(
                             width: 5,
                           ),
                           Text(
                             "Lowest Bid:${order.bids.bidAmount.reduce((curr, next) => curr < next ? curr : next)}",
-                            style: TextStyle(fontSize: 10),
+                            style: TextStyle(fontSize: 12),
                           )
                         ],
                       ),
