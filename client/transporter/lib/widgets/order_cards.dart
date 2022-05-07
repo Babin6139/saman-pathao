@@ -30,6 +30,7 @@ class _OrderedCardState extends State<OrderedCard> {
       },
       child: Container(
         width: 300,
+        margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.only(
@@ -39,9 +40,12 @@ class _OrderedCardState extends State<OrderedCard> {
           elevation: 0,
           child: ListTile(
             title: Column(mainAxisSize: MainAxisSize.min, children: [
-              Text(
-                "Order: ${order.orderNo}",
-                style: TextStyle(fontSize: 15),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  "Order: ${order.orderNo}",
+                  style: TextStyle(fontSize: 15),
+                ),
               ),
               Text(
                 'Posted at: ${postedTime.hour}:${postedTime.minute}',
@@ -76,10 +80,12 @@ class _OrderedCardState extends State<OrderedCard> {
                         SizedBox(
                           width: 5,
                         ),
-                        Text(
-                          "Materials: ${order.shipments[0]}...",
-                          style: TextStyle(
-                              fontSize: 12, color: Colors.grey.shade700),
+                        Flexible(
+                          child: Text(
+                            "Materials: ${order.shipments[0]}...",
+                            style: TextStyle(
+                                fontSize: 12, color: Colors.grey.shade700),
+                          ),
                         ),
                       ]),
                       Row(

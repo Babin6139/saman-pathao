@@ -90,7 +90,7 @@ class _HomepageState extends State<Homepage> {
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.all(Radius.circular(18))),
           padding: EdgeInsets.all(10),
-          height: 230,
+          height: 250,
           child: (!biddedOrders.isEmpty
               ? ListView.builder(
                   scrollDirection: Axis.horizontal,

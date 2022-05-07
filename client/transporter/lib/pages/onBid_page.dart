@@ -24,6 +24,7 @@ class _OnBidOrdersPageState extends State<OnBidOrdersPage> {
     LocationData currentLocation =
         context.read<LocationProvider>().locationData;
     // Stream stream = controller.stream;
+    print(currentLocation);
     var url =
         "http://10.0.2.2:7000/order/history?userType=transporter&orderStatus=onbid&rating=5";
     var response = await http
@@ -51,7 +52,13 @@ class _OnBidOrdersPageState extends State<OnBidOrdersPage> {
                 scrollDirection: Axis.vertical,
                 itemCount: orders.length,
                 itemBuilder: (context, index) {
-                  return OnBidOrderCard(order: orders[index], index: index);
+                  return GestureDetector(
+                      onTap: () {
+                        context.read<OnBidOrdersProvider>().updateIndex(index);
+                        Navigator.pushNamed(context, '/bidOrder');
+                      },
+                      child:
+                          OnBidOrderCard(order: orders[index], index: index));
                 },
               )
             : Center(

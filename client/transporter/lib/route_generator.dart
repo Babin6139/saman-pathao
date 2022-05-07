@@ -5,6 +5,7 @@ import 'package:transporter/pages/home_page.dart';
 import 'package:transporter/pages/khalti_integration.dart';
 import 'package:transporter/pages/login_page.dart';
 import 'package:transporter/pages/order_page.dart';
+import 'package:transporter/pages/place_bids_page.dart';
 import 'package:transporter/pages/signup_page.dart';
 import 'package:transporter/pages/signup_phone.dart';
 import 'package:transporter/pages/transporter_details.dart';
@@ -26,6 +27,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Homepage());
       case '/biddedOrder':
         return MaterialPageRoute(builder: (_) => OrderPage(args: args));
+      case '/bidOrder':
+        return MaterialPageRoute(builder: (_) => PlaceBidsPage());
       case '/details':
         return MaterialPageRoute(builder: (_) => TransporterDetails());
       case '/verification':
