@@ -47,7 +47,7 @@ class _TransporterProfileCardState extends State<TransporterProfileCard> {
             children: [
               Text(details.userName),
               Text(
-                  "Rating: ${details.rating < 0 ? "Not Rated" : details.rating} ${details.ratedBy > 0 ? details.ratedBy : ""}"),
+                  "Rating: ${details.rating < 0 ? "Not Rated" : details.rating} (${details.ratedBy > 0 ? details.ratedBy : ""})"),
               Text("Deposit: ${details.securityDeposit}")
             ],
           ),
