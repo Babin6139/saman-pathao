@@ -31,7 +31,9 @@ DELETE http://localhost:7000/bid?orderNo=38&transporterId=62736d2ad14d5aa32ecc84
 GET http://localhost:7000/bid/history?userName=hb
 
 ###
-GET http://localhost:7000/bid/suitablebids?userName=hb
+GET http://localhost:7000/bid/suitablebids?userName=hb&lat=27.675795&long=85.3710583&rating=5
+###
+GET http://localhost:7000/bid/try/suitablebids?userName=hb&lat=27.675795&long=85.3710583&rating=5
 
 ###
 GET http://localhost:7000/bid/trial?userName=hb

@@ -14,6 +14,8 @@ router.route("/history").get(bidController.getBidHistory);
 
 router.route("/suitablebids").get(bidController.locationApproriateBids);
 
+router.route("/try/suitablebids").get(bidController.getSuitableBids);
+
 router.route("/specific").get(bidController.getBidDetails);
 
 router.route("/getall").get(bidController.getAllBids);

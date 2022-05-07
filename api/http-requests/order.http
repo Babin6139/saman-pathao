@@ -1,41 +1,36 @@
 //get all orders of different status
 ###
-GET http://localhost:7000/order/history?userType=transporter&orderStatus=onbid&rating=5
+GET http://localhost:7000/order/history?orderStatus=onbid&userName=pirateking
 
 //create new order
 ###
 POST http://localhost:7000/order/
 content-type : application/json
 
-{
-    "userName": "mks",
-    "orderStatus":"prebid",
-    "timeFrame":{
-        "start":"2022-06-15 10:30",
-        "end":"2022-06-15 11:30"
+ {
+    "userName": "pirateQueen",
+    "orderStatus": "prebid",
+    "timeFrame": {
+      "start": "2022-05-10T12:00:55Z",
+      "end": "2022-05-12T00:00:00Z"
     },
-    "startPoint":["Singha Durbar",27.697877, 85.319283],
-    "destination":["Madyapur Thimi",27.676146, 85.377219],
-    "distance":7.7,
-    "biddingTime":{
-        "start":"2022-05-06 01:15",
-        "end":"2022-05-09 01:21"
+    "startPoint": ["locations 10", 27.661105220208288, 85.5036324206804],
+    "destination": ["locations 9", 27.699120372256214, 85.37631882790146],
+    "distance": 2584,
+    "biddingTime": {
+      "start": "2022-05-07T00:00:00Z",
+      "end": "2022-05-08T22:11:19Z"
     },
-    "maxBudget":2500,
-    "shipments":["Bed","Sofa"],
-    "shipmentCount":[1,4],
-    "shipmentPhoto":"https://firebasestorage.googleapis.com/v0/b/saman-pathao.appspot.com/o/user.jpeg?alt=media&token=c5cd18fc-d73e-44c3-bae2-3d18acf1fd12",
-    "shipmentWeight":50.5,
-    "shipmentDimension":{
-        "length":[1.91,1.75],
-        "width":[1.37,0.75],
-        "height":[0.6,0.6]
-    },
-    "fragile":true,
-    "minRated":2
-}
+    "maxBudget": 2342,
+    "shipments": ["Tomatoes - Diced, Canned"],
+    "shipmentCount": [3],
+    "shipmentPhoto": "https://firebasestorage.googleapis.com/v0/b/saman-pathao-57245.appspot.com/o/orderimage%2F2.jpg?alt=media&token=ac0ff7a5-cfe0-41ee-9ab8-b71ff815788a",
+    "shipmentWeight": 30,
+    "shipmentDimension": { "length": [4], "width": [1], "height": [1] },
+    "fragile": true,
+    "minRated": 1
+  }
 
-###
 
 
 //get any specific order by their orderNo
@@ -87,4 +82,7 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:7000/order/history?orderStatus=postbid&userType=transporter&rating=5
+GET http://localhost:7000/order/history?orderStatus=onbid&userType=transporter&rating=5&lat=27.675795&long=85.3710583
+
+###
+GET http://localhost:7000/order/orderedBy?orderNo=38

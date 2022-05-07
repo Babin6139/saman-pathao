@@ -13,4 +13,6 @@ router.route("/bidFinalized").patch(orderController.finializeOrder);
 
 router.route("/history").get(orderController.getAllOrders);
 
+router.route("/orderedBy").get(orderController.orderHolder);
+
 module.exports = router;

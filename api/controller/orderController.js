@@ -13,7 +13,7 @@ async function orderNoGenerator(userName) {
 }
 
 /**
- * for getting specific order based on orderNo
+ * for getting specific order based on orderNo for client
  */
 
 exports.getOrder = async (req, res, next) => {
@@ -50,7 +50,7 @@ exports.getAllOrders = async (req, res, next) => {
         "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
     } else if (req.query.orderStatus === "postbid") {
       selectOrder =
-        "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime";
+        "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
     } else if (req.query.orderStatus === "finalized") {
       selectOrder =
         "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
@@ -248,5 +248,24 @@ exports.statusChanger = async (oldOrderStatus) => {
     return order;
   } catch (err) {
     return { err };
+  }
+};
+
+exports.orderHolder = async (req, res, next) => {
+  try {
+    const order = await Order.findOne(
+      { orderNo: req.query.orderNo },
+      "userName -_id"
+    );
+
+    const user = await Client.findOne(
+      {
+        userName: order.userName,
+      },
+      "-_id rating ratedBy email review photo contactNo firstName lastName middleName"
+    );
+    res.send({ user });
+  } catch (error) {
+    res.sendStatus(400);
   }
 };

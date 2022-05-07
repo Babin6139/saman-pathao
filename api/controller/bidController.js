@@ -174,7 +174,6 @@ exports.getBidDetails = async (req, res, next) => {
         },
       },
     });
-
     res.send(bidDetails);
   } catch (error) {
     next(error);
@@ -274,17 +273,16 @@ exports.getBidHistory = async (req, res, next) => {
 // returns orders that are available to bid for transporter
 exports.getSuitableBids = async (req, res, next) => {
   try {
-    const transporter = await Transporter.find({
+    const transporter = await Transporter.findOne({
       userName: req.query.userName,
     });
-    console.log(transporter._id);
+    console.log(transporter);
     const order = await Order.find({
       orderStatus: "onbid",
       "bids.transporter": {
-        $ne: transporter._id,
+        $ne: transporter._id.toString(),
       },
       rating: { $lte: transporter.rating },
-      shipmentWeight: { $lte: transporter.vechileCapacity },
     });
     res.send(order);
   } catch (err) {
@@ -293,45 +291,60 @@ exports.getSuitableBids = async (req, res, next) => {
 };
 
 exports.locationApproriateBids = async (req, res, next) => {
-  const order = await Order.find({}, "orderNo startPoint destination");
-  // locationMatrix = [[]];
-  // order.forEach((order, index) => {
-  //   locationMatrix[index] = [
-  //     [order.orderNo, order.startPoint[2], order.destination[2]],
-  //   ];
-  // });
-  suitableorder = [];
-  order.forEach((order) => {
-    distanceMatrices = matrixClient
-      .getMatrix({
-        points: [
-          {
-            coordinates: [
-              parseInt(order.startPoint[2]),
-              parseInt(order.startPoint[1]),
-            ],
-          },
-          {
-            coordinates: [85.52111841641558, 27.630063957063957],
-          },
-        ],
-        profile: "driving",
-        annotations: ["distance"],
-      })
-      .send()
-      .then((response) => {
-        const matrix = response.body;
-        console.log(matrix.distances);
-        if (matrix.distances[1][0] >= 1000) {
-          suitableorder.push(order);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  var suitableorder = [];
+  const transporter = await Transporter.findOne({
+    userName: req.query.userName,
   });
-
-  res.send(order);
+  selectOrder =
+    "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
+  Order.find(
+    {
+      orderStatus: "onbid",
+      minRated: { $lte: parseFloat(req.query.rating) },
+      "bids.transporter": {
+        $ne: transporter._id,
+      },
+    },
+    selectOrder
+  )
+    .then((orders) => {
+      orders.forEach(async (order) => {
+        distanceMatrices = await matrixClient
+          .getMatrix({
+            points: [
+              {
+                coordinates: [
+                  parseFloat(order.startPoint[2]),
+                  parseFloat(order.startPoint[1]),
+                ],
+              },
+              {
+                coordinates: [
+                  parseFloat(req.query.long),
+                  parseFloat(req.query.lat),
+                ],
+              },
+            ],
+            profile: "driving",
+            annotations: ["distance"],
+          })
+          .send()
+          .then((response) => {
+            const matrix = response.body;
+            console.log(matrix.distances);
+            if (matrix.distances[1][0] <= 6000) {
+              suitableorder.push(order);
+              console.log(suitableorder);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+      console.log(suitableorder, "from here");
+      return suitableorder;
+    })
+    .finally(res.send(suitableorder));
 };
 
 exports.routeOfOrders = async (req, res, next) => {
