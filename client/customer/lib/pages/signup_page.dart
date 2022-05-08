@@ -56,6 +56,7 @@ class _SignUpState extends State<SignUp> {
           setState(() {});
         });
         print(user.photo);
+        print(user.toMap());
         var data = jsonEncode(user.toMap());
         var url = "http://10.0.2.2:7000/users/client/signup";
         var response = await http.post(Uri.parse(url),
@@ -92,7 +93,7 @@ class _SignUpState extends State<SignUp> {
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: MyColor.color1),
+                          color: Colors.white),
                     ),
                     AnimatedTextKit(repeatForever: true, animatedTexts: [
                       TypewriterAnimatedText("WE DELIVER",

@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: MyColor.color1),
+                          color: Colors.white),
                     ),
                     AnimatedTextKit(repeatForever: true, animatedTexts: [
                       TypewriterAnimatedText("WE DELIVER",

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:customer/models/argument.dart';
 import 'package:customer/models/display_order.dart';
+import 'package:customer/models/transporter_model.dart';
 import 'package:customer/models/user_data.dart';
 import 'package:customer/models/user_orders.dart';
 import 'package:customer/providers/orderDataProvide.dart';
@@ -12,6 +13,7 @@ import 'package:customer/utils/routes.dart';
 import 'package:customer/widgets/bid_details.dart';
 import 'package:customer/widgets/map_detail.dart';
 import 'package:customer/widgets/order_detail.dart';
+import 'package:customer/widgets/transorter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -148,11 +150,14 @@ class _DisplayOrderState extends State<DisplayOrder> {
                           endPoint: data!.destination,
                           deliveryTime: data!.timeFrame,
                         ),
-                        BidDetails(
-                          bidDetail: data!.bids,
-                          orderStatus: data!.orderStatus,
-                          biddingTime: data!.biddingTime,
-                        ),
+                        data!.orderStatus == "finalized" ||
+                                data!.orderStatus == "onDelivery"
+                            ? TransporterPage()
+                            : BidDetails(
+                                bidDetail: data!.bids,
+                                orderStatus: data!.orderStatus,
+                                biddingTime: data!.biddingTime,
+                              ),
                       ]))
                     ])),
         ));

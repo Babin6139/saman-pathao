@@ -69,7 +69,8 @@ class _AllOrderPageState extends State<AllOrderPage> {
             children: [
               Text(
                 "All orders",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
               ),
               Expanded(
                 child: Container(

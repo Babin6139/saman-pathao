@@ -14,6 +14,7 @@ class UserOrders {
   final List<dynamic> shipments;
   final int shipmentWeight;
   final String photo;
+  final String transporter;
   UserOrders({
     required this.orderNo,
     required this.orderId,
@@ -26,6 +27,7 @@ class UserOrders {
     required this.shipments,
     required this.shipmentWeight,
     required this.photo,
+    required this.transporter,
   });
 
   UserOrders copyWith({
@@ -40,6 +42,7 @@ class UserOrders {
     List<dynamic>? shipments,
     int? shipmentWeight,
     String? photo,
+    String? transporter,
   }) {
     return UserOrders(
       orderNo: orderNo ?? this.orderNo,
@@ -53,6 +56,7 @@ class UserOrders {
       shipments: shipments ?? this.shipments,
       shipmentWeight: shipmentWeight ?? this.shipmentWeight,
       photo: photo ?? this.photo,
+      transporter: transporter ?? this.transporter,
     );
   }
 
@@ -70,23 +74,26 @@ class UserOrders {
     result.addAll({'shipments': shipments});
     result.addAll({'shipmentWeight': shipmentWeight});
     result.addAll({'photo': photo});
+    result.addAll({'transporter': transporter});
 
     return result;
   }
 
   factory UserOrders.fromMap(Map<String, dynamic> map) {
     return UserOrders(
-        orderNo: map['orderNo'] ?? '',
-        orderId: map['_id'] ?? '',
-        status: map['status'] ?? '',
-        orderStartTime: map['orderStartTime'] ?? '',
-        orderEndTime: map['orderEndTime'] ?? '',
-        maxBudget: map['maxBudget']?.toInt() ?? 0,
-        lowestbids: map['bidCost']?.toInt() ?? -1,
-        distance: map['distance']?.toInt() ?? 0,
-        shipments: List<dynamic>.from(map['shipments']),
-        shipmentWeight: map['shipmentWeight']?.toInt() ?? 0,
-        photo: map['shipmentPhoto'] ?? "https://picsum.photos/200/300");
+      orderNo: map['orderNo'] ?? '',
+      orderId: map['orderId'] ?? '',
+      status: map['status'] ?? '',
+      orderStartTime: map['orderStartTime'] ?? '',
+      orderEndTime: map['orderEndTime'] ?? '',
+      maxBudget: map['maxBudget']?.toInt() ?? 0,
+      lowestbids: map['bidCost']?.toInt() ?? 0,
+      distance: map['distance']?.toInt() ?? 0,
+      shipments: List<dynamic>.from(map['shipments']),
+      shipmentWeight: map['shipmentWeight']?.toInt() ?? 0,
+      photo: map['shipmentPhoto'] ?? "https://picsum.photos/200/300",
+      transporter: map['transporter'] ?? '',
+    );
   }
 
   String toJson() => json.encode(toMap());
@@ -96,7 +103,7 @@ class UserOrders {
 
   @override
   String toString() {
-    return 'UserOrders(orderNo: $orderNo, orderId: $orderId, status: $status, orderStartTime: $orderStartTime, orderEndTime: $orderEndTime, maxBudget: $maxBudget, lowestbids: $lowestbids, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, photo: $photo)';
+    return 'UserOrders(orderNo: $orderNo, orderId: $orderId, status: $status, orderStartTime: $orderStartTime, orderEndTime: $orderEndTime, maxBudget: $maxBudget, lowestbids: $lowestbids, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, photo: $photo, transporter: $transporter)';
   }
 
   @override
@@ -115,7 +122,8 @@ class UserOrders {
         other.distance == distance &&
         listEquals(other.shipments, shipments) &&
         other.shipmentWeight == shipmentWeight &&
-        other.photo == photo;
+        other.photo == photo &&
+        other.transporter == transporter;
   }
 
   @override
@@ -130,6 +138,7 @@ class UserOrders {
         distance.hashCode ^
         shipments.hashCode ^
         shipmentWeight.hashCode ^
-        photo.hashCode;
+        photo.hashCode ^
+        transporter.hashCode;
   }
 }

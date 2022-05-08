@@ -117,6 +117,7 @@ class SettingPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
+            obscureText: true,
             onChanged: (value) => oldPassword = value,
             decoration: InputDecoration(
                 border: MyDecoration.inputBorder, hintText: "Old Password"),
@@ -125,6 +126,7 @@ class SettingPage extends StatelessWidget {
             height: 15,
           ),
           TextFormField(
+            obscureText: true,
             onChanged: (value) => newPassword = value,
             decoration: InputDecoration(
                 border: MyDecoration.inputBorder, hintText: "New Password"),

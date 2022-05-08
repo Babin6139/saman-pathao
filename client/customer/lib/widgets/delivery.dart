@@ -30,7 +30,15 @@ class _DeliveryState extends State<Delivery> {
     if (data.length != 0) {
       onDeliveryOrder = data.map((e) => UserOrders.fromMap(e)).toList();
     } else {}
+    print(onDeliveryOrder);
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData();
   }
 
   @override
@@ -54,7 +62,7 @@ class _DeliveryState extends State<Delivery> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Expanded(
-                child: onDeliveryOrder != 0
+                child: onDeliveryOrder == null
                     ? Center(
                         child: Text("Currently there is no orders delivering"),
                       )
