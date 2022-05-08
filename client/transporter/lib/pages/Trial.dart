@@ -12,6 +12,8 @@ import 'dart:io';
 
 import 'package:transporter/models/onBidOrders.dart';
 import 'package:transporter/providers/markerProvider.dart';
+import 'package:transporter/providers/onBidOrdersProvider.dart';
+import 'package:transporter/widgets/onBid_order_card.dart';
 
 class Trial extends StatefulWidget {
   const Trial({
@@ -24,6 +26,7 @@ class Trial extends StatefulWidget {
 
 class _TrialState extends State<Trial> {
   LocationData? currentLocationData;
+  OnBidOrders? selectedOrder;
   Set<Marker> markers = new Set();
   bool orderTap = false;
 
@@ -75,20 +78,30 @@ class _TrialState extends State<Trial> {
       });
     }
     if (orders.isNotEmpty) {
+      context.read<OnBidOrdersProvider>().changeData(orders);
+      int count = -1;
       orders.forEach((OnBidOrders element) {
+        count++;
         markers.add(
           Marker(
             onTap: () {
+              Marker requiredMarker = markers.firstWhere((marker) =>
+                  marker.markerId == MarkerId('${element.orderNo} source'));
+              var requiredIndex =
+                  requiredMarker.infoWindow.snippet!.substring(12);
+              context
+                  .read<OnBidOrdersProvider>()
+                  .updateIndex(int.parse(requiredIndex));
               LatLng origin = LatLng(double.parse(element.startPoint[1]),
                   double.parse(element.startPoint[2]));
               LatLng destination = LatLng(double.parse(element.destination[1]),
                   double.parse(element.destination[2]));
               setPolyLines(origin, destination);
               setState(() {
+                selectedOrder = element;
                 orderTap = true;
                 markers = {
-                  markers.firstWhere((marker) =>
-                      marker.markerId == MarkerId('${element.orderNo} source')),
+                  requiredMarker,
                   Marker(
                     markerId: MarkerId('${element.orderNo} destination'),
                     position: LatLng(
@@ -98,7 +111,7 @@ class _TrialState extends State<Trial> {
                     infoWindow: InfoWindow(
                       //popup info
                       title: 'Delivery location ',
-                      snippet: 'Deliver here',
+                      snippet: 'Deliver here $count',
                     ),
                     icon: BitmapDescriptor.defaultMarkerWithHue(
                         BitmapDescriptor.hueGreen), //Icon for Marker
@@ -113,7 +126,7 @@ class _TrialState extends State<Trial> {
             infoWindow: InfoWindow(
               //popup info
               title: 'PickUp location ',
-              snippet: 'Pickup here',
+              snippet: 'Pickup here $count',
             ),
             icon: BitmapDescriptor.defaultMarkerWithHue(
                 BitmapDescriptor.hueCyan), //Icon for Marker
@@ -181,11 +194,26 @@ class _TrialState extends State<Trial> {
     }
 
     Widget order() {
-      return Container(
-        width: double.infinity,
-        height: 300,
-        decoration: BoxDecoration(color: Colors.white),
-        child: Text("Orders go here"),
+      return SingleChildScrollView(
+        child: Container(
+            width: double.infinity,
+            height: 300,
+            decoration: BoxDecoration(color: Colors.white),
+            child: Column(children: [
+              Text(
+                "Order Detail",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Flexible(
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/bidOrder');
+                      },
+                      child: OnBidOrderCard(order: selectedOrder)))
+            ])),
       );
     }
 
@@ -283,7 +311,7 @@ class _TrialState extends State<Trial> {
                       polylines: _polylines.isNotEmpty ? _polylines : {},
                     ),
                   ),
-                  if (orderTap) order()
+                  if (orderTap && selectedOrder != null) order()
                 ],
               ),
       ),

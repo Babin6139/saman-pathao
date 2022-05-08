@@ -7,21 +7,18 @@ import 'package:transporter/widgets/coutdown_timer.dart';
 
 class OnBidOrderCard extends StatefulWidget {
   final order;
-  final index;
   const OnBidOrderCard({
     Key? key,
     this.order,
-    this.index,
   }) : super(key: key);
 
   @override
-  State<OnBidOrderCard> createState() => _OnBidOrderCardState(order, index);
+  State<OnBidOrderCard> createState() => _OnBidOrderCardState(order);
 }
 
 class _OnBidOrderCardState extends State<OnBidOrderCard> {
-  final index;
   OnBidOrders order;
-  _OnBidOrderCardState(this.order, this.index);
+  _OnBidOrderCardState(this.order);
 
   @override
   Widget build(BuildContext context) {

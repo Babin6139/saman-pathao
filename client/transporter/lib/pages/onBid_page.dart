@@ -57,8 +57,7 @@ class _OnBidOrdersPageState extends State<OnBidOrdersPage> {
                         context.read<OnBidOrdersProvider>().updateIndex(index);
                         Navigator.pushNamed(context, '/bidOrder');
                       },
-                      child:
-                          OnBidOrderCard(order: orders[index], index: index));
+                      child: OnBidOrderCard(order: orders[index]));
                 },
               )
             : Center(
