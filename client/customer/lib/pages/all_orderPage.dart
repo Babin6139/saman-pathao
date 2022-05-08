@@ -50,6 +50,9 @@ class _AllOrderPageState extends State<AllOrderPage> {
     if (data2.length != 0) {
       postbid = data2.map((e) => UserOrders.fromMap(e)).toList();
     } else {}
+    if (this.mounted) {
+      setState(() {});
+    }
   }
 
   @override

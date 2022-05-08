@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:customer/models/user_data.dart';
 import 'package:customer/providers/userData.dart';
 import 'package:customer/utils/mycolor.dart';
 import 'package:customer/utils/mydecoration.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -53,14 +56,11 @@ class SettingPage extends StatelessWidget {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 ListTile(
-                                    shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            width: 1, color: Colors.black)),
-                                    title: Text(userdata.email),
-                                    trailing: Text(
-                                      "Edit",
-                                      style: TextStyle(color: Colors.blue),
-                                    )),
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          width: 1, color: Colors.black)),
+                                  title: Text(userdata.email),
+                                ),
                                 SizedBox(
                                   height: 10,
                                 ),
@@ -69,21 +69,23 @@ class SettingPage extends StatelessWidget {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 ListTile(
-                                    onTap: () {},
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          width: 1, color: Colors.black),
-                                    ),
-                                    title: Text(userdata.userName),
-                                    trailing: Text(
-                                      "Edit",
-                                      style: TextStyle(color: Colors.blue),
-                                    )),
+                                  onTap: () {},
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        width: 1, color: Colors.black),
+                                  ),
+                                  title: Text(userdata.userName),
+                                ),
                                 Divider(
                                   color: Colors.black,
                                 ),
                                 ListTile(
-                                  onTap: () {},
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            _buildPopupDialog(context));
+                                  },
                                   title: Text("Update Password"),
                                 ),
                                 Divider(
@@ -100,6 +102,73 @@ class SettingPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    String userName = context.read<UserDataProvide>().userData.userName;
+    String oldPassword = "";
+    String newPassword = "";
+
+    return AlertDialog(
+      title: const Text('Update Password'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextFormField(
+            onChanged: (value) => oldPassword = value,
+            decoration: InputDecoration(
+                border: MyDecoration.inputBorder, hintText: "Old Password"),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          TextFormField(
+            onChanged: (value) => newPassword = value,
+            decoration: InputDecoration(
+                border: MyDecoration.inputBorder, hintText: "New Password"),
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(primary: Colors.green),
+          onPressed: () async {
+            var url = "http://10.0.2.2:7000/users/client";
+            var data = jsonEncode({
+              'userName': userName,
+              'oldPassword': oldPassword,
+              "newPassword": newPassword
+            });
+            var response = await http.patch(Uri.parse(url),
+                headers: {'Content-Type': 'application/json'}, body: data);
+            var responseData = await jsonDecode(response.body);
+            print(responseData["message"]);
+            if (responseData["message"] == "Password updated") {
+              Navigator.pop(context);
+              const info = SnackBar(
+                content: Text('Password updated'),
+              );
+
+              ScaffoldMessenger.of(context).showSnackBar(info);
+            } else {
+              const info = SnackBar(
+                content: Text('Password did not match'),
+              );
+
+              ScaffoldMessenger.of(context).showSnackBar(info);
+            }
+          },
+          child: const Text('Update'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Close'),
+        ),
+      ],
     );
   }
 }

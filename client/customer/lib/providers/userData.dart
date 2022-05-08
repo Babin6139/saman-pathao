@@ -10,4 +10,8 @@ class UserDataProvide with ChangeNotifier {
     _userData = userData;
     notifyListeners();
   }
+
+  void changInAppCurrency(int amount) {
+    _userData.inAppCurrency = _userData.inAppCurrency + (amount / 100).toInt();
+  }
 }

@@ -8,4 +8,5 @@ class MyRoutes {
   static String mapPlaceOrderPage = "/mapplaceorder";
   static String confirmOrder = "/confirmOrder";
   static String chat = "/chat";
+  static String finalized_orderpage = "/finalizedOrder";
 }

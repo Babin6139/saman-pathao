@@ -173,35 +173,40 @@ class _MapPlaceOrderState extends State<MapPlaceOrder> {
               bottom: 20,
               child: pickupPoint.length < 1
                   ? ElevatedButton(
-                      onPressed: () async {
-                        var data = await getPlaceName(mapOption);
-                        setState(() {
-                          pickupPoint.add(data);
-                          pickupPoint.add(mapOption[0]);
-                          pickupPoint.add(mapOption[1]);
-                          mapOption = [];
-                          placeOrderDetail.startPoint = pickupPoint;
-                        });
-                      },
+                      onPressed: mapOption.length == 0
+                          ? null
+                          : () async {
+                              var data = await getPlaceName(mapOption);
+                              setState(() {
+                                pickupPoint.add(data);
+                                pickupPoint.add(mapOption[0]);
+                                pickupPoint.add(mapOption[1]);
+                                mapOption = [];
+                                placeOrderDetail.startPoint = pickupPoint;
+                              });
+                            },
                       child: Text("Pick Destination"))
                   : ElevatedButton(
-                      onPressed: () async {
-                        var data = await getPlaceName(mapOption);
-                        setState(() {
-                          deliveryPoint.add(data);
-                          deliveryPoint.add(mapOption[0]);
-                          deliveryPoint.add(mapOption[1]);
-                          placeOrderDetail.destination = deliveryPoint;
-                          placeOrderDetail.distance = calculateDistance(
-                              pickupPoint[1],
-                              pickupPoint[2],
-                              deliveryPoint[1],
-                              deliveryPoint[2]);
-                        });
-                        print(deliveryPoint[0]);
-                        Navigator.pushNamed(context, MyRoutes.confirmOrder,
-                            arguments: placeOrderDetail);
-                      },
+                      onPressed: mapOption.length == 0
+                          ? null
+                          : () async {
+                              var data = await getPlaceName(mapOption);
+                              setState(() {
+                                deliveryPoint.add(data);
+                                deliveryPoint.add(mapOption[0]);
+                                deliveryPoint.add(mapOption[1]);
+                                placeOrderDetail.destination = deliveryPoint;
+                                placeOrderDetail.distance = calculateDistance(
+                                    pickupPoint[1],
+                                    pickupPoint[2],
+                                    deliveryPoint[1],
+                                    deliveryPoint[2]);
+                              });
+                              print(deliveryPoint[0]);
+                              Navigator.pushNamed(
+                                  context, MyRoutes.confirmOrder,
+                                  arguments: placeOrderDetail);
+                            },
                       child: Text("Pick and Proceed")))
         ],
       ),

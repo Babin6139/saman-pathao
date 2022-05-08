@@ -7,9 +7,9 @@ import 'package:customer/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 
-class OrderCard extends StatelessWidget {
+class FinalizedOrderCard extends StatelessWidget {
   final UserOrders userOrder;
-  const OrderCard({
+  const FinalizedOrderCard({
     Key? key,
     required this.userOrder,
   }) : super(key: key);
@@ -33,7 +33,7 @@ class OrderCard extends StatelessWidget {
           child: ListTile(
             onTap: () {
               context.read<OrderDataProvide>().changeData(userOrder);
-              Navigator.pushNamed(context, MyRoutes.orderPage);
+              Navigator.pushNamed(context, MyRoutes.finalized_orderpage);
             },
             leading: CircleAvatar(
               backgroundColor: Colors.amber,

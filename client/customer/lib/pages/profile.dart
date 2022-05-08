@@ -27,24 +27,36 @@ class Profile extends StatelessWidget {
                       onTap: () {
                         Navigator.pushNamed(context, MyRoutes.settingPage);
                       },
-                      leading: Icon(Icons.settings),
+                      leading: Icon(
+                        Icons.settings,
+                        color: MyColor.color1,
+                      ),
                       title: Text("Setting"),
                     ),
                     ListTile(
                       onTap: () {},
-                      leading: Icon(Icons.people),
+                      leading: Icon(
+                        Icons.people,
+                        color: MyColor.color1,
+                      ),
                       title: Text("About Us"),
                     ),
                     ListTile(
                       onTap: () {},
-                      leading: Icon(Icons.help),
+                      leading: Icon(
+                        Icons.help,
+                        color: MyColor.color1,
+                      ),
                       title: Text("Help"),
                     ),
                     ListTile(
                       onTap: () {
                         Navigator.pushReplacementNamed(context, MyRoutes.login);
                       },
-                      leading: Icon(Icons.logout),
+                      leading: Icon(
+                        Icons.logout,
+                        color: MyColor.color1,
+                      ),
                       title: Text("Log Out"),
                     ),
                   ],

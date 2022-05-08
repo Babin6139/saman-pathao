@@ -89,7 +89,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
                             keyboardType: TextInputType.number,
                             onChanged: (value) => setState(() {
                               if (value != null) {
+                                _maxBudget = int.parse(value);
                                 placeOrderDetail.maxBudget = int.parse(value);
+                                setState(() {});
                               }
                             }),
                             decoration: InputDecoration(
@@ -474,40 +476,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    placeOrderDetail.biddingTime = TimeFrame(
-                        start: bidStartDate.toString().substring(0, 10) +
-                            " " +
-                            bidStartTime
-                                .format(context)
-                                .toString()
-                                .substring(0, 4),
-                        end: bidEndDate.toString().substring(0, 10) +
-                            " " +
-                            bidEndTime
-                                .format(context)
-                                .toString()
-                                .substring(0, 4));
-
-                    placeOrderDetail.timeFrame = TimeFrame(
-                        start: pickupDate.toString().substring(0, 10) +
-                            " " +
-                            pickupTime
-                                .format(context)
-                                .toString()
-                                .substring(0, 4),
-                        end: deliveryDate.toString().substring(0, 10) +
-                            " " +
-                            deliveryTime
-                                .format(context)
-                                .toString()
-                                .substring(0, 4));
-                    placeOrderDetail.shipmentDimension = ShipmentDimension(
-                        length: length, width: width, height: height);
-                    placeOrderDetail.shipments = name;
-                    placeOrderDetail.shipmentPhoto = tempImage;
-                    placeOrderDetail.shipmentCount = count;
-                    Navigator.pushNamed(context, MyRoutes.mapPlaceOrderPage,
-                        arguments: placeOrderDetail);
+                    continuePage(context);
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 10),
@@ -671,5 +640,69 @@ class _PlaceOrderState extends State<PlaceOrder> {
         ),
       ),
     );
+  }
+
+  continuePage(BuildContext context) {
+    print(_maxBudget == 0);
+    print(count.length != _itemCount);
+    print(length.length != _itemCount);
+    print(width != _itemCount);
+    print(height.length != _itemCount);
+    if (_maxBudget == 0 ||
+        count.length != _itemCount ||
+        length.length != _itemCount ||
+        width.length != _itemCount ||
+        height.length != _itemCount) {
+      const info = SnackBar(
+        content: Text('Input left to fill'),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(info);
+      return 0;
+    }
+    if (pickupDate == deliveryDate) {
+      if (pickupTime == deliveryTime) {
+        const info = SnackBar(
+          content: Text('Same pickup and delivery time and date'),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(info);
+        return 0;
+      }
+    }
+    if (bidStartDate == bidEndDate) {
+      if (bidStartTime == bidEndTime) {
+        const info = SnackBar(
+          content: Text('Same bid start and bid end time and date'),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(info);
+        return 0;
+      }
+    }
+
+    placeOrderDetail.biddingTime = TimeFrame(
+        start: bidStartDate.toString().substring(0, 10) +
+            " " +
+            bidStartTime.format(context).toString().substring(0, 4),
+        end: bidEndDate.toString().substring(0, 10) +
+            " " +
+            bidEndTime.format(context).toString().substring(0, 4));
+
+    placeOrderDetail.timeFrame = TimeFrame(
+        start: pickupDate.toString().substring(0, 10) +
+            " " +
+            pickupTime.format(context).toString().substring(0, 4),
+        end: deliveryDate.toString().substring(0, 10) +
+            " " +
+            deliveryTime.format(context).toString().substring(0, 4));
+    placeOrderDetail.shipmentDimension =
+        ShipmentDimension(length: length, width: width, height: height);
+    placeOrderDetail.shipments = name;
+    placeOrderDetail.shipmentPhoto = tempImage;
+    placeOrderDetail.shipmentCount = count;
+
+    Navigator.pushNamed(context, MyRoutes.mapPlaceOrderPage,
+        arguments: placeOrderDetail);
   }
 }
