@@ -14,6 +14,8 @@ class _TransporterProfileCardState extends State<TransporterProfileCard> {
   Widget build(BuildContext context) {
     var details = context.read<TransporterDataProvider>().transporterDetails;
     var photo = context.read<TransporterDataProvider>().transporterData.photo;
+    var currency =
+        context.read<TransporterDataProvider>().transporterData.inAppCurrency;
     return Container(
       padding: EdgeInsets.all(8),
       margin: EdgeInsets.all(10),
@@ -48,7 +50,7 @@ class _TransporterProfileCardState extends State<TransporterProfileCard> {
               Text(details.userName),
               Text(
                   "Rating: ${details.rating < 0 ? "Not Rated" : details.rating} (${details.ratedBy > 0 ? details.ratedBy : ""})"),
-              Text("Deposit: ${details.securityDeposit}")
+              Text("Deposit: ${currency}")
             ],
           ),
         ),

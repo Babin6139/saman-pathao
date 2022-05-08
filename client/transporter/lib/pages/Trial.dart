@@ -25,6 +25,7 @@ class Trial extends StatefulWidget {
 class _TrialState extends State<Trial> {
   LocationData? currentLocationData;
   Set<Marker> markers = new Set();
+  bool orderTap = false;
 
   enableLocation() async {
     var location = new Location();
@@ -78,7 +79,11 @@ class _TrialState extends State<Trial> {
         markers.add(
           Marker(
             onTap: () {
-              // setPolyLines();
+              LatLng origin = LatLng(double.parse(element.startPoint[1]),
+                  double.parse(element.startPoint[2]));
+              LatLng destination = LatLng(double.parse(element.destination[1]),
+                  double.parse(element.destination[2]));
+              setPolyLines(origin, destination);
               setState(() {
                 markers = {
                   markers.firstWhere((marker) =>
@@ -109,7 +114,8 @@ class _TrialState extends State<Trial> {
               title: 'PickUp location ',
               snippet: 'Pickup here',
             ),
-            icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueCyan), //Icon for Marker
           ),
         );
       });
@@ -123,8 +129,8 @@ class _TrialState extends State<Trial> {
   setPolyLines(LatLng origin, LatLng destination) async {
     var body = jsonEncode({
       "locations": [
-        {"lat": 27.737139798885423, "long": 85.33191214302876},
-        {"lat": 27.661105220208288, "long": 85.5036324206804}
+        {"lat": origin.latitude, "long": origin.longitude},
+        {"lat": destination.latitude, "long": destination.longitude}
       ]
     });
     var response = await http.post(
@@ -143,6 +149,7 @@ class _TrialState extends State<Trial> {
       Polyline polyline = Polyline(
           polylineId: PolylineId("poly"),
           color: Color.fromARGB(255, 40, 122, 198),
+          geodesic: true,
           points: polylineCoordinates);
 
       // add the constructed polyline as a set of points
@@ -170,6 +177,15 @@ class _TrialState extends State<Trial> {
           radius: 2000,
         )
       ]);
+    }
+
+    Widget order() {
+      return Container(
+        width: double.infinity,
+        height: 300,
+        decoration: BoxDecoration(color: Colors.white),
+        child: Text("Orders go here"),
+      );
     }
 
     return SafeArea(
@@ -230,6 +246,8 @@ class _TrialState extends State<Trial> {
                           var currentMarkers =
                               context.read<MarkerProvider>().markerData;
                           markers = currentMarkers;
+                          _polylines.clear();
+                          polylineCoordinates.clear();
                           //   position = coordinates;
                           //   markers.add(Marker(
                           //     //add second marker
@@ -260,15 +278,9 @@ class _TrialState extends State<Trial> {
                           zoom: 12),
                       circles: circles as Set<Circle>,
                       markers: markers,
-                      polylines: _polylines,
+                      polylines: _polylines.isNotEmpty ? _polylines : {},
                     ),
                   ),
-                  Container(
-                    width: double.infinity,
-                    height: 300,
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Text("Orders go here"),
-                  )
                 ],
               ),
       ),
