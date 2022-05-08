@@ -42,9 +42,11 @@ class _TrialState extends State<Trial> {
       }
     }
     var currentLocation = await location.getLocation();
-    setState(() {
-      currentLocationData = currentLocation;
-    });
+    if (mounted) {
+      setState(() {
+        currentLocationData = currentLocation;
+      });
+    }
   }
 
   List<OnBidOrders> orders = [];
@@ -64,10 +66,12 @@ class _TrialState extends State<Trial> {
     var response = await http
         .get(Uri.parse(url), headers: {'Content-Type': 'application/json'});
     var responseBody = await jsonDecode(response.body);
-    setState(() {
-      orders = List<OnBidOrders>.from(
-          responseBody.map((x) => OnBidOrders.fromMap(x)));
-    });
+    if (mounted) {
+      setState(() {
+        orders = List<OnBidOrders>.from(
+            responseBody.map((x) => OnBidOrders.fromMap(x)));
+      });
+    }
     if (orders.isNotEmpty) {
       orders.forEach((OnBidOrders element) {
         markers.add(
