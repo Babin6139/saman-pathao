@@ -167,7 +167,7 @@ exports.userDetails = async (req, res, next) => {
     );
     const vehicleDetails = await Transporter.findOne(
       { userName: req.query.userName},
-      "idCard license licenseNo vehicleNo vehiclePhoto bluebook vehicleDimension vehicleCapacity dateRegistered "
+      "idCard licencePhoto licenseNo vehicleNo vehiclePhoto blueBookPhoto vehicleDimension vehicleCapacity dateRegistered "
     );
     if (!userDetails) {
       res.send({ message: "User not found" });

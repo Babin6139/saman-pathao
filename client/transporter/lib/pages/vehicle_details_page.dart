@@ -61,7 +61,102 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(color: Colors.white),
                   margin: EdgeInsets.all(10),
-                  child: Text("$details"),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Your Details:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      Divider(
+                        thickness: 2,
+                        color: Colors.black,
+                      ),
+                      Text("Licence Number: ${details!.licenseNo}"),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text("Vehicle Number: ${details!.vehicleNo}"),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text("Vehicle Capacity: ${details!.vehicleCapacity} kg"),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text("Vehicle Length: ${details!.vehicleDimension[0]} m"),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text("Vehicle Width: ${details!.vehicleDimension[1]} m"),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text("Vehicle Height: ${details!.vehicleDimension[2]} m"),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "Licence:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Image(
+                          image: NetworkImage(details!.licencePhoto as String)),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "Blue Book:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Image(
+                          image:
+                              NetworkImage(details!.blueBookPhoto as String)),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "Vehicle:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Image(
+                          image: NetworkImage(details!.vehiclePhoto as String)),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        child: Center(
+                          child: TextButton(
+                            style: ButtonStyle(
+                              foregroundColor:
+                                  MaterialStateProperty.all(Colors.white),
+                              padding:
+                                  MaterialStateProperty.all(EdgeInsets.all(15)),
+                              backgroundColor: MaterialStateProperty.all(
+                                  Colors.teal.shade300),
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/verification');
+                            },
+                            child: Text("Edit Details"),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 )
               : Container(
                   width: double.infinity,

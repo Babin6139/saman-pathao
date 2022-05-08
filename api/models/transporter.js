@@ -44,7 +44,7 @@ const transporterSchema = new mongoose.Schema({
   idCard: {
     type: String,
   },
-  licensePhoto: {
+  licencePhoto: {
     type: String,
   },
   licenseNo: {
