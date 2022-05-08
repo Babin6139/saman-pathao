@@ -3,9 +3,9 @@ POST http://localhost:7000/bid
 content-type:application/json
 
 {
-    "orderNo":"mks-1651857005",
+    "orderNo":"mks-1651857073",
     "email":"gjee@gmail.com",
-    "bidAmount": 3300
+    "bidAmount": 2100
 }
 
 ###
@@ -24,7 +24,7 @@ content-type: application/json
 }
 
 ###
-DELETE http://localhost:7000/bid?orderNo=38&transporterId=62736d2ad14d5aa32ecc84fc
+DELETE http://localhost:7000/bid?orderNo=mks-1651857073&transporterId=6273e7b9d6b0a37e89899417
 
 ###
 

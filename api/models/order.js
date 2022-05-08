@@ -103,6 +103,7 @@ const orderSchema = new mongoose.Schema({
   },
   bidCost: {
     type: Number,
+    default: 0,
   },
   timeLocation: {
     type: [[Number, Number, Date]],

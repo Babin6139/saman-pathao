@@ -95,11 +95,19 @@ exports.addBids = async (req, res, next) => {
     if (order) {
       var transporter = await Transporter.findOne({ email: req.body.email });
       if (transporter) {
-        console.log(order._id.toString());
+        // console.log(order._id.toString());
         transporter.biddedOrders.push(order._id.toString());
         await transporter.save();
         order.bids.transporter.push(transporter._id.toString());
         order.bids.bidAmount.push(req.body.bidAmount);
+        console.log(
+          order.bidCost == 0 || order.bidCost > req.body.bidAmount,
+          "from herer"
+        );
+        order.bidCost =
+          order.bidCost == 0 || order.bidCost > req.body.bidAmount
+            ? req.body.bidAmount
+            : order.bidCost;
         await order.save();
         res.send(order);
       } else {
