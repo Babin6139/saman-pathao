@@ -20,10 +20,11 @@ PATCH http://localhost:7000/users/transporter
 content-Type: application/json
 
 {
-    "userName":"junushu",
-    "firstName": "Monkey",
-    "lastName": "lucy",
-    "middleName": "D."
+    "userName":"hb",
+    "vehcilePhoto":,
+    "vehcileNo":,
+    "vehcileDimension":,
+    "vehcileCapacity":
 }
 
 ###
