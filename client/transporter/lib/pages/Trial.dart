@@ -11,6 +11,7 @@ import 'package:location/location.dart';
 import 'dart:io';
 
 import 'package:transporter/models/onBidOrders.dart';
+import 'package:transporter/providers/markerProvider.dart';
 
 class Trial extends StatefulWidget {
   const Trial({
@@ -112,6 +113,7 @@ class _TrialState extends State<Trial> {
           ),
         );
       });
+      context.read<MarkerProvider>().updateMarkerData(markers);
     }
   }
 
@@ -225,19 +227,22 @@ class _TrialState extends State<Trial> {
                     child: GoogleMap(
                       onTap: (coordinates) {
                         setState(() {
-                          position = coordinates;
-                          markers.add(Marker(
-                            //add second marker
-                            markerId: MarkerId(position.toString()),
-                            position: coordinates, //position of marker
-                            infoWindow: InfoWindow(
-                              //popup info
-                              title: 'Delivery Location ',
-                              snippet: 'Deliver here',
-                            ),
-                            icon: BitmapDescriptor
-                                .defaultMarker, //Icon for Marker
-                          ));
+                          var currentMarkers =
+                              context.read<MarkerProvider>().markerData;
+                          markers = currentMarkers;
+                          //   position = coordinates;
+                          //   markers.add(Marker(
+                          //     //add second marker
+                          //     markerId: MarkerId(position.toString()),
+                          //     position: coordinates, //position of marker
+                          //     infoWindow: InfoWindow(
+                          //       //popup info
+                          //       title: 'Delivery Location ',
+                          //       snippet: 'Deliver here',
+                          //     ),
+                          //     icon: BitmapDescriptor
+                          //         .defaultMarker, //Icon for Marker
+                          //   ));
                         });
                       },
                       zoomControlsEnabled: true,
