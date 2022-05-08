@@ -43,6 +43,13 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
+        },
+        {
+            "name": "Flutter (lib\\pages\\Trial.dart)",
+            "type": "dart",
+            "request": "launch",
+            "cwd": "client\\transporter",
+            "program": "lib\\pages\\Trial.dart"
         }
     ]
 }

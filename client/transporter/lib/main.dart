@@ -1,11 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:provider/provider.dart';
 import 'package:transporter/providers/biddedOrdersProvider.dart';
 import 'package:transporter/providers/changePageProvider.dart';
 import 'package:transporter/providers/deliveryOrdersProvider.dart';
 import 'package:transporter/providers/formValueProvider.dart';
 import 'package:transporter/providers/locationProvider.dart';
+import 'package:transporter/providers/markerProvider.dart';
 import 'package:transporter/providers/onBidOrdersProvider.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
@@ -22,6 +24,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => DeliveryOrdersProvider()),
     ChangeNotifierProvider(create: (_) => OnBidOrdersProvider()),
     ChangeNotifierProvider(create: (_) => LocationProvider()),
+    ChangeNotifierProvider(create: (_) => MarkerProvider()),
     ChangeNotifierProvider(create: (_) => ChangePageProvider()),
   ], child: MyApp()));
 }

@@ -5,12 +5,10 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 import 'package:transporter/models/transporters.dart';
+import 'package:transporter/pages/Trial.dart';
 import 'package:transporter/pages/home_page_more.dart';
-import 'package:transporter/pages/khalti_integration.dart';
 import 'package:transporter/pages/onBid_page.dart';
-import 'package:transporter/pages/place_bids_page.dart';
 import 'package:transporter/providers/biddedOrdersProvider.dart';
-import 'package:transporter/providers/changePageProvider.dart';
 import 'package:transporter/providers/locationProvider.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:transporter/widgets/order_cards.dart';
@@ -184,7 +182,7 @@ class _HomepageState extends State<Homepage> {
           index: page,
           items: [
             Icon(Icons.home),
-            Icon(Icons.attach_money_outlined),
+            Icon(Icons.map),
             Icon(Icons.history),
             Icon(Icons.menu)
           ],
@@ -220,6 +218,7 @@ class _HomepageState extends State<Homepage> {
           },
         ),
         body: PageView(
+          physics: page == 1 ? NeverScrollableScrollPhysics() : null,
           controller: _controller,
           onPageChanged: (value) {
             setState(() {
@@ -280,7 +279,7 @@ class _HomepageState extends State<Homepage> {
                       ],
                     ),
             ),
-            KhaltiPaymentApp(),
+            Trial(),
             Text("History"),
             HomepageMore()
           ],
