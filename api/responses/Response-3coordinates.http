@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 292
+ETag: W/"124-ZAdYNW+ScOmL+gYa8iGoNPcuWDI"
+Date: Sun, 08 May 2022 10:12:46 GMT
+Connection: close
+
+{"message":[[85.33162,27.737231],[85.331162,27.73734],[85.330812,27.73753],[85.328218,27.735685],[85.325202,27.738098],[85.30472,27.727061],[85.281692,27.693335],[85.244748,27.6875],[85.246439,27.68465],[85.245944,27.684376],[85.244574,27.682752],[85.243665,27.681012],[85.242832,27.679961]]}

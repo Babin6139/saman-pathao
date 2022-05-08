@@ -20,6 +20,6 @@ router.route("/specific").get(bidController.getBidDetails);
 
 router.route("/getall").get(bidController.getAllBids);
 
-router.route("/trial").get(bidController.routeOfOrders);
+router.route("/trial").post(bidController.routeOfOrders);
 
 module.exports = router;

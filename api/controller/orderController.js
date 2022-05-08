@@ -66,7 +66,7 @@ exports.getAllOrders = async (req, res, next) => {
       selectOrder =
         "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
     }
-    console.log(req.query.userType);
+    // console.log(req.query.userType);
     if (req.query.userType === "transporter") {
       const sendData = await Order.find(
         {
@@ -87,8 +87,12 @@ exports.getAllOrders = async (req, res, next) => {
       select: selectOrder,
       match: { orderStatus: req.query.orderStatus },
     });
+    for (let i = 0; i < user.orders.length; i++) {
+      console.log(user.orders[i].bids.bidAmount);
+    }
     const sendData = user.orders.bids
       ? user.orders.map((order) => {
+          // console.log("hello");
           let newObj = JSON.parse(JSON.stringify(order));
           newObj.bidLength = order.bids.transporter.length;
           delete newObj.bids;

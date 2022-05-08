@@ -3,8 +3,8 @@ POST http://localhost:7000/bid
 content-type:application/json
 
 {
-    "orderNo":"mks-1651857073",
-    "email":"hb@gmail.com",
+    "orderNo":"mks-1651857005",
+    "email":"gjee@gmail.com",
     "bidAmount": 3300
 }
 
@@ -36,4 +36,22 @@ GET http://localhost:7000/bid/suitablebids?userName=hb&lat=27.675795&long=85.371
 GET http://localhost:7000/bid/try/suitablebids?userName=hb&lat=27.675795&long=85.3710583&rating=5
 
 ###
-GET http://localhost:7000/bid/trial?userName=hb
+POST http://localhost:7000/bid/trial?userName=hb
+content-type : application/json
+
+{
+    "locations":[
+        {
+            "lat": 27.737139798885423,
+            "long": 85.33191214302876
+        },
+        {
+             "lat": 27.661105220208288,
+            "long": 85.5036324206804
+        },
+        {
+             "lat": 27.679936506793116,
+            "long": 85.24288378075327
+        }
+      ]
+}

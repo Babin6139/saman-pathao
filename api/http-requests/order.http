@@ -1,6 +1,6 @@
 //get all orders of different status
 ###
-GET http://localhost:7000/order/history?orderStatus=onbid&userName=pirateking
+GET http://localhost:7000/order/history?orderStatus=onbid&userName=mks
 
 //create new order
 ###
@@ -44,15 +44,11 @@ PATCH  http://localhost:7000/order
 content-type : application/json
 
 {
-    "userName": "pirateking",
-    "orderNo":"38",
-    "biddingTime":{
-        "start":"2022-05-06 17:33",
-        "end":"2022-05-06 17:59"
-    },
-    "maxBudget":3000,
+    "userName": "mks",
+    "orderNo":"mks-1651857005",
+    "maxBudget":6000,
     "fragile":false,
-    "orderStatus":"prebid"
+    "orderStatus":"postbid"
 }
 
 //scheduler calls this api

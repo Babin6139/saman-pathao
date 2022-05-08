@@ -290,6 +290,36 @@ exports.getSuitableBids = async (req, res, next) => {
   }
 };
 
+async function distanceCalculator(long1, lat1, long2, lat2) {
+  var distance = await matrixClient
+    .getMatrix({
+      points: [
+        {
+          coordinates: [parseFloat(long1), parseFloat(lat1)],
+        },
+        {
+          coordinates: [parseFloat(long2), parseFloat(lat2)],
+        },
+      ],
+      profile: "driving",
+      annotations: ["distance"],
+    })
+    .send()
+    .then((response) => {
+      const matrix = response.body;
+      // console.log(matrix.distances[1][0], "from distance calculator");
+      return matrix.distances[1][0];
+      // if (matrix.distances[1][0] <= 6000) {
+      //   suitableorder.push(order);
+      //   console.log(suitableorder);
+      // }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return distance;
+}
+
 exports.locationApproriateBids = async (req, res, next) => {
   var suitableorder = [];
   const transporter = await Transporter.findOne({
@@ -297,7 +327,7 @@ exports.locationApproriateBids = async (req, res, next) => {
   });
   selectOrder =
     "orderNo orderStatus startPoint destination distance timeFrame biddingTime maxBudget minRated fragile shipmentPhoto shipments shipmentWeight bids transporter bidCost timeLocation pickedUpTime deliveredTime";
-  Order.find(
+  const result = await Order.find(
     {
       orderStatus: "onbid",
       minRated: { $lte: parseFloat(req.query.rating) },
@@ -306,70 +336,55 @@ exports.locationApproriateBids = async (req, res, next) => {
       },
     },
     selectOrder
-  )
-    .then((orders) => {
-      orders.forEach(async (order) => {
-        distanceMatrices = await matrixClient
-          .getMatrix({
-            points: [
-              {
-                coordinates: [
-                  parseFloat(order.startPoint[2]),
-                  parseFloat(order.startPoint[1]),
-                ],
-              },
-              {
-                coordinates: [
-                  parseFloat(req.query.long),
-                  parseFloat(req.query.lat),
-                ],
-              },
-            ],
-            profile: "driving",
-            annotations: ["distance"],
-          })
-          .send()
-          .then((response) => {
-            const matrix = response.body;
-            console.log(matrix.distances);
-            if (matrix.distances[1][0] <= 6000) {
-              suitableorder.push(order);
-              console.log(suitableorder);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      });
-      console.log(suitableorder, "from here");
-      return suitableorder;
-    })
-    .finally(res.send(suitableorder));
+  );
+  for (var i = 0; i < result.length; i++) {
+    var order = result[i];
+    orderDistance = await distanceCalculator(
+      order.startPoint[2],
+      order.startPoint[1],
+      req.query.long,
+      req.query.lat
+    );
+    if (orderDistance <= 6000) {
+      suitableorder.push(order);
+    }
+  }
+  res.send(suitableorder);
 };
 
 exports.routeOfOrders = async (req, res, next) => {
   var directions;
+  var waypoint = [];
+  for (var i = 0; i < req.body.locations.length; i++) {
+    waypoint[i] = {
+      coordinates: [
+        parseFloat(req.body.locations[i].long),
+        parseFloat(req.body.locations[i].lat),
+      ],
+    };
+  }
+  console.log(waypoint);
   // res.send("hello");
   await directionsClient
     .getDirections({
-      profile: "driving-traffic",
-      waypoints: [
-        {
-          coordinates: [13.4301, 52.5109],
-          approach: "unrestricted",
-        },
-        {
-          coordinates: [13.4265, 52.508],
-        },
-        {
-          coordinates: [13.4194, 52.5072],
-          bearing: [100, 60],
-        },
-      ],
+      profile: "driving",
+      waypoints: waypoint,
+      // [
+      // { coordinates: [85.33191214302876, 27.737139798885423] },
+      // { coordinates: [85.5036324206804, 27.661105220208288] },
+      // { coordinates: [85.24288378075327, 27.679936506793116] },
+      // ],
+      bannerInstructions: true,
+      steps: true,
     })
     .send()
     .then((response) => {
-      directions = response.body;
+      // directions = response.body.routes[0];
+      // return directions;
+      directions = response.body.routes[0].legs[0].steps.map((step) => {
+        return step.maneuver.location;
+      });
     });
-  res.send({ message: directions });
+  console.log(directions);
+  res.send(directions);
 };
