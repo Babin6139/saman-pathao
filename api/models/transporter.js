@@ -54,10 +54,10 @@ const transporterSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  vehcilePhoto: {
+  vehiclePhoto: {
     type: String,
   },
-  vehcileNo: {
+  vehicleNo: {
     type: String,
   },
   blueBookPhoto: {
@@ -83,10 +83,10 @@ const transporterSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  vehcileDimension: {
+  vehicleDimension: {
     type: Array,
   },
-  vehcileCapacity: {
+  vehicleCapacity: {
     type: Number,
   },
   availableSpace: {
