@@ -19,7 +19,8 @@ class VerificationPage extends StatefulWidget {
 
 class _VerificationPageState extends State<VerificationPage> {
   int _activeStepIndex = 0;
-  VehicleDetails details = VehicleDetails(vehicleDimension: [0, 0, 0]);
+  VehicleDetails details = VehicleDetails(
+      vehicleDimension: [0, 0, 0], requestForVerification: "true");
   //licence
   String tempImage1 = '';
   bool photo1 = false;

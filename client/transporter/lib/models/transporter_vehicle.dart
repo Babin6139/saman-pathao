@@ -11,6 +11,7 @@ class VehicleDetails {
   String? blueBookPhoto;
   String? vehiclePhoto;
   String? userName;
+  String requestForVerification = "true";
   VehicleDetails({
     this.licenseNo,
     this.vehicleNo,
@@ -20,6 +21,7 @@ class VehicleDetails {
     this.blueBookPhoto,
     this.vehiclePhoto,
     this.userName,
+    required this.requestForVerification,
   });
 
   VehicleDetails copyWith({
@@ -31,6 +33,7 @@ class VehicleDetails {
     String? blueBookPhoto,
     String? vehiclePhoto,
     String? userName,
+    String? requestForVerification,
   }) {
     return VehicleDetails(
       licenseNo: licenseNo ?? this.licenseNo,
@@ -41,6 +44,8 @@ class VehicleDetails {
       blueBookPhoto: blueBookPhoto ?? this.blueBookPhoto,
       vehiclePhoto: vehiclePhoto ?? this.vehiclePhoto,
       userName: userName ?? this.userName,
+      requestForVerification:
+          requestForVerification ?? this.requestForVerification,
     );
   }
 
@@ -54,6 +59,7 @@ class VehicleDetails {
       'blueBookPhoto': blueBookPhoto,
       'vehiclePhoto': vehiclePhoto,
       'userName': userName,
+      'requestForVerification': requestForVerification,
     };
   }
 
@@ -67,6 +73,7 @@ class VehicleDetails {
       blueBookPhoto: map['blueBookPhoto'],
       vehiclePhoto: map['vehiclePhoto'],
       userName: map['userName'],
+      requestForVerification: map['requestForVerification'] ?? '',
     );
   }
 
@@ -77,7 +84,7 @@ class VehicleDetails {
 
   @override
   String toString() {
-    return 'VehicleDetails(licenseNo: $licenseNo, vehicleNo: $vehicleNo, vehicleCapacity: $vehicleCapacity, vehicleDimension: $vehicleDimension, licencePhoto: $licencePhoto, blueBookPhoto: $blueBookPhoto, vehiclePhoto: $vehiclePhoto, userName: $userName)';
+    return 'VehicleDetails(licenseNo: $licenseNo, vehicleNo: $vehicleNo, vehicleCapacity: $vehicleCapacity, vehicleDimension: $vehicleDimension, licencePhoto: $licencePhoto, blueBookPhoto: $blueBookPhoto, vehiclePhoto: $vehiclePhoto, userName: $userName, requestForVerification: $requestForVerification)';
   }
 
   @override
@@ -93,7 +100,8 @@ class VehicleDetails {
         other.licencePhoto == licencePhoto &&
         other.blueBookPhoto == blueBookPhoto &&
         other.vehiclePhoto == vehiclePhoto &&
-        other.userName == userName;
+        other.userName == userName &&
+        other.requestForVerification == requestForVerification;
   }
 
   @override
@@ -105,6 +113,7 @@ class VehicleDetails {
         licencePhoto.hashCode ^
         blueBookPhoto.hashCode ^
         vehiclePhoto.hashCode ^
-        userName.hashCode;
+        userName.hashCode ^
+        requestForVerification.hashCode;
   }
 }
