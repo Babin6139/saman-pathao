@@ -8,6 +8,7 @@ import 'package:transporter/models/onBidOrders.dart';
 import 'package:provider/provider.dart';
 import 'package:transporter/providers/locationProvider.dart';
 import 'package:transporter/providers/onBidOrdersProvider.dart';
+import 'package:transporter/providers/transporterDataProvider.dart';
 import 'package:transporter/widgets/onBid_order_card.dart';
 
 class SuitableBidsPage extends StatefulWidget {
@@ -23,10 +24,12 @@ class _SuitableBidsPageState extends State<SuitableBidsPage> {
   getBids() async {
     LocationData currentLocation =
         context.read<LocationProvider>().locationData;
+    var userName =
+        context.read<TransporterDataProvider>().transporterData.userName;
     // Stream stream = controller.stream;
     print(currentLocation);
     var url =
-        "http://10.0.2.2:7000/order/history?orderStatus=onbid&userType=transporter&rating=5&lat=${currentLocation.latitude}&long=${currentLocation.longitude}";
+        "http://10.0.2.2:7000/bid/suitablebids?userName=${userName}&lat=${currentLocation.latitude}&long=${currentLocation.longitude}&rating=5";
     var response = await http
         .get(Uri.parse(url), headers: {'Content-Type': 'application/json'});
     var responseBody = await jsonDecode(response.body);

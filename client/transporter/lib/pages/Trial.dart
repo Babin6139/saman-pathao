@@ -247,21 +247,21 @@ class _TrialState extends State<Trial> {
                         SizedBox(
                           width: 20,
                         ),
-                        ChoiceChip(
-                          backgroundColor: Colors.white,
-                          selectedColor: Colors.teal.shade100,
-                          selected: deliverySelected,
-                          elevation: 1,
-                          label: Text("My Delivery"),
-                          onSelected: (value) {
-                            // if (!newOrderSelected) {
-                            //   setState(() {
-                            //     bidSelected = !bidSelected;
-                            //     newOrderSelected = !newOrderSelected;
-                            //   });
-                            // }
-                          },
-                        ),
+                        // ChoiceChip(
+                        //   backgroundColor: Colors.white,
+                        //   selectedColor: Colors.teal.shade100,
+                        //   selected: deliverySelected,
+                        //   elevation: 1,
+                        //   label: Text("My Delivery"),
+                        //   onSelected: (value) {
+                        //     // if (!newOrderSelected) {
+                        //     //   setState(() {
+                        //     //     bidSelected = !bidSelected;
+                        //     //     newOrderSelected = !newOrderSelected;
+                        //     //   });
+                        //     // }
+                        //   },
+                        // ),
                       ],
                     ),
                   ),
