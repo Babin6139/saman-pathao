@@ -1,6 +1,7 @@
 const Order = require("../models/order");
 const Client = require("../models/client");
 const admin = require("./adminController");
+const { ConnectionPoolClosedEvent } = require("mongodb");
 
 async function orderNoGenerator(userName) {
   generatedNo = ` ${userName}-${Math.round(new Date().getTime() / 1000)}`;
@@ -87,10 +88,8 @@ exports.getAllOrders = async (req, res, next) => {
       select: selectOrder,
       match: { orderStatus: req.query.orderStatus },
     });
-    for (let i = 0; i < user.orders.length; i++) {
-      console.log(user.orders[i].bids.bidAmount);
-    }
-    const sendData = user.orders.bids
+
+    user.orders.bids
       ? user.orders.map((order) => {
           // console.log("hello");
           let newObj = JSON.parse(JSON.stringify(order));
@@ -99,6 +98,7 @@ exports.getAllOrders = async (req, res, next) => {
           return newObj;
         })
       : user.orders;
+    const sendData = user.orders;
     res.send(sendData);
   } catch (error) {
     next(error);
@@ -196,6 +196,7 @@ exports.finializeOrder = async (req, res, next) => {
         transporter: [],
         bidCost: [],
       },
+      orderStatus: "finalized",
     };
     const user = await Client.findOne({
       userName: req.body.userName,
