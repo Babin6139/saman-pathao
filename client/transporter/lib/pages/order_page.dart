@@ -248,7 +248,7 @@ class _OrderPageState extends State<OrderPage> {
                                                         Navigator.of(context)
                                                             .pop();
                                                       },
-                                                      child: Text('Cancle')),
+                                                      child: Text('Cancel')),
                                                 ),
                                               ],
                                             ),
@@ -289,7 +289,7 @@ class _OrderPageState extends State<OrderPage> {
                                         width: 5,
                                       ),
                                       Text(
-                                        "Cancle Bid",
+                                        "Cancel Bid",
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ],

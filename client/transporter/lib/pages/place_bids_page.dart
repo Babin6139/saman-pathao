@@ -234,7 +234,7 @@ class _PlaceBidsPageState extends State<PlaceBidsPage> {
                                                         Navigator.of(context)
                                                             .pop();
                                                       },
-                                                      child: Text('Cancle')),
+                                                      child: Text('Cancel')),
                                                 ),
                                               ],
                                             ),
@@ -275,7 +275,7 @@ class _PlaceBidsPageState extends State<PlaceBidsPage> {
                                         width: 5,
                                       ),
                                       Text(
-                                        "Cancle Bid",
+                                        "Cancel Bid",
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ],

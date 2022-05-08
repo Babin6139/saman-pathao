@@ -8,6 +8,7 @@ import 'package:transporter/models/transporters.dart';
 import 'package:transporter/pages/Trial.dart';
 import 'package:transporter/pages/home_page_more.dart';
 import 'package:transporter/pages/onBid_page.dart';
+import 'package:transporter/pages/suitableBids.dart';
 import 'package:transporter/providers/biddedOrdersProvider.dart';
 import 'package:transporter/providers/locationProvider.dart';
 import 'package:transporter/providers/transporterDataProvider.dart';
@@ -32,6 +33,7 @@ class _HomepageState extends State<Homepage> {
 
   bool bidSelected = true;
   bool newOrderSelected = false;
+  bool aroundMe = false;
 
   //enable location
   enableLocation() async {
@@ -155,6 +157,18 @@ class _HomepageState extends State<Homepage> {
           child: OnBidOrdersPage());
     }
 
+    Widget suiableBids(BuildContext context) {
+      return Container(
+          margin: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.all(Radius.circular(18))),
+          padding: EdgeInsets.all(10),
+          height: MediaQuery.of(context).size.height / 1.4,
+          child: SuitableBidsPage());
+    }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xFFDBE4FF),
@@ -248,7 +262,8 @@ class _HomepageState extends State<Homepage> {
                                 onSelected: (value) {
                                   if (!bidSelected) {
                                     setState(() {
-                                      newOrderSelected = !newOrderSelected;
+                                      newOrderSelected = false;
+                                      aroundMe = false;
                                       bidSelected = !bidSelected;
                                     });
                                   }
@@ -266,8 +281,28 @@ class _HomepageState extends State<Homepage> {
                                 onSelected: (value) {
                                   if (!newOrderSelected) {
                                     setState(() {
-                                      bidSelected = !bidSelected;
+                                      bidSelected = false;
+                                      aroundMe = false;
                                       newOrderSelected = !newOrderSelected;
+                                    });
+                                  }
+                                },
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              ChoiceChip(
+                                backgroundColor: Colors.white,
+                                selectedColor: Colors.teal.shade100,
+                                selected: aroundMe,
+                                elevation: 1,
+                                label: Text("Around Me"),
+                                onSelected: (value) {
+                                  if (!aroundMe) {
+                                    setState(() {
+                                      bidSelected = false;
+                                      newOrderSelected = false;
+                                      aroundMe = !aroundMe;
                                     });
                                   }
                                 },
@@ -275,7 +310,12 @@ class _HomepageState extends State<Homepage> {
                             ],
                           ),
                         ),
-                        if (bidSelected) ...bids(context) else newBids(context)
+                        if (bidSelected)
+                          ...bids(context)
+                        else if (newOrderSelected)
+                          newBids(context)
+                        else
+                          suiableBids(context)
                       ],
                     ),
             ),
