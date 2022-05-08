@@ -44,7 +44,7 @@ const transporterSchema = new mongoose.Schema({
   idCard: {
     type: String,
   },
-  license: {
+  licensePhoto: {
     type: String,
   },
   licenseNo: {
@@ -54,13 +54,13 @@ const transporterSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  vechilePhoto: {
+  vehcilePhoto: {
     type: String,
   },
-  vechileNo: {
+  vehcileNo: {
     type: String,
   },
-  blueBook: {
+  blueBookPhoto: {
     type: String,
   },
   rating: {
@@ -83,10 +83,10 @@ const transporterSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  vechileDimension: {
+  vehcileDimension: {
     type: Array,
   },
-  vechileCapacity: {
+  vehcileCapacity: {
     type: Number,
   },
   availableSpace: {
