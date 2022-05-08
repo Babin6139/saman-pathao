@@ -197,7 +197,7 @@ class _HomepageState extends State<Homepage> {
           items: [
             Icon(Icons.home),
             Icon(Icons.map),
-            Icon(Icons.history),
+            // Icon(Icons.history),
             Icon(Icons.menu)
           ],
           onTap: (value) {
@@ -320,7 +320,7 @@ class _HomepageState extends State<Homepage> {
                     ),
             ),
             Trial(),
-            Text("History"),
+            // Text("History"),
             HomepageMore()
           ],
         ),
