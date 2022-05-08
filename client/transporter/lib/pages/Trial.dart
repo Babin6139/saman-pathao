@@ -110,7 +110,7 @@ class _TrialState extends State<Trial> {
                             element.destination[2])), //position of marker
                     infoWindow: InfoWindow(
                       //popup info
-                      title: '${element.orderNo} Pickup Location',
+                      title: 'Deliver Location',
                       snippet: 'Deliver here $count',
                     ),
                     icon: BitmapDescriptor.defaultMarkerWithHue(
@@ -125,7 +125,7 @@ class _TrialState extends State<Trial> {
                 double.parse(element.startPoint[2])), //position of marker
             infoWindow: InfoWindow(
               //popup info
-              title: 'PickUp location ',
+              title: '${element.orderNo} PickUp location ',
               snippet: 'Pickup here $count',
             ),
             icon: BitmapDescriptor.defaultMarkerWithHue(

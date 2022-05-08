@@ -54,6 +54,149 @@ class _PlaceBidsPageState extends State<PlaceBidsPage> {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
 
+    bool compareTime =
+        DateTime.parse(orderData.biddingTime.end).isBefore(DateTime.now());
+    Widget buttons(BuildContext context) {
+      return Column(
+        children: [
+          TextButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Color(0xFF399DBC))),
+            onPressed: () {
+              showDialog<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SingleChildScrollView(
+                      child: AlertDialog(
+                        title: Icon(
+                          Icons.money,
+                          size: 40,
+                          color: Colors.green,
+                        ),
+                        content: Column(children: [
+                          Text(
+                            'Confirm Bid',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 30),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Center(
+                            child: Text(
+                              'Your Bid: ${orderData.bids.bidAmount.isNotEmpty ? orderData.bids.bidAmount[0] : "Add Bid"}',
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  wordSpacing: 5,
+                                  fontSize: 15),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              'Lowest Bid: ${orderData.bids.bidAmount.isNotEmpty ? orderData.bids.bidAmount.reduce((curr, next) => curr < next ? curr : next) : "No bids yet"}',
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  wordSpacing: 5,
+                                  fontSize: 15),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Form(
+                            key: _formkey,
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "* New bid cannot be Empty";
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+                                if (value.isNotEmpty) {
+                                  setState(() {
+                                    bid = double.parse(value);
+                                  });
+                                }
+                              },
+                              textAlign: TextAlign.left,
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true),
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                prefixIcon: Icon(Icons.attach_money_outlined,
+                                    color: Colors.green),
+                                hintText: "New bid",
+                              ),
+                            ),
+                          )
+                        ]),
+                        actions: [
+                          Center(
+                            child: TextButton(
+                                onPressed: () {
+                                  if (_formkey.currentState!.validate()) {
+                                    placeBid();
+                                    Navigator.of(context).pop();
+                                  }
+                                },
+                                child: Text('Confirm')),
+                          ),
+                          Center(
+                            child: TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Cancel')),
+                          ),
+                        ],
+                      ),
+                    );
+                  });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  "Add Bid",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+          TextButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.red)),
+            onPressed: () {},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.cancel_outlined,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  "Cancel Bid",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+    }
+
     return Scaffold(
       backgroundColor: Color(0xFFDBE4FF),
       body: SafeArea(
@@ -119,171 +262,14 @@ class _PlaceBidsPageState extends State<PlaceBidsPage> {
                               endPoint: orderData.destination),
                           PersonalDetail(),
                           Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              children: [
-                                TextButton(
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Color(0xFF399DBC))),
-                                  onPressed: () {
-                                    showDialog<void>(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return SingleChildScrollView(
-                                            child: AlertDialog(
-                                              title: Icon(
-                                                Icons.money,
-                                                size: 40,
-                                                color: Colors.green,
-                                              ),
-                                              content: Column(children: [
-                                                Text(
-                                                  'Confirm Bid',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 30),
-                                                ),
-                                                SizedBox(
-                                                  height: 20,
-                                                ),
-                                                Center(
-                                                  child: Text(
-                                                    'Your Bid: ${orderData.bids.bidAmount.isNotEmpty ? orderData.bids.bidAmount[0] : "Add Bid"}',
-                                                    style: TextStyle(
-                                                        color: Colors.grey,
-                                                        wordSpacing: 5,
-                                                        fontSize: 15),
-                                                  ),
-                                                ),
-                                                Center(
-                                                  child: Text(
-                                                    'Lowest Bid: ${orderData.bids.bidAmount.isNotEmpty ? orderData.bids.bidAmount.reduce((curr, next) => curr < next ? curr : next) : "No bids yet"}',
-                                                    style: TextStyle(
-                                                        color: Colors.grey,
-                                                        wordSpacing: 5,
-                                                        fontSize: 15),
-                                                  ),
-                                                ),
-                                                SizedBox(height: 10),
-                                                Form(
-                                                  key: _formkey,
-                                                  child: TextFormField(
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return "* New bid cannot be Empty";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    onChanged: (value) {
-                                                      if (value.isNotEmpty) {
-                                                        setState(() {
-                                                          bid = double.parse(
-                                                              value);
-                                                        });
-                                                      }
-                                                    },
-                                                    textAlign: TextAlign.left,
-                                                    keyboardType: TextInputType
-                                                        .numberWithOptions(
-                                                            decimal: true),
-                                                    decoration: InputDecoration(
-                                                      contentPadding:
-                                                          EdgeInsets.zero,
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(40),
-                                                      ),
-                                                      prefixIcon: Icon(
-                                                          Icons
-                                                              .attach_money_outlined,
-                                                          color: Colors.green),
-                                                      hintText: "New bid",
-                                                    ),
-                                                  ),
-                                                )
-                                              ]),
-                                              actions: [
-                                                Center(
-                                                  child: TextButton(
-                                                      onPressed: () {
-                                                        if (_formkey
-                                                            .currentState!
-                                                            .validate()) {
-                                                          placeBid();
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        }
-                                                      },
-                                                      child: Text('Confirm')),
-                                                ),
-                                                Center(
-                                                  child: TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: Text('Cancel')),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        });
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "Add Bid",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                TextButton(
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.red)),
-                                  onPressed: () {},
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.cancel_outlined,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "Cancel Bid",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                              margin: EdgeInsets.all(10),
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: !compareTime ? buttons(context) : null),
                         ],
                       ),
                     )
