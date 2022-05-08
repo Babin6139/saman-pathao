@@ -268,8 +268,7 @@ class _VerificationPageState extends State<VerificationPage> {
                             }),
                             onChanged: (value) {
                               setState(() {
-                                details.vehicleDimension[0] =
-                                    double.parse(value);
+                                details.vehicleDimension[0] = int.parse(value);
                               });
                             },
                             textAlign: TextAlign.left,
@@ -295,8 +294,7 @@ class _VerificationPageState extends State<VerificationPage> {
                             }),
                             onChanged: (value) {
                               setState(() {
-                                details.vehicleDimension[1] =
-                                    double.parse(value);
+                                details.vehicleDimension[1] = int.parse(value);
                               });
                             },
                             textAlign: TextAlign.left,
@@ -324,8 +322,7 @@ class _VerificationPageState extends State<VerificationPage> {
                             }),
                             onChanged: (value) {
                               setState(() {
-                                details.vehicleDimension[2] =
-                                    double.parse(value);
+                                details.vehicleDimension[2] = int.parse(value);
                               });
                             },
                             textAlign: TextAlign.left,

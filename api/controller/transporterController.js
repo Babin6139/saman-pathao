@@ -165,14 +165,14 @@ exports.userDetails = async (req, res, next) => {
       { userName: req.query.userName },
       "firstName middleName lastName email contactNo address userName verified rating securityDeposit dateCreated ratedBy successfullDeliveries"
     );
-    const vechileDetails = await Transporter.findOne(
-      { userName: "shreali" },
-      "idCard license licenseNo vechileNo vechilePhoto bluebook vechileDimension vechileCapacity dateRegistered "
+    const vehicleDetails = await Transporter.findOne(
+      { userName: req.query.userName},
+      "idCard license licenseNo vehicleNo vehiclePhoto bluebook vehicleDimension vehicleCapacity dateRegistered "
     );
     if (!userDetails) {
       res.send({ message: "User not found" });
     } else {
-      res.status(200).send({ userDetails, vechileDetails });
+      res.status(200).send({ userDetails, vehicleDetails });
     }
   } catch (err) {
     next(err);

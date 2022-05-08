@@ -6,7 +6,7 @@ class VehicleDetails {
   String? licenseNo;
   String? vehicleNo;
   double? vehicleCapacity;
-  List<double> vehicleDimension = [0, 0, 0];
+  List<int> vehicleDimension = [0, 0, 0];
   String? licencePhoto;
   String? blueBookPhoto;
   String? vehiclePhoto;
@@ -28,7 +28,7 @@ class VehicleDetails {
     String? licenseNo,
     String? vehicleNo,
     double? vehicleCapacity,
-    List<double>? vehicleDimension,
+    List<int>? vehicleDimension,
     String? licencePhoto,
     String? blueBookPhoto,
     String? vehiclePhoto,
@@ -68,7 +68,7 @@ class VehicleDetails {
       licenseNo: map['licenseNo'],
       vehicleNo: map['vehicleNo'],
       vehicleCapacity: map['vehicleCapacity']?.toDouble(),
-      vehicleDimension: List<double>.from(map['vehicleDimension']),
+      vehicleDimension: List<int>.from(map['vehicleDimension']),
       licencePhoto: map['licencePhoto'],
       blueBookPhoto: map['blueBookPhoto'],
       vehiclePhoto: map['vehiclePhoto'],
