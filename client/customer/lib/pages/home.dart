@@ -8,6 +8,8 @@ import 'package:customer/widgets/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/finalized_order.dart';
+
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -15,17 +17,18 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final userData = context.watch<UserDataProvide>().userData;
     Size size = MediaQuery.of(context).size;
-    return Container(
-      color: MyColor.backColor,
-      child: Column(children: [
-        DetailCard(
-          userData: userData,
-        ),
-        Orders(),
-        Delivery(
-          userData: userData,
-        )
-      ]),
+    return SingleChildScrollView(
+      child: Container(
+        color: MyColor.backColor,
+        child: Column(children: [
+          DetailCard(
+            userData: userData,
+          ),
+          Orders(),
+          Delivery(),
+          FinalizedOrder()
+        ]),
+      ),
     );
   }
 }

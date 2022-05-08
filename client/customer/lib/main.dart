@@ -1,5 +1,6 @@
 import 'package:customer/pages/chat_page.dart';
 import 'package:customer/pages/confirmation_order_page.dart';
+import 'package:customer/pages/finalized_page.dart';
 import 'package:customer/pages/home_page.dart';
 import 'package:customer/pages/individual_chat.dart';
 import 'package:customer/pages/login_page.dart';
@@ -10,6 +11,7 @@ import 'package:customer/pages/signup_page.dart';
 import 'package:customer/providers/orderDataProvide.dart';
 import 'package:customer/providers/userData.dart';
 import 'package:customer/utils/routes.dart';
+import 'package:customer/widgets/finalized_order.dart';
 import 'package:customer/widgets/mythemes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +57,7 @@ class MyApp extends StatelessWidget {
               MyRoutes.mapPlaceOrderPage: (context) => MapPlaceOrder(),
               MyRoutes.confirmOrder: (context) => OrderConfirmationPage(),
               MyRoutes.chat: (context) => IndvChat(),
+              MyRoutes.finalized_orderpage: (context) => FinalizedPage(),
             },
           );
         });

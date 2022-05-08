@@ -8,7 +8,7 @@ class UserData {
   final String userName;
   final String email;
   final String photo;
-  final int inAppCurrency;
+  int inAppCurrency;
   final double rating;
   final List<UserOrders> postBidOrders;
   final List<UserOrders> onBidOrders;

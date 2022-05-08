@@ -163,8 +163,8 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 suffixIcon: IconButton(
                                   icon: obscurePassword
-                                      ? Icon(Icons.remove_red_eye)
-                                      : Icon(Icons.visibility_off),
+                                      ? Icon(Icons.visibility_off)
+                                      : Icon(Icons.remove_red_eye),
                                   onPressed: () {
                                     setState(() {
                                       obscurePassword = !obscurePassword;

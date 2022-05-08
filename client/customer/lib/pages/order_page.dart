@@ -35,11 +35,13 @@ class _DisplayOrderState extends State<DisplayOrder> {
   loadData() async {
     String userName = context.read<UserDataProvide>().userData.userName;
     String orderNo = context.read<OrderDataProvide>().userOrder.orderNo;
+
     var response = await http.get(
         Uri.parse(
             "http://10.0.2.2:7000/order?userName=${userName}&orderNo=${orderNo}"),
         headers: {'Content-Type': 'application/json'});
     var responseData = await jsonDecode(response.body);
+    print(responseData["orders"][0]);
     data = OrderModel.fromMap(responseData["orders"][0]);
     setState(() {});
   }
@@ -70,6 +72,7 @@ class _DisplayOrderState extends State<DisplayOrder> {
                           ),
                           stretchModes: [StretchMode.zoomBackground],
                           title: Container(
+                            color: Color.fromARGB(195, 251, 251, 251),
                             width: size.width,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -103,7 +106,10 @@ class _DisplayOrderState extends State<DisplayOrder> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    print("object");
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            _buildPopupUpdateDialog(context));
                                   },
                                   child: Column(children: [
                                     Icon(
@@ -155,9 +161,10 @@ class _DisplayOrderState extends State<DisplayOrder> {
   Widget _buildPopupDialog(BuildContext context) {
     String userName = context.read<UserDataProvide>().userData.userName;
     String orderNo = context.read<OrderDataProvide>().userOrder.orderNo;
-    return new AlertDialog(
+
+    return AlertDialog(
       title: const Text('Confirmation'),
-      content: new Column(
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -165,7 +172,7 @@ class _DisplayOrderState extends State<DisplayOrder> {
         ],
       ),
       actions: <Widget>[
-        new ElevatedButton(
+        ElevatedButton(
           style: ElevatedButton.styleFrom(primary: Colors.red),
           onPressed: () async {
             print(orderNo);
@@ -173,11 +180,79 @@ class _DisplayOrderState extends State<DisplayOrder> {
             var data = jsonEncode({'userName': userName, 'orderNo': orderNo});
             var response = await http.delete(Uri.parse(url),
                 headers: {'Content-Type': 'application/json'}, body: data);
-            print(await response.body);
+            var responseData = await jsonDecode(response.body);
+            if (responseData["message"] == "order cancelled") {
+              Navigator.pushReplacementNamed(context, MyRoutes.homepage);
+            } else {
+              const info = SnackBar(
+                content: Text('Order or user not found'),
+              );
+
+              ScaffoldMessenger.of(context).showSnackBar(info);
+            }
           },
           child: const Text('Delete'),
         ),
-        new ElevatedButton(
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPopupUpdateDialog(BuildContext context) {
+    String userName = context.read<UserDataProvide>().userData.userName;
+    String orderNo = context.read<OrderDataProvide>().userOrder.orderNo;
+    int _maxBudget = 0;
+    double minRated = 0;
+    return AlertDialog(
+      title: const Text('Update'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            height: 40,
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              onChanged: (value) => setState(() {
+                if (value != null) {
+                  _maxBudget = int.parse(value);
+                  setState(() {});
+                }
+              }),
+              decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.monetization_on),
+                  border: MyDecoration.inputBorder,
+                  hintText: "Max Budget"),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            height: 40,
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.star),
+                  border: MyDecoration.inputBorder,
+                  hintText: "Min Rated Transporter"),
+              onChanged: (value) => minRated = double.parse(value),
+            ),
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(primary: Colors.green),
+          onPressed: () async {},
+          child: const Text('Update'),
+        ),
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
           },

@@ -53,20 +53,24 @@ class DetailCard extends StatelessWidget {
                             ColorizeAnimatedText(userData.userName.toString(),
                                 textStyle: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
-                                colors: [Colors.orange, Colors.yellow])
+                                colors: [MyColor.backColor, Colors.purple])
                           ]),
                           userData.rating == -1
                               ? Text("Unrated")
-                              : Text(userData.rating.toString()),
-                          // Expanded(
-                          //   child: ListView.builder(
-                          //       itemCount: userData.rating == -1
-                          //           ? 0
-                          //           : userData.rating,
-                          //       itemBuilder: (context, index) {
-                          //         return Icon(Icons.star);
-                          //       }),
-                          // )
+                              : Container(
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.orangeAccent,
+                                      ),
+                                      SizedBox(
+                                        width: 3,
+                                      ),
+                                      Text(userData.rating.toString())
+                                    ],
+                                  ),
+                                ),
                         ],
                       ),
                       Row(

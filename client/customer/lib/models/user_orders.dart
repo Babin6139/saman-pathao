@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 
 class UserOrders {
   final String orderNo;
+  final String orderId;
   final String status;
   final String orderStartTime;
   final String orderEndTime;
@@ -15,6 +16,7 @@ class UserOrders {
   final String photo;
   UserOrders({
     required this.orderNo,
+    required this.orderId,
     required this.status,
     required this.orderStartTime,
     required this.orderEndTime,
@@ -28,6 +30,7 @@ class UserOrders {
 
   UserOrders copyWith({
     String? orderNo,
+    String? orderId,
     String? status,
     String? orderStartTime,
     String? orderEndTime,
@@ -40,6 +43,7 @@ class UserOrders {
   }) {
     return UserOrders(
       orderNo: orderNo ?? this.orderNo,
+      orderId: orderId ?? this.orderId,
       status: status ?? this.status,
       orderStartTime: orderStartTime ?? this.orderStartTime,
       orderEndTime: orderEndTime ?? this.orderEndTime,
@@ -53,33 +57,36 @@ class UserOrders {
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'orderNo': orderNo,
-      'status': status,
-      'orderStartTime': orderStartTime,
-      'orderEndTime': orderEndTime,
-      'maxBudget': maxBudget,
-      'lowestbids': lowestbids,
-      'distance': distance,
-      'shipments': shipments,
-      'shipmentWeight': shipmentWeight,
-      'photo': photo,
-    };
+    final result = <String, dynamic>{};
+
+    result.addAll({'orderNo': orderNo});
+    result.addAll({'orderId': orderId});
+    result.addAll({'status': status});
+    result.addAll({'orderStartTime': orderStartTime});
+    result.addAll({'orderEndTime': orderEndTime});
+    result.addAll({'maxBudget': maxBudget});
+    result.addAll({'lowestbids': lowestbids});
+    result.addAll({'distance': distance});
+    result.addAll({'shipments': shipments});
+    result.addAll({'shipmentWeight': shipmentWeight});
+    result.addAll({'photo': photo});
+
+    return result;
   }
 
   factory UserOrders.fromMap(Map<String, dynamic> map) {
     return UserOrders(
-      orderNo: map['orderNo'] ?? '',
-      status: map['orderStatus'] ?? '',
-      orderStartTime: map['startTime'] ?? '',
-      orderEndTime: map['endTime'] ?? '',
-      maxBudget: map['maxBudget']?.toInt() ?? 0,
-      lowestbids: map['lowestbids']?.toInt() ?? -1,
-      distance: map['distance']?.toInt() ?? 0,
-      shipments: map['shipments'] ?? [],
-      shipmentWeight: map['shipmentWeight']?.toInt() ?? 0,
-      photo: map['shipmentPhoto'] ?? "https://picsum.photos/200/300",
-    );
+        orderNo: map['orderNo'] ?? '',
+        orderId: map['_id'] ?? '',
+        status: map['status'] ?? '',
+        orderStartTime: map['orderStartTime'] ?? '',
+        orderEndTime: map['orderEndTime'] ?? '',
+        maxBudget: map['maxBudget']?.toInt() ?? 0,
+        lowestbids: map['bidCost']?.toInt() ?? -1,
+        distance: map['distance']?.toInt() ?? 0,
+        shipments: List<dynamic>.from(map['shipments']),
+        shipmentWeight: map['shipmentWeight']?.toInt() ?? 0,
+        photo: map['shipmentPhoto'] ?? "https://picsum.photos/200/300");
   }
 
   String toJson() => json.encode(toMap());
@@ -89,7 +96,7 @@ class UserOrders {
 
   @override
   String toString() {
-    return 'UserOrders(orderNo: $orderNo, status: $status, orderStartTime: $orderStartTime, orderEndTime: $orderEndTime, maxBudget: $maxBudget, lowestbids: $lowestbids, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, photo: $photo)';
+    return 'UserOrders(orderNo: $orderNo, orderId: $orderId, status: $status, orderStartTime: $orderStartTime, orderEndTime: $orderEndTime, maxBudget: $maxBudget, lowestbids: $lowestbids, distance: $distance, shipments: $shipments, shipmentWeight: $shipmentWeight, photo: $photo)';
   }
 
   @override
@@ -99,6 +106,7 @@ class UserOrders {
 
     return other is UserOrders &&
         other.orderNo == orderNo &&
+        other.orderId == orderId &&
         other.status == status &&
         other.orderStartTime == orderStartTime &&
         other.orderEndTime == orderEndTime &&
@@ -113,6 +121,7 @@ class UserOrders {
   @override
   int get hashCode {
     return orderNo.hashCode ^
+        orderId.hashCode ^
         status.hashCode ^
         orderStartTime.hashCode ^
         orderEndTime.hashCode ^

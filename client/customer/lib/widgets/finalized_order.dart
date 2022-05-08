@@ -2,35 +2,43 @@ import 'dart:convert';
 
 import 'package:customer/models/user_data.dart';
 import 'package:customer/models/user_orders.dart';
-import 'package:customer/providers/userData.dart';
-import 'package:customer/utils/mydecoration.dart';
-import 'package:customer/widgets/order_card.dart';
+import 'package:customer/widgets/finalized_ordercard.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
-import 'package:http/http.dart' as http;
-import '../utils/mycolor.dart';
+import 'package:provider/provider.dart';
 
-class Delivery extends StatefulWidget {
-  const Delivery({
-    Key? key,
-  }) : super(key: key);
+import '../providers/userData.dart';
+import '../utils/mydecoration.dart';
+import 'order_card.dart';
+import 'package:http/http.dart' as http;
+
+class FinalizedOrder extends StatefulWidget {
+  const FinalizedOrder({Key? key}) : super(key: key);
 
   @override
-  State<Delivery> createState() => _DeliveryState();
+  State<FinalizedOrder> createState() => _FinalizedOrderState();
 }
 
-class _DeliveryState extends State<Delivery> {
-  var onDeliveryOrder;
+class _FinalizedOrderState extends State<FinalizedOrder> {
+  var finalizeOrder;
   loadData() async {
     UserData userData = context.read<UserDataProvide>().userData;
     var url =
-        "http://10.0.2.2:7000/order/history?userName=${userData.userName}&orderStatus=onDelivery";
+        "http://10.0.2.2:7000/order/history?userName=${userData.userName}&orderStatus=finalized";
     var response = await http.get(Uri.parse(url));
     var data = await jsonDecode(response.body);
     if (data.length != 0) {
-      onDeliveryOrder = data.map((e) => UserOrders.fromMap(e)).toList();
+      finalizeOrder = data.map((e) => UserOrders.fromMap(e)).toList();
     } else {}
+    print(data);
+    print("Hello");
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData();
   }
 
   @override
@@ -49,20 +57,20 @@ class _DeliveryState extends State<Delivery> {
           child: Column(
             children: [
               Text(
-                "On delivery",
+                "Finalized Order",
                 textAlign: TextAlign.start,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Expanded(
-                child: onDeliveryOrder != 0
+                child: finalizeOrder == null
                     ? Center(
-                        child: Text("Currently there is no orders delivering"),
+                        child: Text("Currently there is no orders"),
                       )
                     : ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: onDeliveryOrder.length,
+                        itemCount: finalizeOrder.length,
                         itemBuilder: (context, index) {
-                          return OrderCard(userOrder: onDeliveryOrder[index]);
+                          return OrderCard(userOrder: finalizeOrder[index]);
                         }),
               )
             ],
