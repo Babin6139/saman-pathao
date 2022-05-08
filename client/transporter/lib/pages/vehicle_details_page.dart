@@ -38,6 +38,12 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getVehicleData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

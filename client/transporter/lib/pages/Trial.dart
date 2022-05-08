@@ -85,6 +85,7 @@ class _TrialState extends State<Trial> {
                   double.parse(element.destination[2]));
               setPolyLines(origin, destination);
               setState(() {
+                orderTap = true;
                 markers = {
                   markers.firstWhere((marker) =>
                       marker.markerId == MarkerId('${element.orderNo} source')),
@@ -243,6 +244,7 @@ class _TrialState extends State<Trial> {
                     child: GoogleMap(
                       onTap: (coordinates) {
                         setState(() {
+                          orderTap = false;
                           var currentMarkers =
                               context.read<MarkerProvider>().markerData;
                           markers = currentMarkers;
@@ -281,6 +283,7 @@ class _TrialState extends State<Trial> {
                       polylines: _polylines.isNotEmpty ? _polylines : {},
                     ),
                   ),
+                  if (orderTap) order()
                 ],
               ),
       ),
