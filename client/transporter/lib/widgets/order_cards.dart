@@ -141,7 +141,7 @@ class _OrderedCardState extends State<OrderedCard> {
                             width: 5,
                           ),
                           Text(
-                            "Lowest Bid:${order.bids.bidAmount.reduce((curr, next) => curr < next ? curr : next)}",
+                            "Lowest Bid:${order.bids.bidAmount.isNotEmpty ? order.bids.bidAmount.reduce((curr, next) => curr < next ? curr : next) : "No bids yet"}",
                             style: TextStyle(fontSize: 12),
                           )
                         ],

@@ -184,7 +184,7 @@ class _HomepageState extends State<Homepage> {
           index: page,
           items: [
             Icon(Icons.home),
-            Icon(Icons.attach_money_outlined),
+            Icon(Icons.map),
             Icon(Icons.history),
             Icon(Icons.menu)
           ],
