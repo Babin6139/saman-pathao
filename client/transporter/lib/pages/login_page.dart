@@ -209,14 +209,14 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 10),
-                SignInButton(
-                  Buttons.Google,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/trial');
-                  },
-                  elevation: 5,
-                ),
+                // const SizedBox(height: 10),
+                // SignInButton(
+                //   Buttons.Google,
+                //   onPressed: () {
+                //     Navigator.pushNamed(context, '/trial');
+                //   },
+                //   elevation: 5,
+                // ),
                 const SizedBox(height: 20),
                 RichText(
                   text: TextSpan(
